@@ -96,7 +96,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Implementar responsividade (mobile, tablet, desktop)
   - _Requirements: 9.1, 10.1, 10.2_
 
-- [ ] 10. Criar componente Sidebar
+- [x] 10. Criar componente Sidebar
   - Criar `src/_components/common/sidebar.tsx` com navegação
   - Implementar navegação condicional baseada em role:
     - USER: Cardápios, Minhas Reservas, Perfil
@@ -106,7 +106,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Usar ícones do lucide-react
   - _Requirements: 10.1, 10.2_
 
-- [ ] 11. Criar componente Header
+- [x] 11. Criar componente Header
   - Criar `src/_components/common/header.tsx` com logo e user menu
   - Exibir informações do usuário logado (nome, role, avatar)
   - Criar dropdown menu com opções: Perfil, Sair
@@ -114,7 +114,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Implementar botão de logout que limpa token e redireciona
   - _Requirements: 10.4, 10.5_
 
-- [ ] 12. Criar página inicial do dashboard
+- [x] 12. Criar página inicial do dashboard
   - Criar `src/app/(dashboard)/page.tsx` com dashboard home
   - Exibir cards com estatísticas (total de reservas, cardápios da semana, etc.)
   - Exibir próximos cardápios (para USER)
@@ -125,7 +125,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 5: Gerenciamento de Usuários (Admin)
 
-- [ ] 13. Criar hooks Tanstack Query para usuários
+- [x] 13. Criar hooks Tanstack Query para usuários
   - Criar `src/_hooks/queries/use-get-users.ts` com filtros (status, role, userType)
   - Criar `src/_hooks/queries/use-get-user.ts` para buscar usuário por ID
   - Criar `src/_hooks/mutations/use-create-user.ts` com invalidação de cache
@@ -133,7 +133,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Criar `src/_hooks/mutations/use-toggle-user-status.ts` com invalidação de cache
   - _Requirements: 2.1, 2.3, 2.4, 2.5_
 
-- [ ] 14. Criar página de listagem de usuários
+- [x] 14. Criar página de listagem de usuários
   - Criar `src/app/(dashboard)/usuarios/page.tsx` protegida com role ADMIN
   - Criar `src/app/(dashboard)/usuarios/_components/users-table.tsx` com tabela
   - Implementar colunas: CPF (com máscara), Nome, Role, Tipo, Status, Ações
@@ -143,7 +143,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar botão "Novo Usuário"
   - _Requirements: 2.1, 2.6_
 
-- [ ] 15. Criar formulário de criação/edição de usuário
+- [x] 15. Criar formulário de criação/edição de usuário
   - Criar `src/app/(dashboard)/usuarios/_components/user-form-dialog.tsx` como modal
   - Implementar campos: CPF (máscara), Nome, Senha, Role (select), UserType (select)
   - Validar formulário com React Hook Form + Zod
