@@ -1,93 +1,96 @@
 "use client";
 
-import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { LogOut, Menu, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-import { authClient } from "@/_lib/auth-client";
-
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import { Button } from "@/_components/ui/button";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/_components/ui/dropdown-menu";
+import { useAuth } from "@/_hooks/use-auth";
 
-export const Header = () => {
-  const { data: session } = authClient.useSession();
+interface HeaderProps {
+  onMenuClick: () => void;
+}
+
+export function Header({ onMenuClick }: HeaderProps) {
+  const router = useRouter();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
+
   return (
-    <header className="flex items-center justify-between p-5">
-      <Link href="/">
-        <Image src="/logo.png" alt="ANH Eng" width={100} height={26.14} />
-      </Link>
+    <header className="bg-card flex h-16 items-center justify-between border-b px-4 lg:px-6">
+      {/* Mobile Menu Button */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="lg:hidden"
+        onClick={onMenuClick}
+        aria-label="Abrir menu"
+      >
+        <Menu className="size-6" />
+      </Button>
 
-      <div className="flex items-center gap-3">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
-            </SheetHeader>
-            <div className="px-5">
-              {session?.user ? (
-                <>
-                  <div className="flex justify-between space-y-6">
-                    <div className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarImage
-                          src={session?.user?.image as string | undefined}
-                        />
-                        <AvatarFallback>
-                          {session?.user?.name?.split(" ")?.[0]?.[0]}
-                          {session?.user?.name?.split(" ")?.[1]?.[0]}
-                        </AvatarFallback>
-                      </Avatar>
+      {/* Spacer for desktop */}
+      <div className="hidden lg:block" />
 
-                      <div>
-                        <h3 className="font-semibold">{session?.user?.name}</h3>
-                        <span className="text-muted-foreground block text-xs">
-                          {session?.user?.email}
-                        </span>
-                      </div>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() =>
-                        authClient.signOut({
-                          fetchOptions: {
-                            onSuccess: () => {
-                              window.location.href = "/authentication";
-                            },
-                          },
-                        })
-                      }
-                    >
-                      <LogOutIcon />
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <div className="flex items-center justify-between">
-                  <h2 className="font-semibold">Olá. Faça seu login!</h2>
-                  <Button size="icon" asChild variant="outline">
-                    <Link href="/authentication">
-                      <LogInIcon />
-                    </Link>
-                  </Button>
+      {/* User Menu */}
+      <div className="ml-auto flex items-center gap-4">
+        {user && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2"
+                aria-label="Menu do usuário"
+              >
+                <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-full">
+                  <User className="size-4" />
                 </div>
-              )}
-            </div>
-          </SheetContent>
-        </Sheet>
+                <div className="hidden text-left md:block">
+                  <p className="text-sm font-medium">{user.name}</p>
+                  <p className="text-muted-foreground text-xs">
+                    {user.role === "ADMIN" ? "Administrador" : "Usuário"}
+                  </p>
+                </div>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium">{user.name}</p>
+                  <p className="text-muted-foreground text-xs">
+                    CPF:{" "}
+                    {user.cpf.replace(
+                      /(\d{3})(\d{3})(\d{3})(\d{2})/,
+                      "$1.$2.$3-$4",
+                    )}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => router.push("/perfil")}>
+                <User className="mr-2 size-4" />
+                <span>Perfil</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout} variant="destructive">
+                <LogOut className="mr-2 size-4" />
+                <span>Sair</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </header>
   );
-};
+}
