@@ -4,27 +4,49 @@ export const PageContainer = ({ children }: { children: React.ReactNode }) => {
 };
 
 //componente contenedor del Header
-export const PageHeaderContainer = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex items-center justify-between w-full">{children}</div>;
+export const PageHeaderContainer = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className="flex w-full items-center justify-between">{children}</div>
+  );
 };
 
 //componente elementos del Header
-export const PageHeaderContent = ({ children }: { children: React.ReactNode }) => {
-  return <div className="space-y-1 w-full">{children}</div>;
+export const PageHeaderContent = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return <div className="w-full space-y-1">{children}</div>;
 };
 
 //componente title del Header
-export const PageHeaderTitle = ({ children }: { children: React.ReactNode }) => {
+export const PageHeaderTitle = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   return <div className="text-2xl font-bold">{children}</div>;
 };
 
 //componente Descripcion del Header
-export const PageHeaderDescription = ({ children }: { children: React.ReactNode }) => {
-  return <div className="text-sm text-muted-foreground">{children}</div>;
+export const PageHeaderDescription = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return <div className="text-muted-foreground text-sm">{children}</div>;
 };
 
 //componente Actions del Header
-export const PageHeaderActions = ({ children }: { children: React.ReactNode }) => {
+export const PageHeaderActions = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   return <div className="flex items-center gap-2">{children}</div>;
 };
 
@@ -32,4 +54,3 @@ export const PageHeaderActions = ({ children }: { children: React.ReactNode }) =
 export const PageContent = ({ children }: { children: React.ReactNode }) => {
   return <div className="space-y-6">{children}</div>;
 };
-
