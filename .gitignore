@@ -41,3 +41,7 @@ next-env.d.ts
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/extensions.json
+
+#Kiro
+.kiro/*
+/.kiro/
