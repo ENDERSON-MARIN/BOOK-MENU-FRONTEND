@@ -1,9 +1,6 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Login - Sistema de Reservas de Almoço",
-  description: "Faça login para acessar o sistema de reservas de almoço",
-};
+import { AuthProvider } from "@/_providers/auth-provider";
 
 export default function AuthLayout({
   children,
@@ -11,8 +8,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="from-background to-muted min-h-screen bg-gradient-to-br">
-      {children}
-    </div>
+    <AuthProvider>
+      <div className="from-background to-muted min-h-screen bg-gradient-to-br">
+        {children}
+      </div>
+    </AuthProvider>
   );
 }

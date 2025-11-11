@@ -10,8 +10,8 @@ export default function LoginPage() {
           <Image
             src="/logo.png"
             alt="Logo"
-            width={80}
-            height={80}
+            width={200}
+            height={160}
             className="mb-2"
             priority
           />

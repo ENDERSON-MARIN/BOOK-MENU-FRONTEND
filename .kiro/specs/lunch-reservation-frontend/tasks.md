@@ -22,7 +22,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 2: Fundação - Types, Schemas e Services
 
-- [ ] 2. Criar types TypeScript para todas as entidades
+- [x] 2. Criar types TypeScript para todas as entidades
   - Criar `src/_types/auth.ts` com interfaces `LoginRequest`, `LoginResponse`, `AuthUser`
   - Criar `src/_types/user.ts` com interface `User` e types `UserRole`, `UserType`, `UserStatus`
   - Criar `src/_types/category.ts` com interface `Category`
@@ -32,7 +32,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Criar `src/_types/week-day.ts` com interface `WeekDay`
   - _Requirements: 1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1_
 
-- [ ] 3. Criar schemas Zod para validação de formulários
+- [x] 3. Criar schemas Zod para validação de formulários
   - Criar `src/_schemas/auth.schema.ts` com `loginSchema` (CPF 11 dígitos, senha mínimo 6 caracteres)
   - Criar `src/_schemas/user.schema.ts` com `userFormSchema` e `updateUserFormSchema`
   - Criar `src/_schemas/category.schema.ts` com `categoryFormSchema`
@@ -41,14 +41,14 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Criar `src/_schemas/reservation.schema.ts` com `reservationFormSchema` e `updateReservationFormSchema`
   - _Requirements: 1.1, 2.2, 3.2, 4.2, 5.2, 7.2, 8.3_
 
-- [ ] 4. Atualizar API client para incluir JWT authentication
+- [x] 4. Atualizar API client para incluir JWT authentication
   - Modificar `src/_lib/api-client.ts` para incluir token JWT do localStorage no header Authorization
   - Adicionar tratamento de erro 401 (redirecionar para /login e limpar token)
   - Adicionar tratamento de erro 403 (exibir mensagem de acesso negado)
   - Manter tratamento de erro 204 (No Content)
   - _Requirements: 1.6, 10.6_
 
-- [ ] 5. Criar services para comunicação com a API
+- [x] 5. Criar services para comunicação com a API
   - Criar `src/_services/auth.service.ts` com métodos `login()` e `logout()`
   - Criar `src/_services/user.service.ts` com métodos CRUD e `toggleStatus()`
   - Criar `src/_services/category.service.ts` com métodos CRUD
@@ -62,7 +62,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 3: Autenticação e Controle de Acesso
 
-- [ ] 6. Implementar sistema de autenticação
+- [x] 6. Implementar sistema de autenticação
   - Criar `src/_hooks/use-auth.ts` com hook customizado para gerenciar estado de autenticação
   - Criar `src/_providers/auth-provider.tsx` com contexto de autenticação
   - Implementar funções `login()`, `logout()`, `getUser()`, `isAuthenticated()`, `hasRole()`
@@ -70,7 +70,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Decodificar token JWT para extrair informações do usuário
   - _Requirements: 1.2, 1.5, 10.5_
 
-- [ ] 7. Criar página de login
+- [x] 7. Criar página de login
   - Criar `src/app/(auth)/login/page.tsx` com layout de autenticação
   - Criar `src/app/(auth)/login/_components/login-form.tsx` com formulário de login
   - Implementar máscara de CPF usando react-number-format
@@ -79,7 +79,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Redirecionar para dashboard após login bem-sucedido
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 8. Criar componente ProtectedRoute
+- [x] 8. Criar componente ProtectedRoute
   - Criar `src/_components/common/protected-route.tsx` como HOC
   - Verificar se usuário está autenticado (redirecionar para /login se não)
   - Verificar role do usuário (redirecionar se não tem permissão)
@@ -90,7 +90,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 4: Layout e Navegação
 
-- [ ] 9. Criar layout principal do dashboard
+- [x] 9. Criar layout principal do dashboard
   - Criar `src/app/(dashboard)/layout.tsx` com estrutura de sidebar + header + content
   - Envolver com ProtectedRoute
   - Implementar responsividade (mobile, tablet, desktop)
