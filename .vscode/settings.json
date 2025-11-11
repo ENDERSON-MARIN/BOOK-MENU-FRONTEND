@@ -1,4 +1,19 @@
 {
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#fbed80",
     "activityBar.background": "#fbed80",
