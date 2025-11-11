@@ -98,9 +98,11 @@ export function Sidebar({ onClose }: SidebarProps) {
           <Image
             src="/logo.png"
             alt="Logo"
-            width={32}
-            height={32}
-            className="size-8"
+            width={40}
+            height={40}
+            className="size-10"
+            quality={100}
+            priority
           />
           <span className="text-lg font-semibold">Reservas</span>
         </div>

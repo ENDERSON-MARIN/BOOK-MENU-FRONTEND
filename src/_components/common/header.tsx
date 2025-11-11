@@ -40,7 +40,8 @@ export function Header({ onMenuClick }: HeaderProps) {
   };
 
   // Get user initials for avatar
-  const getUserInitials = (name: string) => {
+  const getUserInitials = (name?: string) => {
+    if (!name) return "U";
     const names = name.split(" ");
     if (names.length >= 2) {
       return `${names[0][0]}${names[1][0]}`.toUpperCase();
@@ -74,9 +75,11 @@ export function Header({ onMenuClick }: HeaderProps) {
           <Image
             src="/logo.png"
             alt="Logo"
-            width={32}
-            height={32}
-            className="size-8"
+            width={40}
+            height={40}
+            className="size-10"
+            quality={100}
+            priority
           />
           <span className="text-lg font-semibold">Reservas de Almoço</span>
         </div>
