@@ -8,6 +8,7 @@ import {
   PageHeaderTitle,
 } from "@/_components/ui/page-container";
 
+import { CreateUserButton } from "./_components/create-user-button";
 import UsersTable from "./_components/users-table";
 
 export default function UsersPage() {
@@ -21,7 +22,7 @@ export default function UsersPage() {
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
-          <div>{/* Novo Usuário button will be implemented in task 15 */}</div>
+          <CreateUserButton />
         </PageHeaderActions>
       </PageHeaderContainer>
 

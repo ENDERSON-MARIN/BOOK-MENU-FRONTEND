@@ -13,6 +13,8 @@ import {
 } from "@/_components/ui/dropdown-menu";
 import { User } from "@/_types/user";
 
+import UserFormDialog from "./user-form-dialog";
+
 interface UsersTableActionsProps {
   user: User;
 }
@@ -43,7 +45,10 @@ const UsersTableActions = ({ user }: UsersTableActionsProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* User form dialog will be implemented in task 15 */}
+        <UserFormDialog
+          user={user}
+          onSuccess={() => setUpsertDialogIsOpen(false)}
+        />
       </Dialog>
     </>
   );

@@ -22,31 +22,33 @@ export const UserService = {
     if (params?.userType) queryParams.append("userType", params.userType);
 
     const query = queryParams.toString();
-    const endpoint = query ? `/users?${query}` : "/users";
+    const endpoint = query
+      ? `/lunch-reservation/users?${query}`
+      : "/lunch-reservation/users";
 
     return apiClient<User[]>(endpoint);
   },
 
   async getById(id: string): Promise<User> {
-    return apiClient<User>(`/users/${id}`);
+    return apiClient<User>(`/lunch-reservation/users/${id}`);
   },
 
   async create(data: CreateUserRequest): Promise<User> {
-    return apiClient<User>("/users", {
+    return apiClient<User>("/lunch-reservation/users", {
       method: "POST",
       body: JSON.stringify(data),
     });
   },
 
   async update(id: string, data: UpdateUserRequest): Promise<User> {
-    return apiClient<User>(`/users/${id}`, {
+    return apiClient<User>(`/lunch-reservation/users/${id}`, {
       method: "PATCH",
       body: JSON.stringify(data),
     });
   },
 
   async toggleStatus(id: string): Promise<User> {
-    return apiClient<User>(`/users/${id}/status`, {
+    return apiClient<User>(`/lunch-reservation/users/${id}/status`, {
       method: "PATCH",
     });
   },
