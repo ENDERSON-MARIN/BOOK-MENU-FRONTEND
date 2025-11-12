@@ -29,14 +29,17 @@ const UsersTable = () => {
   const [roleFilter, setRoleFilter] = useState<UserRole | "ALL">("ALL");
   const [userTypeFilter, setUserTypeFilter] = useState<UserType | "ALL">("ALL");
 
-  const {
-    data: users,
-    isLoading,
-    isError,
-  } = useGetUsers({
-    status: statusFilter !== "ALL" ? statusFilter : undefined,
-    role: roleFilter !== "ALL" ? roleFilter : undefined,
-    userType: userTypeFilter !== "ALL" ? userTypeFilter : undefined,
+  const { data: allUsers, isLoading, isError } = useGetUsers();
+
+  // Filtragem local dos usuários
+  const users = allUsers?.filter((user) => {
+    const matchesStatus =
+      statusFilter === "ALL" || user.status === statusFilter;
+    const matchesRole = roleFilter === "ALL" || user.role === roleFilter;
+    const matchesUserType =
+      userTypeFilter === "ALL" || user.userType === userTypeFilter;
+
+    return matchesStatus && matchesRole && matchesUserType;
   });
 
   if (isError) {

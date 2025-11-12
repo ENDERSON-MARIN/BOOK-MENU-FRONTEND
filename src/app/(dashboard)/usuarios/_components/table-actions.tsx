@@ -1,4 +1,4 @@
-import { EditIcon, MoreVerticalIcon, PowerIcon } from "lucide-react";
+import { EditIcon, MoreVerticalIcon } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/_components/ui/button";
@@ -14,6 +14,7 @@ import {
 import { User } from "@/_types/user";
 
 import UserFormDialog from "./user-form-dialog";
+import UserStatusToggle from "./user-status-toggle";
 
 interface UsersTableActionsProps {
   user: User;
@@ -38,10 +39,7 @@ const UsersTableActions = ({ user }: UsersTableActionsProps) => {
               <EditIcon className="mr-2 h-4 w-4" />
               Editar
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <PowerIcon className="mr-2 h-4 w-4" />
-              {user.status === "ATIVO" ? "Desativar" : "Ativar"}
-            </DropdownMenuItem>
+            <UserStatusToggle user={user} />
           </DropdownMenuContent>
         </DropdownMenu>
 

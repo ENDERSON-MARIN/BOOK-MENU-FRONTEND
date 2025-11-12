@@ -153,7 +153,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 2.2, 2.3, 2.4, 2.7_
 
-- [ ] 16. Criar componente de toggle de status
+- [x] 16. Criar componente de toggle de status
   - Criar `src/app/(dashboard)/usuarios/_components/user-status-toggle.tsx`
   - Implementar botão toggle com confirmação
   - Exibir estado atual (Ativo/Inativo) com cores diferentes

@@ -3,28 +3,14 @@ import type {
   CreateUserRequest,
   UpdateUserRequest,
   User,
-  UserRole,
   UserStatus,
-  UserType,
 } from "@/_types/user";
 
-interface GetUsersParams {
-  status?: UserStatus;
-  role?: UserRole;
-  userType?: UserType;
-}
-
 export const UserService = {
-  async getAll(params?: GetUsersParams): Promise<User[]> {
-    const queryParams = new URLSearchParams();
-    if (params?.status) queryParams.append("status", params.status);
-    if (params?.role) queryParams.append("role", params.role);
-    if (params?.userType) queryParams.append("userType", params.userType);
-
-    const query = queryParams.toString();
-    const endpoint = query
-      ? `/lunch-reservation/users?${query}`
-      : "/lunch-reservation/users";
+  async getAll(): Promise<User[]> {
+    // A API só suporta o parâmetro includeInactive
+    // Filtragem por status, role e userType deve ser feita no frontend
+    const endpoint = "/lunch-reservation/users?includeInactive=true";
 
     return apiClient<User[]>(endpoint);
   },
@@ -42,14 +28,15 @@ export const UserService = {
 
   async update(id: string, data: UpdateUserRequest): Promise<User> {
     return apiClient<User>(`/lunch-reservation/users/${id}`, {
-      method: "PATCH",
+      method: "PUT",
       body: JSON.stringify(data),
     });
   },
 
-  async toggleStatus(id: string): Promise<User> {
-    return apiClient<User>(`/lunch-reservation/users/${id}/status`, {
-      method: "PATCH",
+  async toggleStatus(id: string, newStatus: UserStatus): Promise<User> {
+    return apiClient<User>(`/lunch-reservation/users/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ status: newStatus }),
     });
   },
 };
