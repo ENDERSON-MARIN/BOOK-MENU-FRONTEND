@@ -17,31 +17,33 @@ export const CategoryService = {
     }
 
     const query = queryParams.toString();
-    const endpoint = query ? `/categories?${query}` : "/categories";
+    const endpoint = query
+      ? `/lunch-reservation/categories?${query}`
+      : "/lunch-reservation/categories";
 
     return apiClient<Category[]>(endpoint);
   },
 
   async getById(id: string): Promise<Category> {
-    return apiClient<Category>(`/categories/${id}`);
+    return apiClient<Category>(`/lunch-reservation/categories/${id}`);
   },
 
   async create(data: CreateCategoryRequest): Promise<Category> {
-    return apiClient<Category>("/categories", {
+    return apiClient<Category>("/lunch-reservation/categories", {
       method: "POST",
       body: JSON.stringify(data),
     });
   },
 
   async update(id: string, data: UpdateCategoryRequest): Promise<Category> {
-    return apiClient<Category>(`/categories/${id}`, {
-      method: "PATCH",
+    return apiClient<Category>(`/lunch-reservation/categories/${id}`, {
+      method: "PUT",
       body: JSON.stringify(data),
     });
   },
 
   async delete(id: string): Promise<void> {
-    return apiClient<void>(`/categories/${id}`, {
+    return apiClient<void>(`/lunch-reservation/categories/${id}`, {
       method: "DELETE",
     });
   },

@@ -173,7 +173,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Criar `src/_hooks/mutations/use-delete-category.ts`
   - _Requirements: 3.1, 3.3, 3.4, 3.5_
 
-- [ ] 18. Criar página de listagem de categorias
+- [x] 18. Criar página de listagem de categorias
   - Criar `src/app/(dashboard)/categorias/page.tsx` protegida com role ADMIN
   - Criar `src/app/(dashboard)/categorias/_components/categories-table.tsx`
   - Implementar colunas: Nome, Descrição, Ordem, Status, Ações
