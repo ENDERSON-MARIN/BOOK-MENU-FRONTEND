@@ -279,7 +279,11 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
           />
 
           <DialogFooter>
-            <Button className="w-full" type="submit" disabled={isPending}>
+            <Button
+              className="w-full text-white"
+              type="submit"
+              disabled={isPending}
+            >
               {isPending
                 ? isEditing
                   ? "Atualizando..."

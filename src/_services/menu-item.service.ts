@@ -21,31 +21,33 @@ export const MenuItemService = {
     }
 
     const query = queryParams.toString();
-    const endpoint = query ? `/menu-items?${query}` : "/menu-items";
+    const endpoint = query
+      ? `/lunch-reservation/menu-items?${query}`
+      : "/lunch-reservation/menu-items";
 
     return apiClient<MenuItem[]>(endpoint);
   },
 
   async getById(id: string): Promise<MenuItem> {
-    return apiClient<MenuItem>(`/menu-items/${id}`);
+    return apiClient<MenuItem>(`/lunch-reservation/menu-items/${id}`);
   },
 
   async create(data: CreateMenuItemRequest): Promise<MenuItem> {
-    return apiClient<MenuItem>("/menu-items", {
+    return apiClient<MenuItem>("/lunch-reservation/menu-items", {
       method: "POST",
       body: JSON.stringify(data),
     });
   },
 
   async update(id: string, data: UpdateMenuItemRequest): Promise<MenuItem> {
-    return apiClient<MenuItem>(`/menu-items/${id}`, {
-      method: "PATCH",
+    return apiClient<MenuItem>(`/lunch-reservation/menu-items/${id}`, {
+      method: "PUT",
       body: JSON.stringify(data),
     });
   },
 
   async delete(id: string): Promise<void> {
-    return apiClient<void>(`/menu-items/${id}`, {
+    return apiClient<void>(`/lunch-reservation/menu-items/${id}`, {
       method: "DELETE",
     });
   },

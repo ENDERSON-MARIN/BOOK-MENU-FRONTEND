@@ -201,7 +201,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 7: Gerenciamento de Itens de Menu (Admin)
 
-- [ ] 21. Criar hooks Tanstack Query para itens de menu
+- [x] 21. Criar hooks Tanstack Query para itens de menu
   - Criar `src/_hooks/queries/use-get-menu-items.ts` com filtros (categoryId, isActive)
   - Criar `src/_hooks/queries/use-get-menu-item.ts`
   - Criar `src/_hooks/mutations/use-create-menu-item.ts`
@@ -209,7 +209,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Criar `src/_hooks/mutations/use-delete-menu-item.ts`
   - _Requirements: 4.1, 4.3, 4.5, 4.6_
 
-- [ ] 22. Criar página de listagem de itens de menu
+- [x] 22. Criar página de listagem de itens de menu
   - Criar `src/app/(dashboard)/itens-menu/page.tsx` protegida com role ADMIN
   - Criar `src/app/(dashboard)/itens-menu/_components/menu-items-table.tsx`
   - Implementar colunas: Nome, Descrição, Categoria, Status, Ações
@@ -218,7 +218,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar botão "Novo Item"
   - _Requirements: 4.1, 4.4_
 
-- [ ] 23. Criar formulário de criação/edição de item de menu
+- [x] 23. Criar formulário de criação/edição de item de menu
   - Criar `src/app/(dashboard)/itens-menu/_components/menu-item-form-dialog.tsx`
   - Implementar campos: Nome, Descrição (textarea), Categoria (select com categorias ativas)
   - Validar formulário com Zod

@@ -8,9 +8,11 @@ export const menuItemFormSchema = z.object({
   description: z
     .string()
     .max(500, "Descrição deve ter no máximo 500 caracteres")
-    .optional()
-    .or(z.literal("")),
-  categoryId: z.string().uuid("Selecione uma categoria válida"),
+    .optional(),
+  categoryId: z
+    .string()
+    .min(1, "Selecione uma categoria")
+    .uuid("Selecione uma categoria válida"),
 });
 
 export type MenuItemFormValues = z.infer<typeof menuItemFormSchema>;

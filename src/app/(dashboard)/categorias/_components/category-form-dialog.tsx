@@ -212,7 +212,7 @@ const CategoryFormDialog = ({
           />
 
           <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+            <Button className="text-white" type="submit" disabled={isPending}>
               {isPending
                 ? isEditing
                   ? "Atualizando..."
