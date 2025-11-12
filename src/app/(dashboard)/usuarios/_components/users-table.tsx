@@ -29,11 +29,77 @@ const UsersTable = () => {
   const [roleFilter, setRoleFilter] = useState<UserRole | "ALL">("ALL");
   const [userTypeFilter, setUserTypeFilter] = useState<UserType | "ALL">("ALL");
 
-  const { data: users, isLoading } = useGetUsers({
+  const {
+    data: users,
+    isLoading,
+    isError,
+  } = useGetUsers({
     status: statusFilter !== "ALL" ? statusFilter : undefined,
     role: roleFilter !== "ALL" ? roleFilter : undefined,
     userType: userTypeFilter !== "ALL" ? userTypeFilter : undefined,
   });
+
+  if (isError) {
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-col gap-4 md:flex-row">
+          <Select
+            value={statusFilter}
+            onValueChange={(value) =>
+              setStatusFilter(value as UserStatus | "ALL")
+            }
+          >
+            <SelectTrigger className="w-full md:w-[200px]">
+              <SelectValue placeholder="Filtrar por status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos os status</SelectItem>
+              <SelectItem value="ATIVO">Ativo</SelectItem>
+              <SelectItem value="INATIVO">Inativo</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={roleFilter}
+            onValueChange={(value) => setRoleFilter(value as UserRole | "ALL")}
+          >
+            <SelectTrigger className="w-full md:w-[200px]">
+              <SelectValue placeholder="Filtrar por perfil" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos os perfis</SelectItem>
+              <SelectItem value="ADMIN">Administrador</SelectItem>
+              <SelectItem value="USER">Usuário</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={userTypeFilter}
+            onValueChange={(value) =>
+              setUserTypeFilter(value as UserType | "ALL")
+            }
+          >
+            <SelectTrigger className="w-full md:w-[200px]">
+              <SelectValue placeholder="Filtrar por tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos os tipos</SelectItem>
+              <SelectItem value="FIXO">Fixo</SelectItem>
+              <SelectItem value="NAO_FIXO">Não Fixo</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="bg-muted/50 rounded-md border py-12 text-center">
+          <p className="text-destructive font-medium">
+            Erro ao carregar usuários. Por favor, tente novamente.
+          </p>
+          <p className="text-muted-foreground mt-2 text-sm">
+            Se o problema persistir, entre em contato com o suporte.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -92,6 +158,68 @@ const UsersTable = () => {
               ))}
             </TableBody>
           </Table>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isLoading && users?.length === 0) {
+    return (
+      <div className="space-y-4">
+        <div className="flex flex-col gap-4 md:flex-row">
+          <Select
+            value={statusFilter}
+            onValueChange={(value) =>
+              setStatusFilter(value as UserStatus | "ALL")
+            }
+          >
+            <SelectTrigger className="w-full md:w-[200px]">
+              <SelectValue placeholder="Filtrar por status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos os status</SelectItem>
+              <SelectItem value="ATIVO">Ativo</SelectItem>
+              <SelectItem value="INATIVO">Inativo</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={roleFilter}
+            onValueChange={(value) => setRoleFilter(value as UserRole | "ALL")}
+          >
+            <SelectTrigger className="w-full md:w-[200px]">
+              <SelectValue placeholder="Filtrar por perfil" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos os perfis</SelectItem>
+              <SelectItem value="ADMIN">Administrador</SelectItem>
+              <SelectItem value="USER">Usuário</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={userTypeFilter}
+            onValueChange={(value) =>
+              setUserTypeFilter(value as UserType | "ALL")
+            }
+          >
+            <SelectTrigger className="w-full md:w-[200px]">
+              <SelectValue placeholder="Filtrar por tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos os tipos</SelectItem>
+              <SelectItem value="FIXO">Fixo</SelectItem>
+              <SelectItem value="NAO_FIXO">Não Fixo</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="bg-muted/50 rounded-md border py-12 text-center">
+          <p className="text-muted-foreground">
+            Nenhum usuário encontrado com os filtros selecionados.
+          </p>
+          <p className="text-muted-foreground mt-2 text-sm">
+            Tente ajustar os critérios de busca.
+          </p>
         </div>
       </div>
     );
