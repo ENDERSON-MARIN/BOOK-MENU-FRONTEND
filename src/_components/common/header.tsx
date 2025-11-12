@@ -1,93 +1,148 @@
 "use client";
 
-import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
+import { LogOut, Menu, Moon, Sun, User } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
-import { authClient } from "@/_lib/auth-client";
-
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import { Avatar, AvatarFallback } from "@/_components/ui/avatar";
+import { Button } from "@/_components/ui/button";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/_components/ui/dropdown-menu";
+import { useAuth } from "@/_hooks/use-auth";
 
-export const Header = () => {
-  const { data: session } = authClient.useSession();
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
+
+export function Header({ onMenuClick }: HeaderProps) {
+  const { user, logout } = useAuth();
+  const router = useRouter();
+  const { theme, setTheme } = useTheme();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
+
+  const handleProfileClick = () => {
+    router.push("/perfil");
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  // Get user initials for avatar
+  const getUserInitials = (name?: string) => {
+    if (!name) return "U";
+    const names = name.split(" ");
+    if (names.length >= 2) {
+      return `${names[0][0]}${names[1][0]}`.toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
+
+  const getRoleLabel = (role: string) => {
+    return role === "ADMIN" ? "Administrador" : "Usuário";
+  };
+
   return (
-    <header className="flex items-center justify-between p-5">
-      <Link href="/">
-        <Image src="/logo.png" alt="ANH Eng" width={100} height={26.14} />
-      </Link>
+    <header className="bg-card flex h-16 items-center justify-between border-b px-4 lg:px-6">
+      {/* Left Section - Menu Button (Mobile) + Logo */}
+      <div className="flex items-center gap-4">
+        {/* Mobile Menu Button */}
+        {onMenuClick && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onMenuClick}
+            className="lg:hidden"
+            aria-label="Abrir menu"
+          >
+            <Menu className="size-5" />
+          </Button>
+        )}
 
-      <div className="flex items-center gap-3">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
-            </SheetHeader>
-            <div className="px-5">
-              {session?.user ? (
-                <>
-                  <div className="flex justify-between space-y-6">
-                    <div className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarImage
-                          src={session?.user?.image as string | undefined}
-                        />
-                        <AvatarFallback>
-                          {session?.user?.name?.split(" ")?.[0]?.[0]}
-                          {session?.user?.name?.split(" ")?.[1]?.[0]}
-                        </AvatarFallback>
-                      </Avatar>
+        {/* Logo - Hidden on mobile, visible on desktop */}
+        <div className="hidden items-center gap-2 lg:flex">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            className="size-10"
+            quality={100}
+            priority
+          />
+          <span className="text-lg font-semibold">Reservas de Almoço</span>
+        </div>
+      </div>
 
-                      <div>
-                        <h3 className="font-semibold">{session?.user?.name}</h3>
-                        <span className="text-muted-foreground block text-xs">
-                          {session?.user?.email}
-                        </span>
-                      </div>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() =>
-                        authClient.signOut({
-                          fetchOptions: {
-                            onSuccess: () => {
-                              window.location.href = "/authentication";
-                            },
-                          },
-                        })
-                      }
-                    >
-                      <LogOutIcon />
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <div className="flex items-center justify-between">
-                  <h2 className="font-semibold">Olá. Faça seu login!</h2>
-                  <Button size="icon" asChild variant="outline">
-                    <Link href="/authentication">
-                      <LogInIcon />
-                    </Link>
-                  </Button>
+      {/* Right Section - Theme Toggle + User Menu */}
+      <div className="flex items-center gap-2">
+        {/* Theme Toggle */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleTheme}
+          aria-label="Alternar tema"
+        >
+          <Sun className="size-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute size-5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        </Button>
+
+        {/* User Menu */}
+        {user && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2 px-2"
+                aria-label="Menu do usuário"
+              >
+                <Avatar className="size-8">
+                  <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+                    {getUserInitials(user.name)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="hidden flex-col items-start text-left lg:flex">
+                  <span className="text-sm font-medium">{user.name}</span>
+                  <span className="text-muted-foreground text-xs">
+                    {getRoleLabel(user.role)}
+                  </span>
                 </div>
-              )}
-            </div>
-          </SheetContent>
-        </Sheet>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium">{user.name}</p>
+                  <p className="text-muted-foreground text-xs">
+                    {getRoleLabel(user.role)}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleProfileClick}>
+                <User className="mr-2 size-4" />
+                Perfil
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout} variant="destructive">
+                <LogOut className="mr-2 size-4" />
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </header>
   );
-};
+}
