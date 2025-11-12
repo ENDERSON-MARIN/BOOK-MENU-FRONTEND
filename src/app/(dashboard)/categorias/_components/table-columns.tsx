@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
+import { Badge } from "@/_components/ui/badge";
 import { Button } from "@/_components/ui/button";
 import { Category } from "@/_types/category";
 
@@ -70,15 +71,16 @@ export const categoriesTableColumns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       const isActive = row.getValue("isActive") as boolean;
       return (
-        <span
+        <Badge
+          variant={isActive ? "default" : "destructive"}
           className={
             isActive
-              ? "text-green-600 dark:text-green-400"
-              : "text-red-600 dark:text-red-400"
+              ? "bg-green-600 text-black hover:bg-green-700 dark:bg-green-500"
+              : ""
           }
         >
           {statusLabels[String(isActive) as keyof typeof statusLabels]}
-        </span>
+        </Badge>
       );
     },
   },

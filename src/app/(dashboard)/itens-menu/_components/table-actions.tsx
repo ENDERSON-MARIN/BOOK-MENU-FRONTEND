@@ -134,6 +134,7 @@ const MenuItemsTableActions = ({ menuItem }: MenuItemsTableActionsProps) => {
                   <AlertDialogAction
                     onClick={handleDeleteMenuItemClick}
                     disabled={isDeletePending}
+                    className="text-white"
                   >
                     {isDeletePending ? "Deletando..." : "Deletar"}
                   </AlertDialogAction>

@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { PatternFormat } from "react-number-format";
 
+import { Badge } from "@/_components/ui/badge";
 import { Button } from "@/_components/ui/button";
 import { User } from "@/_types/user";
 
@@ -116,15 +117,16 @@ export const usersTableColumns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status") as keyof typeof statusLabels;
       return (
-        <span
+        <Badge
+          variant={status === "ATIVO" ? "default" : "destructive"}
           className={
             status === "ATIVO"
-              ? "text-green-600 dark:text-green-400"
-              : "text-red-600 dark:text-red-400"
+              ? "bg-green-600 text-black hover:bg-green-700 dark:bg-green-500"
+              : ""
           }
         >
           {statusLabels[status]}
-        </span>
+        </Badge>
       );
     },
   },

@@ -225,7 +225,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 4.2, 4.3, 4.5_
 
-- [ ] 24. Implementar exclusão de item de menu
+- [x] 24. Implementar exclusão de item de menu
   - Adicionar botão de exclusão na tabela
   - Exibir dialog de confirmação
   - Tratar erro de item em uso em cardápios (exibir mensagem da API)
@@ -236,7 +236,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 8: Gerenciamento de Cardápios (Admin)
 
-- [ ] 25. Criar hooks Tanstack Query para cardápios
+- [-] 25. Criar hooks Tanstack Query para cardápios
   - Criar `src/_hooks/queries/use-get-menus.ts` com filtros (date, startDate, endDate, dayOfWeek, isActive)
   - Criar `src/_hooks/queries/use-get-menu.ts`
   - Criar `src/_hooks/queries/use-get-week-days.ts`

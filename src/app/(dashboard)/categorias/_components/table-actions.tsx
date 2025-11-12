@@ -128,6 +128,7 @@ const CategoriesTableActions = ({ category }: CategoriesTableActionsProps) => {
                   <AlertDialogAction
                     onClick={handleDeleteCategoryClick}
                     disabled={isDeletePending}
+                    className="text-white"
                   >
                     {isDeletePending ? "Deletando..." : "Deletar"}
                   </AlertDialogAction>
