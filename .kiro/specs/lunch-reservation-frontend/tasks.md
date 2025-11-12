@@ -165,7 +165,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 6: Gerenciamento de Categorias (Admin)
 
-- [ ] 17. Criar hooks Tanstack Query para categorias
+- [x] 17. Criar hooks Tanstack Query para categorias
   - Criar `src/_hooks/queries/use-get-categories.ts` com filtro de status
   - Criar `src/_hooks/queries/use-get-category.ts` para buscar por ID
   - Criar `src/_hooks/mutations/use-create-category.ts`
