@@ -1,4 +1,10 @@
-import { EditIcon, MoreVerticalIcon, TrashIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  EditIcon,
+  MoreVerticalIcon,
+  TrashIcon,
+  XCircleIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -24,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/_components/ui/dropdown-menu";
 import { useDeleteCategory } from "@/_hooks/mutations/use-delete-category";
+import { useToggleCategoryStatus } from "@/_hooks/mutations/use-toggle-category-status";
 import { Category } from "@/_types/category";
 
 import CategoryFormDialog from "./category-form-dialog";
@@ -38,17 +45,31 @@ const CategoriesTableActions = ({ category }: CategoriesTableActionsProps) => {
   const { mutate: deleteCategory, isPending: isDeletePending } =
     useDeleteCategory();
 
+  const { mutate: toggleStatus, isPending: isTogglePending } =
+    useToggleCategoryStatus();
+
   const handleDeleteCategoryClick = () => {
     deleteCategory(category.id, {
       onSuccess: () => {
         toast.success("Categoria deletada com sucesso.");
       },
-      onError: (error: any) => {
+      onError: (error: Error) => {
         const errorMessage =
           error?.message ||
-          error?.response?.data?.message ||
           "Erro ao deletar categoria. Verifique se não há itens associados.";
         toast.error(errorMessage);
+      },
+    });
+  };
+
+  const handleToggleStatusClick = () => {
+    toggleStatus(category.id, {
+      onSuccess: () => {
+        const newStatus = category.isActive ? "desativada" : "ativada";
+        toast.success(`Categoria ${newStatus} com sucesso.`);
+      },
+      onError: () => {
+        toast.error("Erro ao alterar status da categoria.");
       },
     });
   };
@@ -68,6 +89,22 @@ const CategoriesTableActions = ({ category }: CategoriesTableActionsProps) => {
             <DropdownMenuItem onClick={() => setUpsertDialogIsOpen(true)}>
               <EditIcon className="mr-2 h-4 w-4" />
               Editar
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={handleToggleStatusClick}
+              disabled={isTogglePending}
+            >
+              {category.isActive ? (
+                <>
+                  <XCircleIcon className="mr-2 h-4 w-4" />
+                  Desativar
+                </>
+              ) : (
+                <>
+                  <CheckCircleIcon className="mr-2 h-4 w-4" />
+                  Ativar
+                </>
+              )}
             </DropdownMenuItem>
             <AlertDialog>
               <AlertDialogTrigger asChild>

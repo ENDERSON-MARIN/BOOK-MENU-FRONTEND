@@ -47,4 +47,13 @@ export const CategoryService = {
       method: "DELETE",
     });
   },
+
+  async toggleActive(id: string): Promise<Category> {
+    return apiClient<Category>(
+      `/lunch-reservation/categories/${id}/toggle-active`,
+      {
+        method: "PATCH",
+      },
+    );
+  },
 };
