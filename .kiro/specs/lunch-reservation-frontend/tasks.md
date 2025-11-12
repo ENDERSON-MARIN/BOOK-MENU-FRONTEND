@@ -182,7 +182,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar botão "Nova Categoria"
   - _Requirements: 3.1, 3.6_
 
-- [ ] 19. Criar formulário de criação/edição de categoria
+- [x] 19. Criar formulário de criação/edição de categoria
   - Criar `src/app/(dashboard)/categorias/_components/category-form-dialog.tsx`
   - Implementar campos: Nome, Descrição (textarea), DisplayOrder (number input)
   - Validar formulário com Zod
@@ -190,7 +190,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 3.2, 3.3, 3.4_
 
-- [ ] 20. Implementar exclusão de categoria
+- [x] 20. Implementar exclusão de categoria
   - Adicionar botão de exclusão na tabela
   - Exibir dialog de confirmação
   - Tratar erro de categoria em uso (exibir mensagem da API)
