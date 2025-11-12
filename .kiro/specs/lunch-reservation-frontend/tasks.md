@@ -236,7 +236,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 8: Gerenciamento de Cardápios (Admin)
 
-- [-] 25. Criar hooks Tanstack Query para cardápios
+- [x] 25. Criar hooks Tanstack Query para cardápios
   - Criar `src/_hooks/queries/use-get-menus.ts` com filtros (date, startDate, endDate, dayOfWeek, isActive)
   - Criar `src/_hooks/queries/use-get-menu.ts`
   - Criar `src/_hooks/queries/use-get-week-days.ts`

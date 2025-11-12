@@ -9,6 +9,7 @@ interface UseGetMenusParams {
   endDate?: string;
   dayOfWeek?: DayOfWeek;
   isActive?: boolean;
+  weekNumber?: number;
 }
 
 export function useGetMenus(params?: UseGetMenusParams) {

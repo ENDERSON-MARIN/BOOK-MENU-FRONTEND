@@ -3,6 +3,10 @@ import type { WeekDay } from "@/_types/week-day";
 
 export const WeekDayService = {
   async getAll(): Promise<WeekDay[]> {
-    return apiClient<WeekDay[]>("/week-days");
+    return apiClient<WeekDay[]>("/lunch-reservation/week-days");
+  },
+
+  async getWorkingDays(): Promise<WeekDay[]> {
+    return apiClient<WeekDay[]>("/lunch-reservation/week-days/working");
   },
 };
