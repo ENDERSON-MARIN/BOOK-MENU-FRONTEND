@@ -43,10 +43,10 @@ export function UserDashboard() {
     });
 
   const getMainProtein = (menu: Menu) => {
-    const mainProtein = menu.menuCompositions.find(
+    const mainProtein = menu.menuCompositions?.find(
       (comp) => comp.isMainProtein,
     );
-    return mainProtein?.menuItem.name || "Não definido";
+    return mainProtein?.menuItem?.name || "Não definido";
   };
 
   return (
