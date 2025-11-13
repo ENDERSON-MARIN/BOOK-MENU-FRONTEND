@@ -15,7 +15,9 @@ export function useUpdateCategory() {
     mutationFn: ({ id, data }: UseUpdateCategoryParams) =>
       CategoryService.update(id, data),
     onSuccess: () => {
+      // Invalidate categories and menu-items queries
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
     },
   });
 }

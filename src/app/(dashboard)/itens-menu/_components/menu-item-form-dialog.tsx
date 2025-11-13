@@ -76,9 +76,11 @@ const MenuItemFormDialog = ({
     }
   }, [menuItem, form]);
 
-  const { data: categories, isLoading: isLoadingCategories } = useGetCategories(
-    { isActive: true },
-  );
+  const { data: allCategories, isLoading: isLoadingCategories } =
+    useGetCategories({ isActive: true });
+
+  // Filter active categories on client side as additional safety
+  const categories = allCategories?.filter((cat) => cat.isActive);
 
   const { mutate: createMenuItem, isPending: isCreating } = useCreateMenuItem();
   const { mutate: updateMenuItem, isPending: isUpdating } = useUpdateMenuItem();
@@ -86,6 +88,17 @@ const MenuItemFormDialog = ({
   const isPending = isCreating || isUpdating;
 
   const onSubmit = (data: MenuItemFormValues) => {
+    // Validate that selected category is active
+    const selectedCategory = categories?.find(
+      (cat) => cat.id === data.categoryId,
+    );
+    if (!selectedCategory || !selectedCategory.isActive) {
+      toast.error(
+        "A categoria selecionada está inativa. Por favor, selecione uma categoria ativa.",
+      );
+      return;
+    }
+
     const payload = {
       name: data.name.trim(),
       description: data.description?.trim() || undefined,

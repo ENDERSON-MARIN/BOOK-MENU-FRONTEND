@@ -288,7 +288,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 9: Reservas do Usuário
 
-- [ ] 30. Criar hooks Tanstack Query para reservas
+- [x] 30. Criar hooks Tanstack Query para reservas
   - Criar `src/_hooks/queries/use-get-my-reservations.ts` com filtros (status, startDate, endDate)
   - Criar `src/_hooks/queries/use-get-reservation.ts`
   - Criar `src/_hooks/mutations/use-create-reservation.ts`
@@ -296,7 +296,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Criar `src/_hooks/mutations/use-cancel-reservation.ts`
   - _Requirements: 7.3, 8.1, 8.4, 8.5_
 
-- [ ] 31. Criar utilitário para validação de horário limite (8:30 AM)
+- [x] 31. Criar utilitário para validação de horário limite (8:30 AM)
   - Criar `src/_lib/date-utils.ts` com função `isBeforeCutoffTime(date: string): boolean`
   - Implementar lógica que verifica se horário atual é antes de 8:30 AM do dia da refeição
   - Usar dayjs para manipulação de datas

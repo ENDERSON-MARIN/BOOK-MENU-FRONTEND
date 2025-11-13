@@ -108,7 +108,7 @@ const MenusTableActions = ({ menu }: MenusTableActionsProps) => {
                         Essa ação não pode ser revertida. Isso irá deletar o
                         cardápio permanentemente.
                         {!isFutureDate && (
-                          <span className="mt-2 block text-destructive">
+                          <span className="text-destructive mt-2 block">
                             Atenção: Este cardápio é de uma data passada ou do
                             dia atual.
                           </span>
