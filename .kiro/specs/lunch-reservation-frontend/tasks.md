@@ -255,7 +255,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar botões: Ver Detalhes, Editar (ADMIN), Excluir (ADMIN)
   - _Requirements: 5.1, 5.9, 6.1, 6.6_
 
-- [ ] 27. Criar formulário de criação/edição de cardápio
+- [x] 27. Criar formulário de criação/edição de cardápio
   - Criar `src/app/(dashboard)/cardapios/_components/menu-form-dialog.tsx`
   - Implementar date picker (apenas datas futuras)
   - Auto-preencher dia da semana baseado na data selecionada
@@ -267,7 +267,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 5.2, 5.3, 5.4, 5.6_
 
-- [ ] 28. Criar modal de detalhes do cardápio
+- [x] 28. Criar modal de detalhes do cardápio
   - Criar `src/app/(dashboard)/cardapios/_components/menu-details-dialog.tsx`
   - Exibir data, dia da semana e observações
   - Exibir itens organizados por categoria (Proteína, Acompanhamento, Salada, Sobremesa)
@@ -276,7 +276,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar botão "Fazer Reserva" (se USER e sem reserva para aquela data)
   - _Requirements: 5.5, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 29. Implementar exclusão de cardápio
+- [x] 29. Implementar exclusão de cardápio
   - Adicionar botão de exclusão na visualização semanal
   - Exibir dialog de confirmação
   - Validar que cardápio é de data futura
