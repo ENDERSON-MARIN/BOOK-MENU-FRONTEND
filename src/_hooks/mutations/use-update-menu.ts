@@ -15,7 +15,9 @@ export function useUpdateMenu() {
     mutationFn: ({ id, data }: UseUpdateMenuParams) =>
       MenuService.update(id, data),
     onSuccess: () => {
+      // Invalidate both menus and menu-items queries to refresh the table
       queryClient.invalidateQueries({ queryKey: ["menus"] });
+      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
     },
   });
 }

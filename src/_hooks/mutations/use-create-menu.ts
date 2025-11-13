@@ -9,7 +9,9 @@ export function useCreateMenu() {
   return useMutation({
     mutationFn: (data: CreateMenuRequest) => MenuService.create(data),
     onSuccess: () => {
+      // Invalidate both menus and menu-items queries to refresh the table
       queryClient.invalidateQueries({ queryKey: ["menus"] });
+      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
     },
   });
 }

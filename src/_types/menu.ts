@@ -14,14 +14,16 @@ export interface MenuComposition {
   menuItemId: string;
   menuItem: MenuItem;
   isMainProtein: boolean;
+  isAlternativeProtein: boolean;
 }
 
 export interface MenuVariation {
   id: string;
   menuId: string;
-  name: string;
-  description?: string;
-  createdAt: string;
+  variationType: "STANDARD" | "EGG_SUBSTITUTE" | "VEGETARIAN";
+  proteinItemId: string;
+  isDefault: boolean;
+  proteinItem?: MenuItem;
 }
 
 export interface Menu {
@@ -39,21 +41,23 @@ export interface Menu {
 
 export interface CreateMenuRequest {
   date: string;
-  dayOfWeek: DayOfWeek;
   observations?: string;
-  menuCompositions: {
+  menuItems: {
     menuItemId: string;
+    observations?: string;
     isMainProtein: boolean;
+    isAlternativeProtein: boolean;
   }[];
 }
 
 export interface UpdateMenuRequest {
   date?: string;
-  dayOfWeek?: DayOfWeek;
   observations?: string;
   isActive?: boolean;
-  menuCompositions?: {
+  menuItems?: {
     menuItemId: string;
+    observations?: string;
     isMainProtein: boolean;
+    isAlternativeProtein: boolean;
   }[];
 }
