@@ -245,7 +245,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Criar `src/_hooks/mutations/use-delete-menu.ts`
   - _Requirements: 5.1, 5.4, 5.6, 5.7, 5.9_
 
-- [ ] 26. Criar visualização semanal de cardápios
+- [x] 26. Criar visualização semanal de cardápios
   - Criar `src/app/(dashboard)/cardapios/page.tsx` (acessível para ADMIN e USER)
   - Criar `src/app/(dashboard)/cardapios/_components/menus-calendar.tsx`
   - Implementar visualização semanal com cards para cada dia
