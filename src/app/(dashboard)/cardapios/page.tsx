@@ -1,28 +1,33 @@
 import {
   PageContainer,
   PageContent,
+  PageHeaderActions,
   PageHeaderContainer,
   PageHeaderContent,
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/_components/ui/page-container";
 
-import { MenusCalendar } from "./_components/menus-calendar";
+import { CreateMenuButton } from "./_components/create-menu-button";
+import MenusTable from "./_components/menus-table";
 
-export default function MenusPage() {
+export default function CardapiosPage() {
   return (
     <PageContainer>
       <PageHeaderContainer>
         <PageHeaderContent>
           <PageHeaderTitle>Cardápios</PageHeaderTitle>
           <PageHeaderDescription>
-            Visualize os cardápios da semana e gerencie suas reservas
+            Gerencie os cardápios semanais do sistema de reservas
           </PageHeaderDescription>
         </PageHeaderContent>
+        <PageHeaderActions>
+          <CreateMenuButton />
+        </PageHeaderActions>
       </PageHeaderContainer>
 
       <PageContent>
-        <MenusCalendar />
+        <MenusTable />
       </PageContent>
     </PageContainer>
   );

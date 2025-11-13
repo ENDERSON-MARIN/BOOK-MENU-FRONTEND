@@ -257,8 +257,19 @@ export function AdminDashboard() {
                         <p className="text-muted-foreground text-xs">
                           {dayjs(reservation.reservationDate).format(
                             "DD/MM/YYYY",
-                          )}{" "}
-                          • {reservation.menuVariation.name}
+                          )}
+                          {reservation.menuVariation && (
+                            <>
+                              {" • "}
+                              {reservation.menuVariation.variationType ===
+                              "STANDARD"
+                                ? "Padrão"
+                                : reservation.menuVariation.variationType ===
+                                    "EGG_SUBSTITUTE"
+                                  ? "Substituto de Ovo"
+                                  : "Vegetariano"}
+                            </>
+                          )}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
