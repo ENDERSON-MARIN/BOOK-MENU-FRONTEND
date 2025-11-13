@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { EditIcon, EyeIcon, MoreVerticalIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -26,6 +25,7 @@ import {
 } from "@/_components/ui/dropdown-menu";
 import { useDeleteMenu } from "@/_hooks/mutations/use-delete-menu";
 import { useAuth } from "@/_hooks/use-auth";
+import { isFutureDate as checkIsFutureDate } from "@/_lib/date-utils";
 import { Menu } from "@/_types/menu";
 
 import MenuDetailsDialog from "./menu-details-dialog";
@@ -43,7 +43,7 @@ const MenusTableActions = ({ menu }: MenusTableActionsProps) => {
 
   const { mutate: deleteMenu, isPending: isDeletePending } = useDeleteMenu();
 
-  const isFutureDate = dayjs(menu.date).isAfter(dayjs(), "day");
+  const isFutureDate = checkIsFutureDate(menu.date);
 
   const handleDeleteMenuClick = () => {
     if (!isFutureDate) {

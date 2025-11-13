@@ -2,6 +2,7 @@
 
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
+import utc from "dayjs/plugin/utc";
 import weekOfYear from "dayjs/plugin/weekOfYear";
 import { ChevronLeft, ChevronRight, Edit, Eye, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -24,6 +25,7 @@ import type { Menu } from "@/_types/menu";
 // Extend dayjs with plugins
 dayjs.extend(weekOfYear);
 dayjs.extend(isoWeek);
+dayjs.extend(utc);
 
 const DAY_NAMES: Record<string, string> = {
   MONDAY: "Segunda-feira",
@@ -78,8 +80,8 @@ export function MenusCalendar() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-semibold">
-            {currentWeekStart.format("DD/MM/YYYY")} -{" "}
-            {weekEnd.format("DD/MM/YYYY")}
+            {currentWeekStart.utc().format("DD/MM/YYYY")} -{" "}
+            {weekEnd.utc().format("DD/MM/YYYY")}
           </h2>
           <p className="text-muted-foreground text-sm">
             Semana {currentWeekStart.isoWeek()} de {currentWeekStart.year()}
@@ -159,7 +161,8 @@ function MenuDayCard({
   isAdmin,
 }: MenuDayCardProps) {
   const dayName = DAY_NAMES[menu?.dayOfWeek || ""] || date.format("dddd");
-  const dateFormatted = date.format("DD/MM/YYYY");
+  // Use UTC to avoid timezone issues when displaying dates
+  const dateFormatted = date.utc().format("DD/MM/YYYY");
 
   if (!menu) {
     return (

@@ -1,11 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import dayjs from "dayjs";
 import { ArrowUpDown } from "lucide-react";
 
 import { Badge } from "@/_components/ui/badge";
 import { Button } from "@/_components/ui/button";
+import { formatDateBR } from "@/_lib/date-utils";
 import { Menu } from "@/_types/menu";
 
 import MenusTableActions from "./table-actions";
@@ -42,7 +42,7 @@ export const menusTableColumns: ColumnDef<Menu>[] = [
     },
     cell: ({ row }) => {
       const date = row.getValue("date") as string;
-      return dayjs(date).format("DD/MM/YYYY");
+      return formatDateBR(date);
     },
   },
   {

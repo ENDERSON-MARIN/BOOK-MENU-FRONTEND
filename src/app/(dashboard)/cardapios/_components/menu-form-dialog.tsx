@@ -115,7 +115,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
 
       // Convert ISO date to YYYY-MM-DD format for input type="date"
       const formattedDate = menu.date
-        ? dayjs(menu.date).format("YYYY-MM-DD")
+        ? dayjs.utc(menu.date).format("YYYY-MM-DD")
         : "";
 
       form.reset({
@@ -140,14 +140,6 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
         });
       });
 
-      console.log("📋 Initialized selected items:", {
-        total: itemsMap.size,
-        items: Array.from(itemsMap.entries()).map(([id, data]) => ({
-          id,
-          ...data,
-        })),
-      });
-
       setSelectedItems(itemsMap);
 
       // Show warning if some items were filtered out
@@ -167,7 +159,8 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
       });
       setSelectedItems(new Map());
     }
-  }, [form, menu, menuItems]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menu, menuItems]);
 
   const { mutate: createMenu, isPending: isCreating } = useCreateMenu();
   const { mutate: updateMenu, isPending: isUpdating } = useUpdateMenu();
@@ -199,7 +192,6 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
   // Add item to selection
   const addItem = useCallback(
     (itemId: string) => {
-      console.log("🔵 Adding item:", itemId);
       setSelectedItems((prev) => {
         const newMap = new Map(prev);
         if (!newMap.has(itemId)) {
@@ -207,8 +199,6 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             isMainProtein: false,
             isAlternativeProtein: false,
           });
-
-          console.log("✅ Item added. Total items:", newMap.size);
 
           // Update form field
           const compositions = Array.from(newMap.entries()).map(
@@ -218,8 +208,6 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             }),
           );
           form.setValue("menuCompositions", compositions);
-        } else {
-          console.log("⚠️ Item already exists");
         }
         return newMap;
       });
@@ -231,12 +219,9 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
   // Remove item from selection
   const removeItem = useCallback(
     (itemId: string) => {
-      console.log("🔴 Removing item:", itemId);
       setSelectedItems((prev) => {
         const newMap = new Map(prev);
         newMap.delete(itemId);
-
-        console.log("✅ Item removed. Total items:", newMap.size);
 
         // Update form field
         const compositions = Array.from(newMap.entries()).map(
@@ -256,13 +241,11 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
   // Toggle main protein
   const toggleMainProtein = useCallback(
     (itemId: string) => {
-      console.log("🟡 Toggling main protein for:", itemId);
       setSelectedItems((prev) => {
         const newMap = new Map(prev);
         const item = newMap.get(itemId);
         if (item) {
           const newValue = !item.isMainProtein;
-          console.log(`  Main protein: ${item.isMainProtein} → ${newValue}`);
 
           // If setting as main protein, unset alternative protein
           newMap.set(itemId, {
@@ -289,15 +272,11 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
   // Toggle alternative protein
   const toggleAlternativeProtein = useCallback(
     (itemId: string) => {
-      console.log("🟠 Toggling alternative protein for:", itemId);
       setSelectedItems((prev) => {
         const newMap = new Map(prev);
         const item = newMap.get(itemId);
         if (item) {
           const newValue = !item.isAlternativeProtein;
-          console.log(
-            `  Alternative protein: ${item.isAlternativeProtein} → ${newValue}`,
-          );
 
           // If setting as alternative protein, unset main protein
           newMap.set(itemId, {
@@ -323,9 +302,6 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
 
   const onSubmit = async (data: MenuFormValues) => {
     try {
-      console.log("Form submitted with data:", data);
-      console.log("Form errors:", form.formState.errors);
-
       // Validate that all selected items are active
       const inactiveItems: string[] = [];
       selectedItems.forEach((_, itemId) => {
@@ -364,29 +340,27 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
       );
 
       if (isEditing) {
-        // For PATCH (edit), API expects observations and menuCompositions
+        // For PUT (edit), API expects observations and menuItems
         const updatePayload = {
           observations: data.observations || undefined,
-          menuCompositions: Array.from(selectedItems.entries()).map(
-            ([menuItemId, { isMainProtein }]) => ({
+          menuItems: Array.from(selectedItems.entries()).map(
+            ([menuItemId, { isMainProtein, isAlternativeProtein }]) => ({
               menuItemId,
               isMainProtein: isMainProtein ?? false,
+              isAlternativeProtein: isAlternativeProtein ?? false,
             }),
           ),
         };
 
-        console.log(
-          "🚀 Update payload to send:",
-          JSON.stringify(updatePayload, null, 2),
-        );
-        console.log(
-          "📊 Menu compositions count:",
-          updatePayload.menuCompositions?.length,
-        );
-        console.log(
-          "📋 Menu compositions details:",
-          updatePayload.menuCompositions,
-        );
+        console.log("📤 Sending update with payload:", {
+          menuId: menu.id,
+          itemsCount: updatePayload.menuItems.length,
+          items: updatePayload.menuItems.map((item) => ({
+            id: item.menuItemId,
+            isMain: item.isMainProtein,
+            isAlt: item.isAlternativeProtein,
+          })),
+        });
 
         updateMenu(
           {
@@ -394,48 +368,26 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             data: updatePayload,
           },
           {
-            onSuccess: (response) => {
-              console.log("✅ Update successful! Response:", response);
-              console.log(
-                "📦 Response menuCompositions:",
-                response.menuCompositions,
-              );
-              console.log(
-                "📊 Response menuCompositions count:",
-                response.menuCompositions?.length,
-              );
-
-              // Check if the update was actually applied
-              const sentItemIds = menuItemsPayload
-                .map((item) => item.menuItemId)
-                .sort();
-              const receivedItemIds =
-                response.menuCompositions
-                  ?.map((comp: unknown) => comp.menuItemId)
-                  .sort() || [];
-
-              console.log("🔍 Sent item IDs:", sentItemIds);
-              console.log("🔍 Received item IDs:", receivedItemIds);
-
-              const itemsMatch =
-                JSON.stringify(sentItemIds) === JSON.stringify(receivedItemIds);
-              console.log("✔️ Items match:", itemsMatch);
-
-              if (!itemsMatch) {
-                console.warn(
-                  "⚠️ WARNING: API returned different items than what was sent!",
-                );
-                console.warn("Expected:", sentItemIds.length, "items");
-                console.warn("Received:", receivedItemIds.length, "items");
-              }
-
+            onSuccess: () => {
+              console.log("✅ Update completed, refetching data...");
               toast.success("Cardápio atualizado com sucesso.");
+              // The queries will be refetched automatically by the mutation hook
               onSuccess();
             },
             onError: (error: Error) => {
               console.error("❌ Error updating menu:", error);
-              const errorMessage =
+              let errorMessage =
                 error?.message || "Erro ao atualizar cardápio.";
+
+              // Check if it's a 404 error
+              if (
+                errorMessage.includes("404") ||
+                errorMessage.includes("Not Found")
+              ) {
+                errorMessage =
+                  "Cardápio não encontrado. Ele pode ter sido deletado.";
+              }
+
               toast.error(errorMessage);
             },
           },
@@ -449,8 +401,6 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
           observations: data.observations || undefined,
           menuItems: menuItemsPayload,
         };
-
-        console.log("Create payload to send:", createPayload);
 
         createMenu(createPayload, {
           onSuccess: () => {

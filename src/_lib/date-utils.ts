@@ -38,6 +38,10 @@ export function isBeforeCutoffTime(date: string): boolean {
  * @returns Data formatada como DD/MM/YYYY
  */
 export function formatDateBR(date: string | Date): string {
+  // Se for uma string ISO com timezone UTC, usar utc() para evitar conversão de fuso horário
+  if (typeof date === "string" && date.includes("T")) {
+    return dayjs.utc(date).format("DD/MM/YYYY");
+  }
   return dayjs(date).format("DD/MM/YYYY");
 }
 

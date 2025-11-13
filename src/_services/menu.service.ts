@@ -67,7 +67,7 @@ export const MenuService = {
 
   async update(id: string, data: UpdateMenuRequest): Promise<Menu> {
     return apiClient<Menu>(`/lunch-reservation/menus/${id}`, {
-      method: "PATCH",
+      method: "PUT",
       body: JSON.stringify(data),
     });
   },
