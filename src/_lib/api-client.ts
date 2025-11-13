@@ -42,7 +42,9 @@ export async function apiClient<T>(
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     throw new AppError(
-      errorData?.message || "Ocorreu um erro na chamada da API.",
+      errorData?.error ||
+        errorData?.message ||
+        "Ocorreu um erro na chamada da API.",
       response.status,
     );
   }

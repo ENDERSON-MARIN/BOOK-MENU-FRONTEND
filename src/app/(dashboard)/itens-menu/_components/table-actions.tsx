@@ -112,7 +112,7 @@ const MenuItemsTableActions = ({ menuItem }: MenuItemsTableActionsProps) => {
                 </>
               )}
             </DropdownMenuItem>
-            <AlertDialog>
+            {/* <AlertDialog>
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   <TrashIcon className="mr-2 h-4 w-4" />
@@ -140,7 +140,7 @@ const MenuItemsTableActions = ({ menuItem }: MenuItemsTableActionsProps) => {
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
-            </AlertDialog>
+            </AlertDialog> */}
           </DropdownMenuContent>
         </DropdownMenu>
 

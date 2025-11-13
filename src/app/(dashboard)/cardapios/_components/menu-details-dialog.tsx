@@ -220,7 +220,7 @@ const MenuDetailsDialog = ({
                                   {composition.isMainProtein && (
                                     <Badge
                                       variant="default"
-                                      className="text-xs"
+                                      className="text-xs text-white"
                                     >
                                       Proteína Principal
                                     </Badge>
@@ -228,7 +228,7 @@ const MenuDetailsDialog = ({
                                   {composition.isAlternativeProtein && (
                                     <Badge
                                       variant="secondary"
-                                      className="text-xs"
+                                      className="text-xs text-white"
                                     >
                                       Proteína Alternativa
                                     </Badge>

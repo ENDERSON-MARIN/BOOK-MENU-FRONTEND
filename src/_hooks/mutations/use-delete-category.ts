@@ -8,7 +8,9 @@ export function useDeleteCategory() {
   return useMutation({
     mutationFn: (id: string) => CategoryService.delete(id),
     onSuccess: () => {
+      // Invalidate categories and menu-items queries
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
     },
   });
 }

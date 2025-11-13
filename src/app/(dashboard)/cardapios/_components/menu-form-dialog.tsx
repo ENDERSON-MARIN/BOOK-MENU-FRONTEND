@@ -2,10 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+dayjs.extend(utc);
 
 import { Button } from "@/_components/ui/button";
 import {
@@ -84,32 +87,55 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
     },
   });
 
+  const { data: categories } = useGetCategories({ isActive: true });
+  const { data: menuItems } = useGetMenuItems({ isActive: true });
+
   // Reset form when menu changes
   useEffect(() => {
-    if (menu) {
+    if (menu && menuItems) {
+      // Filter out inactive items when editing
+      const activeCompositions = menu.menuCompositions.filter((comp) => {
+        const item = menuItems.find((i) => i.id === comp.menuItemId);
+        return item && item.isActive;
+      });
+
+      // Convert ISO date to YYYY-MM-DD format for input type="date"
+      const formattedDate = menu.date
+        ? dayjs(menu.date).format("YYYY-MM-DD")
+        : "";
+
       form.reset({
-        date: menu.date,
+        date: formattedDate,
         dayOfWeek: menu.dayOfWeek,
         observations: menu.observations || "",
-        menuCompositions: menu.menuCompositions.map((comp) => ({
+        menuCompositions: activeCompositions.map((comp) => ({
           menuItemId: comp.menuItemId,
           isMainProtein: comp.isMainProtein,
         })),
       });
 
-      // Initialize selected items
+      // Initialize selected items (only active ones)
       const itemsMap = new Map<
         string,
         { isMainProtein: boolean; isAlternativeProtein: boolean }
       >();
-      menu.menuCompositions.forEach((comp) => {
+      activeCompositions.forEach((comp) => {
         itemsMap.set(comp.menuItemId, {
           isMainProtein: comp.isMainProtein,
-          isAlternativeProtein: false,
+          isAlternativeProtein: comp.isAlternativeProtein || false,
         });
       });
       setSelectedItems(itemsMap);
-    } else {
+
+      // Show warning if some items were filtered out
+      const inactiveCount =
+        menu.menuCompositions.length - activeCompositions.length;
+      if (inactiveCount > 0) {
+        toast.warning(
+          `${inactiveCount} ${inactiveCount === 1 ? "item inativo foi removido" : "itens inativos foram removidos"} do cardápio.`,
+        );
+      }
+    } else if (!menu) {
       form.reset({
         date: "",
         dayOfWeek: "MONDAY",
@@ -118,10 +144,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
       });
       setSelectedItems(new Map());
     }
-  }, [menu, form]);
-
-  const { data: categories } = useGetCategories({ isActive: true });
-  const { data: menuItems } = useGetMenuItems({ isActive: true });
+  }, [menu, form, menuItems]);
 
   const { mutate: createMenu, isPending: isCreating } = useCreateMenu();
   const { mutate: updateMenu, isPending: isUpdating } = useUpdateMenu();
@@ -137,14 +160,14 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
     }
   };
 
-  // Group menu items by category
+  // Group menu items by category (only active items)
   const itemsByCategory = useMemo(() => {
     if (!menuItems || !categories) return {};
 
     const grouped: Record<string, typeof menuItems> = {};
     categories.forEach((category) => {
       grouped[category.id] = menuItems.filter(
-        (item) => item.categoryId === category.id,
+        (item) => item.categoryId === category.id && item.isActive,
       );
     });
     return grouped;
@@ -235,15 +258,31 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
       console.log("Form submitted with data:", data);
       console.log("Form errors:", form.formState.errors);
 
-      // Convert date to ISO format with timezone
-      const dateISO = dayjs(data.date).toISOString();
+      // Validate that all selected items are active
+      const inactiveItems: string[] = [];
+      selectedItems.forEach((_, itemId) => {
+        const item = menuItems?.find((i) => i.id === itemId);
+        if (!item || !item.isActive) {
+          inactiveItems.push(item?.name || itemId);
+        }
+      });
+
+      if (inactiveItems.length > 0) {
+        toast.error(
+          `Os seguintes itens estão inativos e não podem ser adicionados: ${inactiveItems.join(", ")}`,
+        );
+        return;
+      }
+
+      // Convert date to ISO format in UTC (YYYY-MM-DDTHH:mm:ss.sssZ) as expected by API
+      const dateISO = dayjs.utc(data.date).startOf("day").toISOString();
 
       // Build menuItems array in the format expected by the API
       const menuItemsPayload = Array.from(selectedItems.entries()).map(
         ([menuItemId, { isMainProtein, isAlternativeProtein }]) => ({
           menuItemId,
-          isMainProtein,
-          isAlternativeProtein,
+          isMainProtein: isMainProtein ?? false,
+          isAlternativeProtein: isAlternativeProtein ?? false,
         }),
       );
 
@@ -330,7 +369,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
                           field.onChange(e);
                           handleDateChange(e.target.value);
                         }}
-                        disabled={isPending}
+                        disabled={isPending || isEditing}
                         className="w-full"
                       />
                       <CalendarIcon className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2" />
@@ -531,7 +570,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
 
           <DialogFooter>
             <Button
-              className="w-full text-white sm:w-auto"
+              className="w-full text-white"
               type="submit"
               disabled={isPending || selectedItems.size === 0}
             >
