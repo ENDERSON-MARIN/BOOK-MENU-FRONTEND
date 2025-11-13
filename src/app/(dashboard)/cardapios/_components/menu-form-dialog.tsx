@@ -3,14 +3,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { CalendarIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { CalendarIcon, CheckIcon, PlusIcon, XIcon } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 dayjs.extend(utc);
 
 import { Button } from "@/_components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/_components/ui/command";
 import {
   DialogContent,
   DialogDescription,
@@ -27,6 +35,11 @@ import {
   FormMessage,
 } from "@/_components/ui/form";
 import { Input } from "@/_components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/_components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -72,6 +85,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
   const [selectedItems, setSelectedItems] = useState<
     Map<string, { isMainProtein: boolean; isAlternativeProtein: boolean }>
   >(new Map());
+  const [openPopover, setOpenPopover] = useState(false);
 
   const form = useForm<MenuFormValues>({
     resolver: zodResolver(menuFormSchema),
@@ -125,6 +139,15 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
           isAlternativeProtein: comp.isAlternativeProtein || false,
         });
       });
+
+      console.log("📋 Initialized selected items:", {
+        total: itemsMap.size,
+        items: Array.from(itemsMap.entries()).map(([id, data]) => ({
+          id,
+          ...data,
+        })),
+      });
+
       setSelectedItems(itemsMap);
 
       // Show warning if some items were filtered out
@@ -144,7 +167,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
       });
       setSelectedItems(new Map());
     }
-  }, [menu, form, menuItems]);
+  }, [form, menu, menuItems]);
 
   const { mutate: createMenu, isPending: isCreating } = useCreateMenu();
   const { mutate: updateMenu, isPending: isUpdating } = useUpdateMenu();
@@ -173,85 +196,130 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
     return grouped;
   }, [menuItems, categories]);
 
-  // Toggle item selection
-  const toggleItemSelection = (itemId: string) => {
-    setSelectedItems((prev) => {
-      const newMap = new Map(prev);
-      if (newMap.has(itemId)) {
+  // Add item to selection
+  const addItem = useCallback(
+    (itemId: string) => {
+      console.log("🔵 Adding item:", itemId);
+      setSelectedItems((prev) => {
+        const newMap = new Map(prev);
+        if (!newMap.has(itemId)) {
+          newMap.set(itemId, {
+            isMainProtein: false,
+            isAlternativeProtein: false,
+          });
+
+          console.log("✅ Item added. Total items:", newMap.size);
+
+          // Update form field
+          const compositions = Array.from(newMap.entries()).map(
+            ([menuItemId, { isMainProtein }]) => ({
+              menuItemId,
+              isMainProtein,
+            }),
+          );
+          form.setValue("menuCompositions", compositions);
+        } else {
+          console.log("⚠️ Item already exists");
+        }
+        return newMap;
+      });
+      setOpenPopover(false);
+    },
+    [form],
+  );
+
+  // Remove item from selection
+  const removeItem = useCallback(
+    (itemId: string) => {
+      console.log("🔴 Removing item:", itemId);
+      setSelectedItems((prev) => {
+        const newMap = new Map(prev);
         newMap.delete(itemId);
-      } else {
-        newMap.set(itemId, {
-          isMainProtein: false,
-          isAlternativeProtein: false,
-        });
-      }
 
-      // Update form field
-      const compositions = Array.from(newMap.entries()).map(
-        ([menuItemId, { isMainProtein }]) => ({
-          menuItemId,
-          isMainProtein,
-        }),
-      );
-      form.setValue("menuCompositions", compositions);
+        console.log("✅ Item removed. Total items:", newMap.size);
 
-      return newMap;
-    });
-  };
+        // Update form field
+        const compositions = Array.from(newMap.entries()).map(
+          ([menuItemId, { isMainProtein }]) => ({
+            menuItemId,
+            isMainProtein,
+          }),
+        );
+        form.setValue("menuCompositions", compositions);
+
+        return newMap;
+      });
+    },
+    [form],
+  );
 
   // Toggle main protein
-  const toggleMainProtein = (itemId: string) => {
-    setSelectedItems((prev) => {
-      const newMap = new Map(prev);
-      const item = newMap.get(itemId);
-      if (item) {
-        // If setting as main protein, unset alternative protein
-        newMap.set(itemId, {
-          isMainProtein: !item.isMainProtein,
-          isAlternativeProtein: item.isMainProtein
-            ? item.isAlternativeProtein
-            : false,
-        });
-      }
+  const toggleMainProtein = useCallback(
+    (itemId: string) => {
+      console.log("🟡 Toggling main protein for:", itemId);
+      setSelectedItems((prev) => {
+        const newMap = new Map(prev);
+        const item = newMap.get(itemId);
+        if (item) {
+          const newValue = !item.isMainProtein;
+          console.log(`  Main protein: ${item.isMainProtein} → ${newValue}`);
 
-      // Update form field
-      const compositions = Array.from(newMap.entries()).map(
-        ([menuItemId, { isMainProtein }]) => ({
-          menuItemId,
-          isMainProtein,
-        }),
-      );
-      form.setValue("menuCompositions", compositions);
+          // If setting as main protein, unset alternative protein
+          newMap.set(itemId, {
+            isMainProtein: newValue,
+            isAlternativeProtein: newValue ? false : item.isAlternativeProtein,
+          });
+        }
 
-      return newMap;
-    });
-  };
+        // Update form field
+        const compositions = Array.from(newMap.entries()).map(
+          ([menuItemId, { isMainProtein }]) => ({
+            menuItemId,
+            isMainProtein,
+          }),
+        );
+        form.setValue("menuCompositions", compositions);
+
+        return newMap;
+      });
+    },
+    [form],
+  );
 
   // Toggle alternative protein
-  const toggleAlternativeProtein = (itemId: string) => {
-    setSelectedItems((prev) => {
-      const newMap = new Map(prev);
-      const item = newMap.get(itemId);
-      if (item) {
-        // If setting as alternative protein, unset main protein
-        newMap.set(itemId, {
-          isMainProtein: item.isAlternativeProtein ? item.isMainProtein : false,
-          isAlternativeProtein: !item.isAlternativeProtein,
-        });
-      }
+  const toggleAlternativeProtein = useCallback(
+    (itemId: string) => {
+      console.log("🟠 Toggling alternative protein for:", itemId);
+      setSelectedItems((prev) => {
+        const newMap = new Map(prev);
+        const item = newMap.get(itemId);
+        if (item) {
+          const newValue = !item.isAlternativeProtein;
+          console.log(
+            `  Alternative protein: ${item.isAlternativeProtein} → ${newValue}`,
+          );
 
-      // Update form field
-      const compositions = Array.from(newMap.entries()).map(
-        ([menuItemId, { isMainProtein }]) => ({
-          menuItemId,
-          isMainProtein,
-        }),
-      );
-      form.setValue("menuCompositions", compositions);
+          // If setting as alternative protein, unset main protein
+          newMap.set(itemId, {
+            isMainProtein: newValue ? false : item.isMainProtein,
+            isAlternativeProtein: newValue,
+          });
+        }
 
-      return newMap;
-    });
-  };
+        // Update form field
+        const compositions = Array.from(newMap.entries()).map(
+          ([menuItemId, { isMainProtein }]) => ({
+            menuItemId,
+            isMainProtein,
+          }),
+        );
+        form.setValue("menuCompositions", compositions);
+
+        return newMap;
+      });
+    },
+    [form],
+  );
 
   const onSubmit = async (data: MenuFormValues) => {
     try {
@@ -274,39 +342,98 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
         return;
       }
 
-      // Convert date to ISO format in UTC (YYYY-MM-DDTHH:mm:ss.sssZ) as expected by API
-      const dateISO = dayjs.utc(data.date).startOf("day").toISOString();
-
       // Build menuItems array in the format expected by the API
       const menuItemsPayload = Array.from(selectedItems.entries()).map(
-        ([menuItemId, { isMainProtein, isAlternativeProtein }]) => ({
-          menuItemId,
-          isMainProtein: isMainProtein ?? false,
-          isAlternativeProtein: isAlternativeProtein ?? false,
-        }),
+        ([menuItemId, { isMainProtein, isAlternativeProtein }]) => {
+          const payload: {
+            menuItemId: string;
+            isMainProtein: boolean;
+            isAlternativeProtein: boolean;
+            observations?: string;
+          } = {
+            menuItemId,
+            isMainProtein: isMainProtein ?? false,
+            isAlternativeProtein: isAlternativeProtein ?? false,
+          };
+
+          // Only include observations if it exists (for future use)
+          // Currently we don't have per-item observations in the UI
+
+          return payload;
+        },
       );
 
-      const payload = {
-        date: dateISO,
-        observations: data.observations || undefined,
-        menuItems: menuItemsPayload,
-      };
-
-      console.log("Payload to send:", payload);
-
       if (isEditing) {
+        // For PATCH (edit), API expects observations and menuCompositions
+        const updatePayload = {
+          observations: data.observations || undefined,
+          menuCompositions: Array.from(selectedItems.entries()).map(
+            ([menuItemId, { isMainProtein }]) => ({
+              menuItemId,
+              isMainProtein: isMainProtein ?? false,
+            }),
+          ),
+        };
+
+        console.log(
+          "🚀 Update payload to send:",
+          JSON.stringify(updatePayload, null, 2),
+        );
+        console.log(
+          "📊 Menu compositions count:",
+          updatePayload.menuCompositions?.length,
+        );
+        console.log(
+          "📋 Menu compositions details:",
+          updatePayload.menuCompositions,
+        );
+
         updateMenu(
           {
             id: menu.id,
-            data: payload,
+            data: updatePayload,
           },
           {
-            onSuccess: () => {
+            onSuccess: (response) => {
+              console.log("✅ Update successful! Response:", response);
+              console.log(
+                "📦 Response menuCompositions:",
+                response.menuCompositions,
+              );
+              console.log(
+                "📊 Response menuCompositions count:",
+                response.menuCompositions?.length,
+              );
+
+              // Check if the update was actually applied
+              const sentItemIds = menuItemsPayload
+                .map((item) => item.menuItemId)
+                .sort();
+              const receivedItemIds =
+                response.menuCompositions
+                  ?.map((comp: unknown) => comp.menuItemId)
+                  .sort() || [];
+
+              console.log("🔍 Sent item IDs:", sentItemIds);
+              console.log("🔍 Received item IDs:", receivedItemIds);
+
+              const itemsMatch =
+                JSON.stringify(sentItemIds) === JSON.stringify(receivedItemIds);
+              console.log("✔️ Items match:", itemsMatch);
+
+              if (!itemsMatch) {
+                console.warn(
+                  "⚠️ WARNING: API returned different items than what was sent!",
+                );
+                console.warn("Expected:", sentItemIds.length, "items");
+                console.warn("Received:", receivedItemIds.length, "items");
+              }
+
               toast.success("Cardápio atualizado com sucesso.");
               onSuccess();
             },
             onError: (error: Error) => {
-              console.error("Error updating menu:", error);
+              console.error("❌ Error updating menu:", error);
               const errorMessage =
                 error?.message || "Erro ao atualizar cardápio.";
               toast.error(errorMessage);
@@ -314,7 +441,18 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
           },
         );
       } else {
-        createMenu(payload, {
+        // For POST (create), API expects date, observations and menuItems
+        const dateISO = dayjs.utc(data.date).startOf("day").toISOString();
+
+        const createPayload = {
+          date: dateISO,
+          observations: data.observations || undefined,
+          menuItems: menuItemsPayload,
+        };
+
+        console.log("Create payload to send:", createPayload);
+
+        createMenu(createPayload, {
           onSuccess: () => {
             toast.success("Cardápio criado com sucesso.");
             form.reset();
@@ -442,88 +580,155 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
                 </span>
               </h3>
               <p className="text-muted-foreground text-xs">
-                Selecione os itens que farão parte do cardápio e marque a
-                proteína principal e/ou alternativa.
+                Adicione itens ao cardápio e configure as proteínas.
               </p>
             </div>
 
-            <div className="space-y-4">
-              {categories?.map((category) => {
-                const items = itemsByCategory[category.id] || [];
-                if (items.length === 0) return null;
+            {/* Selected Items Display */}
+            {selectedItems.size > 0 && (
+              <div className="space-y-3 rounded-lg border p-4">
+                {categories?.map((category) => {
+                  const categoryItems = Array.from(selectedItems.keys())
+                    .map((id) => menuItems?.find((item) => item.id === id))
+                    .filter((item) => item && item.categoryId === category.id);
 
-                return (
-                  <div
-                    key={category.id}
-                    className="space-y-2 rounded-lg border p-4"
-                  >
-                    <h4 className="text-sm font-medium">{category.name}</h4>
-                    <div className="space-y-2">
-                      {items.map((item) => {
-                        const isSelected = selectedItems.has(item.id);
-                        const itemData = selectedItems.get(item.id);
-                        const isMainProtein = itemData?.isMainProtein || false;
-                        const isAlternativeProtein =
-                          itemData?.isAlternativeProtein || false;
+                  if (categoryItems.length === 0) return null;
 
-                        return (
-                          <div
-                            key={item.id}
-                            className="hover:bg-muted/50 flex items-center gap-3 rounded-md border p-3 transition-colors"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={isSelected}
-                              onChange={() => toggleItemSelection(item.id)}
-                              disabled={isPending}
-                              className="size-4 cursor-pointer"
-                            />
-                            <div className="flex-1">
-                              <p className="text-sm font-medium">{item.name}</p>
-                              {item.description && (
-                                <p className="text-muted-foreground text-xs">
-                                  {item.description}
-                                </p>
-                              )}
-                            </div>
-                            {isSelected && (
-                              <div className="flex gap-3">
-                                <label className="flex items-center gap-2 text-xs">
-                                  <input
-                                    type="checkbox"
-                                    checked={isMainProtein}
-                                    onChange={() => toggleMainProtein(item.id)}
-                                    disabled={isPending}
-                                    className="size-3 cursor-pointer"
-                                  />
-                                  <span className="text-muted-foreground">
-                                    Proteína principal
+                  return (
+                    <div key={category.id} className="space-y-2">
+                      <h4 className="text-muted-foreground text-xs font-medium">
+                        {category.name}
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {categoryItems.map((item) => {
+                          if (!item) return null;
+                          const itemData = selectedItems.get(item.id);
+                          const isMainProtein =
+                            itemData?.isMainProtein || false;
+                          const isAlternativeProtein =
+                            itemData?.isAlternativeProtein || false;
+
+                          return (
+                            <div
+                              key={item.id}
+                              className="bg-background flex items-center gap-2 rounded-md border p-2"
+                            >
+                              <div className="flex flex-col gap-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-medium">
+                                    {item.name}
                                   </span>
-                                </label>
-                                <label className="flex items-center gap-2 text-xs">
-                                  <input
-                                    type="checkbox"
-                                    checked={isAlternativeProtein}
-                                    onChange={() =>
-                                      toggleAlternativeProtein(item.id)
-                                    }
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-5 w-5"
+                                    onClick={() => removeItem(item.id)}
                                     disabled={isPending}
-                                    className="size-3 cursor-pointer"
-                                  />
-                                  <span className="text-muted-foreground">
-                                    Proteína alternativa
-                                  </span>
-                                </label>
+                                  >
+                                    <XIcon className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                                {category.name.toLowerCase() === "proteína" && (
+                                  <div className="flex gap-2">
+                                    <Button
+                                      type="button"
+                                      variant={
+                                        isMainProtein ? "default" : "outline"
+                                      }
+                                      size="sm"
+                                      className="h-6 text-xs"
+                                      onClick={() => toggleMainProtein(item.id)}
+                                      disabled={isPending}
+                                    >
+                                      {isMainProtein && (
+                                        <CheckIcon className="mr-1 h-3 w-3" />
+                                      )}
+                                      Principal
+                                    </Button>
+                                    <Button
+                                      type="button"
+                                      variant={
+                                        isAlternativeProtein
+                                          ? "default"
+                                          : "outline"
+                                      }
+                                      size="sm"
+                                      className="h-6 text-xs"
+                                      onClick={() =>
+                                        toggleAlternativeProtein(item.id)
+                                      }
+                                      disabled={isPending}
+                                    >
+                                      {isAlternativeProtein && (
+                                        <CheckIcon className="mr-1 h-3 w-3" />
+                                      )}
+                                      Alternativa
+                                    </Button>
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </div>
-                        );
-                      })}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Add Items Popover */}
+            <Popover open={openPopover} onOpenChange={setOpenPopover}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  disabled={isPending}
+                >
+                  <PlusIcon className="mr-2 h-4 w-4" />
+                  Adicionar Itens
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[400px] p-0" align="start">
+                <Command>
+                  <CommandInput placeholder="Buscar item..." />
+                  <CommandList>
+                    <CommandEmpty>Nenhum item encontrado.</CommandEmpty>
+                    {categories?.map((category) => {
+                      const items = itemsByCategory[category.id] || [];
+                      const availableItems = items.filter(
+                        (item) => !selectedItems.has(item.id),
+                      );
+
+                      if (availableItems.length === 0) return null;
+
+                      return (
+                        <CommandGroup key={category.id} heading={category.name}>
+                          {availableItems.map((item) => (
+                            <CommandItem
+                              key={item.id}
+                              value={`${item.name} ${item.description || ""}`}
+                              onSelect={() => addItem(item.id)}
+                            >
+                              <div className="flex flex-col">
+                                <span className="font-medium">{item.name}</span>
+                                {item.description && (
+                                  <span className="text-muted-foreground text-xs">
+                                    {item.description}
+                                  </span>
+                                )}
+                              </div>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      );
+                    })}
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Preview */}

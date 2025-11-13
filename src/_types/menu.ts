@@ -52,12 +52,11 @@ export interface CreateMenuRequest {
 
 export interface UpdateMenuRequest {
   date?: string;
+  dayOfWeek?: DayOfWeek;
   observations?: string;
   isActive?: boolean;
-  menuItems?: {
+  menuCompositions?: {
     menuItemId: string;
-    observations?: string;
     isMainProtein: boolean;
-    isAlternativeProtein: boolean;
   }[];
 }
