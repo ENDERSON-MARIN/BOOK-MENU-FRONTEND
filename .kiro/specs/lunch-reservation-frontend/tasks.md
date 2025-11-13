@@ -288,7 +288,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 9: Reservas do Usuário
 
-- [ ] 30. Criar hooks Tanstack Query para reservas
+- [x] 30. Criar hooks Tanstack Query para reservas
   - Criar `src/_hooks/queries/use-get-my-reservations.ts` com filtros (status, startDate, endDate)
   - Criar `src/_hooks/queries/use-get-reservation.ts`
   - Criar `src/_hooks/mutations/use-create-reservation.ts`
