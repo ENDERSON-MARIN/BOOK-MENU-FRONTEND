@@ -14,7 +14,6 @@ import {
 import { useState } from "react";
 
 import { Button } from "@/_components/ui/button";
-import { Input } from "@/_components/ui/input";
 import {
   Table,
   TableBody,
@@ -61,14 +60,15 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="rounded-md border">
+      {/* Mobile: Horizontal scroll wrapper */}
+      <div className="w-full overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="whitespace-nowrap">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -89,7 +89,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="whitespace-nowrap">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
@@ -111,23 +111,29 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-center space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className="flex flex-col items-center justify-center gap-2 py-4 sm:flex-row sm:space-x-2">
+        <div className="text-muted-foreground text-sm">
+          Página {table.getState().pagination.pageIndex + 1} de{" "}
+          {table.getPageCount()}
+        </div>
+        <div className="flex space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Anterior
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Próxima
+          </Button>
+        </div>
       </div>
     </>
   );

@@ -144,10 +144,10 @@ export function UserDashboard() {
                 return (
                   <div
                     key={menu.id}
-                    className="border-border flex items-center justify-between rounded-lg border p-4"
+                    className="border-border flex flex-col gap-3 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between"
                   >
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
+                    <div className="flex-1 space-y-1">
+                      <div className="flex flex-wrap items-center gap-2">
                         <p className="font-medium">{formatDateBR(menu.date)}</p>
                         <span className="text-muted-foreground text-sm">
                           • {DAY_OF_WEEK_PT[menu.dayOfWeek]}
@@ -163,7 +163,12 @@ export function UserDashboard() {
                         {menu.menuCompositions.length} itens
                       </p>
                     </div>
-                    <Button variant="outline" size="sm" asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                      asChild
+                    >
                       <Link href="/cardapios">Ver Detalhes</Link>
                     </Button>
                   </div>

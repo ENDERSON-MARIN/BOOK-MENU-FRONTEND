@@ -172,10 +172,10 @@ export function AdminDashboard() {
                   return (
                     <div
                       key={menu.id}
-                      className="border-border flex items-center justify-between rounded-lg border p-3"
+                      className="border-border flex flex-col gap-2 rounded-lg border p-3 sm:flex-row sm:items-center sm:justify-between"
                     >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
+                      <div className="flex-1 space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
                           <p className="text-sm font-medium">
                             {formatDateBR(menu.date)}
                           </p>
@@ -191,7 +191,12 @@ export function AdminDashboard() {
                           </p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="sm" asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full sm:w-auto"
+                        asChild
+                      >
                         <Link href="/cardapios">Ver</Link>
                       </Button>
                     </div>
@@ -242,10 +247,10 @@ export function AdminDashboard() {
                   .map((reservation) => (
                     <div
                       key={reservation.id}
-                      className="border-border flex items-center justify-between rounded-lg border p-3"
+                      className="border-border flex flex-col gap-2 rounded-lg border p-3 sm:flex-row sm:items-center sm:justify-between"
                     >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
+                      <div className="flex-1 space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
                           <p className="text-sm font-medium">
                             {reservation.user?.name || "Usuário"}
                           </p>
@@ -271,7 +276,7 @@ export function AdminDashboard() {
                           )}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex shrink-0 items-center gap-2">
                         {reservation.status === "ACTIVE" ? (
                           <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-600">
                             Ativa

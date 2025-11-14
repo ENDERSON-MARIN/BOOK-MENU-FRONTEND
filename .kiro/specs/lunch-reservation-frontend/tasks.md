@@ -402,7 +402,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar feedback visual (bordas vermelhas/verdes)
   - _Requirements: 9.5_
 
-- [ ] 43. Otimizar responsividade mobile
+- [x] 43. Otimizar responsividade mobile
   - Testar todas as páginas em viewport 320px+
   - Ajustar tabelas para scroll horizontal em mobile
   - Implementar menu hamburguer para sidebar em mobile
@@ -415,7 +415,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar toggle no header
   - Testar todos os componentes em dark mode
   - Ajustar cores para contraste adequado
-  - Cores da empresa: #1b994b #e4e30d
+  - Implement Cores da empresa no APP: #1b994b #e4e30d
   - _Requirements: 9.7_
 
 ---
