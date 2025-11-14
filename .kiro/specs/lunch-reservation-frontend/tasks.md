@@ -312,7 +312,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.6, 7.7_
 
-- [-] 33. Integrar botão de reserva na visualização de cardápios
+- [x] 33. Integrar botão de reserva na visualização de cardápios
   - Adicionar botão "Fazer Reserva" nos cards de cardápio (se USER)
   - Verificar se usuário já tem reserva para aquela data
   - Exibir "Reserva já realizada" se já existe reserva
