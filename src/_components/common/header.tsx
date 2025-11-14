@@ -23,6 +23,7 @@ interface HeaderProps {
 
 export function Header({ onMenuClick }: HeaderProps) {
   const { user, logout } = useAuth();
+
   const router = useRouter();
   const { theme, setTheme } = useTheme();
 
@@ -72,15 +73,7 @@ export function Header({ onMenuClick }: HeaderProps) {
 
         {/* Logo - Hidden on mobile, visible on desktop */}
         <div className="hidden items-center gap-2 lg:flex">
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="size-10"
-            quality={100}
-            priority
-          />
+          {/* <Image src="/logo.png" alt="Logo" width={80} height={40} /> */}
           <span className="text-lg font-semibold">Reservas de Almoço</span>
         </div>
       </div>

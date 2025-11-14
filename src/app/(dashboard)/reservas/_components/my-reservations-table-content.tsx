@@ -33,14 +33,22 @@ const MyReservationsTableContent = ({
       startDate,
       endDate,
     },
+    {
+      enabled: !isAdmin,
+    },
   );
 
   const { data: allReservations, isLoading: isLoadingAll } =
-    useGetAllReservations({
-      status,
-      startDate,
-      endDate,
-    });
+    useGetAllReservations(
+      {
+        status,
+        startDate,
+        endDate,
+      },
+      {
+        enabled: isAdmin,
+      },
+    );
 
   const isLoading = isAdmin ? isLoadingAll : isLoadingMy;
   const reservations = isAdmin ? allReservations : myReservations;

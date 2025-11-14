@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { decodeJWT, isTokenExpired } from "@/_lib/jwt-utils";
+import { isTokenExpired } from "@/_lib/jwt-utils";
 import { toastMessages } from "@/_lib/toast-messages";
 import { AuthService } from "@/_services/auth.service";
 import type { AuthUser, LoginRequest } from "@/_types/auth";
@@ -30,8 +30,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const initAuth = () => {
       try {
         const token = localStorage.getItem("auth_token");
+        const userDataStr = localStorage.getItem("auth_user");
 
-        if (!token) {
+        if (!token || !userDataStr) {
           setIsLoading(false);
           return;
         }
@@ -39,21 +40,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Check if token is expired
         if (isTokenExpired(token)) {
           localStorage.removeItem("auth_token");
+          localStorage.removeItem("auth_user");
           setUser(null);
           setIsLoading(false);
           return;
         }
 
-        // Decode token and set user
-        const decodedUser = decodeJWT(token);
-        if (decodedUser) {
-          setUser(decodedUser);
-        } else {
-          localStorage.removeItem("auth_token");
-        }
+        // Parse and set user data
+        const userData = JSON.parse(userDataStr);
+        setUser(userData);
       } catch (error) {
         console.error("Error initializing auth:", error);
         localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_user");
       } finally {
         setIsLoading(false);
       }
@@ -66,20 +65,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await AuthService.login(credentials);
 
-      // Store token in localStorage
+      // Store token and user data in localStorage
       localStorage.setItem("auth_token", response.token);
 
-      // Decode token and set user
-      const decodedUser = decodeJWT(response.token);
-      if (decodedUser) {
-        setUser(decodedUser);
-        toast.success(toastMessages.auth.loginSuccess);
-      } else {
-        throw new Error("Failed to decode token");
-      }
+      // Convert User to AuthUser format
+      const authUser: AuthUser = {
+        id: response.user.id,
+        cpf: response.user.cpf,
+        name: response.user.name,
+        role: response.user.role,
+        userType: response.user.userType,
+        status: response.user.status,
+      };
+
+      localStorage.setItem("auth_user", JSON.stringify(authUser));
+      setUser(authUser);
+      toast.success(toastMessages.auth.loginSuccess);
     } catch (error) {
       // Clear any existing token on login failure
       localStorage.removeItem("auth_token");
+      localStorage.removeItem("auth_user");
       setUser(null);
       // Error toast is handled by the mutation hook or component
       throw error;
@@ -88,6 +93,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_user");
     setUser(null);
     AuthService.logout();
     toast.success(toastMessages.auth.logoutSuccess);

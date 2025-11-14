@@ -320,9 +320,10 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Abrir modal de criação de reserva ao clicar
   - _Requirements: 7.1, 7.4, 7.5_
 
-- [x] 34. Criar página de minhas reservas
+- [x] 34. Criar página de minhas reservas ✅
   - Criar `src/app/(dashboard)/minhas-reservas/page.tsx` (acessível para USER e ADMIN)
-  - Criar `src/app/(dashboard)/minhas-reservas/_components/my-reservations-table.tsx`
+  - Reutilizar componentes existentes de `reservas/_components/my-reservations-table.tsx`
+  - Atualizar sidebar para apontar USER para `/minhas-reservas` ao invés de `/reservas`
   - Implementar colunas: Data, Cardápio (resumo), Variação, Status, Auto, Ações
   - Adicionar badge "Auto" para reservas geradas automaticamente
   - Adicionar filtros: Status, Período (date range)

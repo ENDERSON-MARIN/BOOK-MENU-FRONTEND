@@ -308,7 +308,7 @@ const ChangeVariationDialog = ({
                     }
                     isLoading={isPending}
                     loadingText="Alterando..."
-                    className="w-full text-white sm:w-auto"
+                    className="w-full text-white"
                   >
                     Confirmar Alteração
                   </LoadingButton>

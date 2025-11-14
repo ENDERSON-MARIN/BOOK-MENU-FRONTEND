@@ -340,6 +340,7 @@ const ReservationDetailsDialog = ({
               <Button
                 variant="destructive"
                 disabled={!canModify || isCancelPending}
+                className="w-full text-white"
               >
                 <XIcon className="mr-2 h-4 w-4" />
                 Cancelar Reserva
