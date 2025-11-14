@@ -1,8 +1,10 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { decodeJWT, isTokenExpired } from "@/_lib/jwt-utils";
+import { toastMessages } from "@/_lib/toast-messages";
 import { AuthService } from "@/_services/auth.service";
 import type { AuthUser, LoginRequest } from "@/_types/auth";
 import type { UserRole } from "@/_types/user";
@@ -71,6 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const decodedUser = decodeJWT(response.token);
       if (decodedUser) {
         setUser(decodedUser);
+        toast.success(toastMessages.auth.loginSuccess);
       } else {
         throw new Error("Failed to decode token");
       }
@@ -78,6 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Clear any existing token on login failure
       localStorage.removeItem("auth_token");
       setUser(null);
+      // Error toast is handled by the mutation hook or component
       throw error;
     }
   };
@@ -86,6 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("auth_token");
     setUser(null);
     AuthService.logout();
+    toast.success(toastMessages.auth.logoutSuccess);
   };
 
   const getUser = (): AuthUser | null => {

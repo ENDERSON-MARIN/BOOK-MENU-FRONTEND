@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
+import { toastMessages } from "@/_lib/toast-messages";
 import { ReservationService } from "@/_services/reservation.service";
 
 export function useCancelReservation() {
@@ -17,6 +19,10 @@ export function useCancelReservation() {
         queryKey: ["menus"],
         refetchType: "all",
       });
+      toast.success(toastMessages.reservation.cancelSuccess);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || toastMessages.reservation.cancelError);
     },
   });
 }

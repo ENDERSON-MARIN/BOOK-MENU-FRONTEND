@@ -1,4 +1,8 @@
+import { toast } from "sonner";
+
 import { AppError } from "@/_errors/AppError";
+
+import { toastMessages } from "./toast-messages";
 
 export async function apiClient<T>(
   endpoint: string,
@@ -26,6 +30,7 @@ export async function apiClient<T>(
   if (response.status === 401) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("auth_token");
+      toast.error(toastMessages.auth.sessionExpired);
       window.location.href = "/login";
     }
     throw new AppError("Sessão expirada. Faça login novamente.", 401);
@@ -33,6 +38,7 @@ export async function apiClient<T>(
 
   // Handle 403 Forbidden - access denied
   if (response.status === 403) {
+    toast.error(toastMessages.auth.unauthorized);
     throw new AppError(
       "Acesso negado. Você não tem permissão para realizar esta ação.",
       403,

@@ -46,7 +46,7 @@ export function LoginForm() {
 
     try {
       await login(values);
-      toast.success("Login realizado com sucesso!");
+      // Toast de sucesso é exibido pelo auth-provider
       router.push("/");
     } catch (error: unknown) {
       // Handle specific error messages from API

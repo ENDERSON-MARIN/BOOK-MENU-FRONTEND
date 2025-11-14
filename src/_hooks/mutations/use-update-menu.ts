@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
+import { toastMessages } from "@/_lib/toast-messages";
 import { MenuService } from "@/_services/menu.service";
 import type { UpdateMenuRequest } from "@/_types/menu";
 
@@ -30,6 +32,12 @@ export function useUpdateMenu() {
       await queryClient.refetchQueries({ queryKey: ["menus"], type: "active" });
 
       return result;
+    },
+    onSuccess: () => {
+      toast.success(toastMessages.menu.updateSuccess);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || toastMessages.menu.updateError);
     },
   });
 }
