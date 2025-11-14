@@ -348,7 +348,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir data de criação e última atualização
   - _Requirements: 8.2_
 
-- [ ] 37. Implementar cancelamento de reserva
+- [x] 37. Implementar cancelamento de reserva
   - Adicionar botão "Cancelar Reserva" na tabela e no modal de detalhes
   - Exibir dialog de confirmação
   - Validar horário limite (desabilitar se após 8:30 AM)
@@ -361,12 +361,12 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 10: Gerenciamento de Todas as Reservas (Admin)
 
-- [ ] 38. Criar hooks Tanstack Query para todas as reservas
+- [x] 38. Criar hooks Tanstack Query para todas as reservas
   - Criar `src/_hooks/queries/use-get-all-reservations.ts` com filtros (status, startDate, endDate, userId)
   - Implementar paginação
   - _Requirements: 10.2_
 
-- [ ] 39. Criar página de todas as reservas
+- [-] 39. Criar página de todas as reservas
   - Criar `src/app/(dashboard)/reservas/page.tsx` protegida com role ADMIN
   - Criar `src/app/(dashboard)/reservas/_components/all-reservations-table.tsx`
   - Implementar colunas: Usuário (nome + CPF), Data, Cardápio (resumo), Variação, Status, Auto

@@ -1,22 +1,44 @@
 "use client";
 
-import { CalendarIcon, ClockIcon, InfoIcon, Loader2Icon } from "lucide-react";
-import { useMemo } from "react";
+import {
+  CalendarIcon,
+  ClockIcon,
+  InfoIcon,
+  Loader2Icon,
+  XIcon,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/_components/ui/alert-dialog";
 import { Badge } from "@/_components/ui/badge";
+import { Button } from "@/_components/ui/button";
 import {
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/_components/ui/dialog";
 import { Separator } from "@/_components/ui/separator";
+import { useCancelReservation } from "@/_hooks/mutations/use-cancel-reservation";
 import { useGetReservation } from "@/_hooks/queries/use-get-reservation";
-import { formatDateBR } from "@/_lib/date-utils";
+import { formatDateBR, isBeforeCutoffTime } from "@/_lib/date-utils";
 import type { Reservation } from "@/_types/reservation";
 
 interface ReservationDetailsDialogProps {
   reservation: Reservation;
+  onClose?: () => void;
 }
 
 const DAY_OF_WEEK_LABELS: Record<string, string> = {
@@ -42,7 +64,10 @@ const STATUS_LABELS: Record<string, string> = {
 
 const ReservationDetailsDialog = ({
   reservation,
+  onClose,
 }: ReservationDetailsDialogProps) => {
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+
   // Fetch full reservation details with all relations
   const { data: fullReservation, isLoading: isLoadingReservation } =
     useGetReservation(reservation.id);
@@ -52,6 +77,30 @@ const ReservationDetailsDialog = ({
 
   // The reservation already includes the full menu with compositions
   const menuData = reservationData.menu;
+
+  // Cancel reservation mutation
+  const { mutate: cancelReservation, isPending: isCancelPending } =
+    useCancelReservation();
+
+  // Check if user can modify the reservation
+  const canModify =
+    reservationData.status === "ACTIVE" &&
+    isBeforeCutoffTime(reservationData.reservationDate);
+
+  const handleCancelReservation = () => {
+    cancelReservation(reservationData.id, {
+      onSuccess: () => {
+        toast.success("Reserva cancelada com sucesso.");
+        setCancelDialogOpen(false);
+        onClose?.();
+      },
+      onError: (error) => {
+        toast.error(
+          error instanceof Error ? error.message : "Erro ao cancelar reserva.",
+        );
+      },
+    });
+  };
 
   // Format dates
   const formattedDate = formatDateBR(reservationData.reservationDate);
@@ -273,6 +322,52 @@ const ReservationDetailsDialog = ({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Cancel Reservation Button */}
+      {reservationData.status === "ACTIVE" && (
+        <DialogFooter>
+          {!canModify && (
+            <p className="text-muted-foreground mr-auto text-xs">
+              Prazo para alterações encerrado (até 8:30 AM do dia da refeição)
+            </p>
+          )}
+          <AlertDialog
+            open={cancelDialogOpen}
+            onOpenChange={setCancelDialogOpen}
+          >
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="destructive"
+                disabled={!canModify || isCancelPending}
+              >
+                <XIcon className="mr-2 h-4 w-4" />
+                Cancelar Reserva
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Tem certeza que deseja cancelar esta reserva?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  {!canModify
+                    ? "Prazo para alterações encerrado (até 8:30 AM do dia da refeição)."
+                    : "Essa ação não pode ser revertida. A reserva será cancelada permanentemente."}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleCancelReservation}
+                  disabled={isCancelPending || !canModify}
+                >
+                  {isCancelPending ? "Cancelando..." : "Confirmar"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </DialogFooter>
       )}
     </DialogContent>
   );

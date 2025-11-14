@@ -121,7 +121,10 @@ const MyReservationsTableActions = ({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <ReservationDetailsDialog reservation={reservation} />
+        <ReservationDetailsDialog
+          reservation={reservation}
+          onClose={() => setDetailsDialogIsOpen(false)}
+        />
       </Dialog>
 
       {/* Change Variation Dialog */}

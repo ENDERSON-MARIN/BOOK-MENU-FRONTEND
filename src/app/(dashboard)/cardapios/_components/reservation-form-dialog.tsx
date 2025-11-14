@@ -359,7 +359,7 @@ const ReservationFormDialog = ({
                     menu.variations.length === 0 ||
                     !form.watch("menuVariationId")
                   }
-                  className="w-full text-white sm:w-auto"
+                  className="w-full text-white"
                   onClick={() => {
                     console.log("Button clicked");
                     console.log("Form values:", form.getValues());
