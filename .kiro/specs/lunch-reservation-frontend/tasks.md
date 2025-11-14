@@ -410,7 +410,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Testar formulários em mobile (teclado virtual)
   - _Requirements: 9.1_
 
-- [ ] 44. Implementar dark mode
+- [x] 44. Implementar dark mode
   - Configurar next-themes provider
   - Adicionar toggle no header
   - Testar todos os componentes em dark mode
