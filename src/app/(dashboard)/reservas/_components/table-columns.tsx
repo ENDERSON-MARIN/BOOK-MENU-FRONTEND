@@ -20,7 +20,43 @@ const statusVariants: Record<string, "default" | "destructive"> = {
   CANCELLED: "destructive",
 };
 
-export const myReservationsTableColumns: ColumnDef<Reservation>[] = [
+const userColumn: ColumnDef<Reservation> = {
+  id: "user",
+  header: ({ column }) => {
+    return (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Usuário
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    );
+  },
+  cell: ({ row }) => {
+    const reservation = row.original;
+    if (!reservation.user) {
+      return (
+        <div className="flex flex-col">
+          <span className="text-muted-foreground text-sm">
+            ID: {reservation.userId}
+          </span>
+        </div>
+      );
+    }
+    return (
+      <div className="flex flex-col">
+        <span className="font-medium">{reservation.user.name}</span>
+        <span className="text-muted-foreground text-sm">
+          CPF: {reservation.user.cpf}
+        </span>
+      </div>
+    );
+  },
+  accessorFn: (row) => row.user?.name || row.userId,
+};
+
+const baseColumns: ColumnDef<Reservation>[] = [
   {
     id: "reservationDate",
     accessorKey: "reservationDate",
@@ -124,4 +160,13 @@ export const myReservationsTableColumns: ColumnDef<Reservation>[] = [
       return <MyReservationsTableActions reservation={reservation} />;
     },
   },
+];
+
+// Columns for regular users (without user column)
+export const myReservationsTableColumns: ColumnDef<Reservation>[] = baseColumns;
+
+// Columns for admins (with user column)
+export const adminReservationsTableColumns: ColumnDef<Reservation>[] = [
+  userColumn,
+  ...baseColumns,
 ];

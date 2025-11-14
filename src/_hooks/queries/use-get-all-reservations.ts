@@ -13,6 +13,6 @@ interface UseGetAllReservationsParams {
 export function useGetAllReservations(params?: UseGetAllReservationsParams) {
   return useQuery({
     queryKey: ["all-reservations", params],
-    queryFn: () => ReservationService.getAll(params),
+    queryFn: () => ReservationService.getAllAdmin(params),
   });
 }

@@ -125,15 +125,12 @@ const MyReservationsTableActions = ({
       </Dialog>
 
       {/* Change Variation Dialog */}
-      <Dialog
-        open={changeVariationDialogIsOpen}
+      <ChangeVariationDialog
+        reservation={reservation}
+        isOpen={changeVariationDialogIsOpen}
         onOpenChange={setChangeVariationDialogIsOpen}
-      >
-        <ChangeVariationDialog
-          reservation={reservation}
-          onSuccess={() => setChangeVariationDialogIsOpen(false)}
-        />
-      </Dialog>
+        onSuccess={() => setChangeVariationDialogIsOpen(false)}
+      />
     </>
   );
 };

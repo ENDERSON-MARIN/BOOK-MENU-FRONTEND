@@ -2,10 +2,15 @@
 
 import { DataTable } from "@/_components/ui/data-table";
 import { Skeleton } from "@/_components/ui/skeleton";
+import { useGetAllReservations } from "@/_hooks/queries/use-get-all-reservations";
 import { useGetMyReservations } from "@/_hooks/queries/use-get-my-reservations";
+import { useAuth } from "@/_hooks/use-auth";
 import { ReservationStatus } from "@/_types/reservation";
 
-import { myReservationsTableColumns } from "./table-columns";
+import {
+  adminReservationsTableColumns,
+  myReservationsTableColumns,
+} from "./table-columns";
 
 interface MyReservationsTableContentProps {
   status?: ReservationStatus;
@@ -18,11 +23,30 @@ const MyReservationsTableContent = ({
   startDate,
   endDate,
 }: MyReservationsTableContentProps) => {
-  const { data: reservations, isLoading } = useGetMyReservations({
-    status,
-    startDate,
-    endDate,
-  });
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
+
+  // Admin sees all reservations, users see only their own
+  const { data: myReservations, isLoading: isLoadingMy } = useGetMyReservations(
+    {
+      status,
+      startDate,
+      endDate,
+    },
+  );
+
+  const { data: allReservations, isLoading: isLoadingAll } =
+    useGetAllReservations({
+      status,
+      startDate,
+      endDate,
+    });
+
+  const isLoading = isAdmin ? isLoadingAll : isLoadingMy;
+  const reservations = isAdmin ? allReservations : myReservations;
+  const columns = isAdmin
+    ? adminReservationsTableColumns
+    : myReservationsTableColumns;
 
   if (isLoading) {
     return (
@@ -41,9 +65,7 @@ const MyReservationsTableContent = ({
     );
   });
 
-  return (
-    <DataTable columns={myReservationsTableColumns} data={sortedReservations} />
-  );
+  return <DataTable columns={columns} data={sortedReservations} />;
 };
 
 export default MyReservationsTableContent;

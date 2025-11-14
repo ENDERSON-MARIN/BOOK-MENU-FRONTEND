@@ -8,10 +8,15 @@ export function useCancelReservation() {
   return useMutation({
     mutationFn: (id: string) => ReservationService.cancel(id),
     onSuccess: () => {
-      // Invalidate reservations queries to refresh the lists
+      // Invalidate all queries related to reservations and menus
       queryClient.invalidateQueries({ queryKey: ["my-reservations"] });
       queryClient.invalidateQueries({ queryKey: ["reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["menus"] });
+      queryClient.invalidateQueries({ queryKey: ["all-reservations"] });
+      // Invalidate all menu queries to update reservation status
+      queryClient.invalidateQueries({
+        queryKey: ["menus"],
+        refetchType: "all",
+      });
     },
   });
 }

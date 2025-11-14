@@ -9,9 +9,17 @@ interface UseGetMyReservationsParams {
   endDate?: string;
 }
 
-export function useGetMyReservations(params?: UseGetMyReservationsParams) {
+interface UseGetMyReservationsOptions {
+  enabled?: boolean;
+}
+
+export function useGetMyReservations(
+  params?: UseGetMyReservationsParams,
+  options?: UseGetMyReservationsOptions,
+) {
   return useQuery({
     queryKey: ["my-reservations", params],
     queryFn: () => ReservationService.getMyReservations(params),
+    enabled: options?.enabled ?? true,
   });
 }

@@ -10,10 +10,15 @@ export function useCreateReservation() {
     mutationFn: (data: CreateReservationRequest) =>
       ReservationService.create(data),
     onSuccess: () => {
-      // Invalidate reservations queries to refresh the lists
+      // Invalidate all queries related to reservations and menus
       queryClient.invalidateQueries({ queryKey: ["my-reservations"] });
       queryClient.invalidateQueries({ queryKey: ["reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["menus"] });
+      queryClient.invalidateQueries({ queryKey: ["all-reservations"] });
+      // Invalidate all menu queries (including those with parameters)
+      queryClient.invalidateQueries({
+        queryKey: ["menus"],
+        refetchType: "all",
+      });
     },
   });
 }
