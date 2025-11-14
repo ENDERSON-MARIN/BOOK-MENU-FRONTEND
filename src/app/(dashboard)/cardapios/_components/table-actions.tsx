@@ -68,75 +68,77 @@ const MenusTableActions = ({ menu }: MenusTableActionsProps) => {
 
   return (
     <>
-      <Dialog open={upsertDialogIsOpen} onOpenChange={setUpsertDialogIsOpen}>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreVerticalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setDetailsDialogIsOpen(true)}>
-              <EyeIcon className="mr-2 h-4 w-4" />
-              Ver Detalhes
-            </DropdownMenuItem>
-            {isAdmin && (
-              <>
-                <DropdownMenuItem onClick={() => setUpsertDialogIsOpen(true)}>
-                  <EditIcon className="mr-2 h-4 w-4" />
-                  Editar
-                </DropdownMenuItem>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <DropdownMenuItem
-                      onSelect={(e) => e.preventDefault()}
-                      disabled={!isFutureDate}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreVerticalIcon className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Ações</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setDetailsDialogIsOpen(true)}>
+            <EyeIcon className="mr-2 h-4 w-4" />
+            Ver Detalhes
+          </DropdownMenuItem>
+          {isAdmin && (
+            <>
+              <DropdownMenuItem onClick={() => setUpsertDialogIsOpen(true)}>
+                <EditIcon className="mr-2 h-4 w-4" />
+                Editar
+              </DropdownMenuItem>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem
+                    onSelect={(e) => e.preventDefault()}
+                    disabled={!isFutureDate}
+                  >
+                    <TrashIcon className="mr-2 h-4 w-4" />
+                    Excluir
+                    {!isFutureDate && " (data passada)"}
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Tem certeza que deseja deletar esse cardápio?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Essa ação não pode ser revertida. Isso irá deletar o
+                      cardápio permanentemente.
+                      {!isFutureDate && (
+                        <span className="text-destructive mt-2 block">
+                          Atenção: Este cardápio é de uma data passada ou do dia
+                          atual.
+                        </span>
+                      )}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeleteMenuClick}
+                      disabled={isDeletePending || !isFutureDate}
+                      className="text-white"
                     >
-                      <TrashIcon className="mr-2 h-4 w-4" />
-                      Excluir
-                      {!isFutureDate && " (data passada)"}
-                    </DropdownMenuItem>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Tem certeza que deseja deletar esse cardápio?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Essa ação não pode ser revertida. Isso irá deletar o
-                        cardápio permanentemente.
-                        {!isFutureDate && (
-                          <span className="text-destructive mt-2 block">
-                            Atenção: Este cardápio é de uma data passada ou do
-                            dia atual.
-                          </span>
-                        )}
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={handleDeleteMenuClick}
-                        disabled={isDeletePending || !isFutureDate}
-                        className="text-white"
-                      >
-                        {isDeletePending ? "Deletando..." : "Deletar"}
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+                      {isDeletePending ? "Deletando..." : "Deletar"}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-        <MenuFormDialog
-          menu={menu}
-          onSuccess={() => setUpsertDialogIsOpen(false)}
-        />
-      </Dialog>
+      {isAdmin && upsertDialogIsOpen && (
+        <Dialog open={upsertDialogIsOpen} onOpenChange={setUpsertDialogIsOpen}>
+          <MenuFormDialog
+            menu={menu}
+            onSuccess={() => setUpsertDialogIsOpen(false)}
+          />
+        </Dialog>
+      )}
 
       <Dialog open={detailsDialogIsOpen} onOpenChange={setDetailsDialogIsOpen}>
         <MenuDetailsDialog menu={menu} />

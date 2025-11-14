@@ -61,26 +61,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex flex-col gap-4 md:flex-row md:justify-between">
-        <div className="w-full">
-          <Input
-            placeholder="Procure a empresa por nome..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-          />
-        </div>
-        <div className="w-full">
-          <Input
-            placeholder="Procure a empresa por cnpj..."
-            value={(table.getColumn("cnpj")?.getFilterValue() as string) ?? ""}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              table.getColumn("cnpj")?.setFilterValue(event.target.value)
-            }
-          />
-        </div>
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
