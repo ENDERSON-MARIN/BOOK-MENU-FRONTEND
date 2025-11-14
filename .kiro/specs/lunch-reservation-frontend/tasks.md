@@ -302,7 +302,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Usar dayjs para manipulação de datas
   - _Requirements: 7.4, 8.6_
 
-- [ ] 32. Criar modal de criação de reserva
+- [x] 32. Criar modal de criação de reserva
   - Criar `src/app/(dashboard)/cardapios/_components/reservation-form-dialog.tsx`
   - Exibir composição completa do cardápio
   - Implementar seleção de variação com radio buttons (Padrão, Com Ovo)
@@ -312,7 +312,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.6, 7.7_
 
-- [ ] 33. Integrar botão de reserva na visualização de cardápios
+- [-] 33. Integrar botão de reserva na visualização de cardápios
   - Adicionar botão "Fazer Reserva" nos cards de cardápio (se USER)
   - Verificar se usuário já tem reserva para aquela data
   - Exibir "Reserva já realizada" se já existe reserva
