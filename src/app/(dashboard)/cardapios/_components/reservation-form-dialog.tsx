@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Badge } from "@/_components/ui/badge";
-import { Button } from "@/_components/ui/button";
 import {
   DialogContent,
   DialogDescription,
@@ -24,6 +23,7 @@ import {
   FormMessage,
 } from "@/_components/ui/form";
 import { Label } from "@/_components/ui/label";
+import { LoadingButton } from "@/_components/ui/loading-button";
 import { RadioGroup, RadioGroupItem } from "@/_components/ui/radio-group";
 import { Separator } from "@/_components/ui/separator";
 import { useCreateReservation } from "@/_hooks/mutations/use-create-reservation";
@@ -351,23 +351,19 @@ const ReservationFormDialog = ({
               />
 
               <DialogFooter>
-                <Button
+                <LoadingButton
                   type="submit"
                   disabled={
-                    isPending ||
                     !menu.variations ||
                     menu.variations.length === 0 ||
                     !form.watch("menuVariationId")
                   }
+                  isLoading={isPending}
+                  loadingText="Criando reserva..."
                   className="w-full text-white"
-                  onClick={() => {
-                    console.log("Button clicked");
-                    console.log("Form values:", form.getValues());
-                    console.log("Form errors:", form.formState.errors);
-                  }}
                 >
-                  {isPending ? "Criando reserva..." : "Confirmar Reserva"}
-                </Button>
+                  Confirmar Reserva
+                </LoadingButton>
               </DialogFooter>
             </form>
           </Form>

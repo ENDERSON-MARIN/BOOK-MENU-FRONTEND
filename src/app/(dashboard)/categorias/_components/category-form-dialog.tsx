@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/_components/ui/button";
 import {
   DialogContent,
   DialogDescription,
@@ -13,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/_components/ui/dialog";
+import { LoadingButton } from "@/_components/ui/loading-button";
 import {
   Form,
   FormControl,
@@ -212,15 +212,14 @@ const CategoryFormDialog = ({
           />
 
           <DialogFooter>
-            <Button className="text-white" type="submit" disabled={isPending}>
-              {isPending
-                ? isEditing
-                  ? "Atualizando..."
-                  : "Criando..."
-                : isEditing
-                  ? "Atualizar"
-                  : "Criar"}
-            </Button>
+            <LoadingButton
+              className="text-white"
+              type="submit"
+              isLoading={isPending}
+              loadingText={isEditing ? "Atualizando..." : "Criando..."}
+            >
+              {isEditing ? "Atualizar" : "Criar"}
+            </LoadingButton>
           </DialogFooter>
         </form>
       </Form>

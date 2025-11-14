@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Badge } from "@/_components/ui/badge";
-import { Button } from "@/_components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +24,7 @@ import {
   FormMessage,
 } from "@/_components/ui/form";
 import { Label } from "@/_components/ui/label";
+import { LoadingButton } from "@/_components/ui/loading-button";
 import { RadioGroup, RadioGroupItem } from "@/_components/ui/radio-group";
 import { Separator } from "@/_components/ui/separator";
 import { useUpdateReservation } from "@/_hooks/mutations/use-update-reservation";
@@ -298,13 +298,15 @@ const ChangeVariationDialog = ({
                 />
 
                 <DialogFooter>
-                  <Button
+                  <LoadingButton
                     type="submit"
-                    disabled={isPending || availableVariations.length === 0}
+                    disabled={availableVariations.length === 0}
+                    isLoading={isPending}
+                    loadingText="Alterando..."
                     className="w-full text-white sm:w-auto"
                   >
-                    {isPending ? "Alterando..." : "Confirmar Alteração"}
-                  </Button>
+                    Confirmar Alteração
+                  </LoadingButton>
                 </DialogFooter>
               </form>
             </Form>

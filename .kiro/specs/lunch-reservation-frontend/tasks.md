@@ -380,14 +380,14 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 11: Melhorias de UX e Responsividade
 
-- [-] 40. Implementar loading states e skeletons
+- [x] 40. Implementar loading states e skeletons
   - Criar componentes skeleton para tabelas
   - Criar componentes skeleton para cards de cardápio
   - Adicionar spinners em botões durante submissão
   - Usar Suspense boundaries onde apropriado
   - _Requirements: 9.3_
 
-- [ ] 41. Implementar toast notifications
+- [-] 41. Implementar toast notifications
   - Configurar sonner para exibir toasts
   - Padronizar mensagens de sucesso/erro
   - Adicionar toasts em todas as operações CRUD
