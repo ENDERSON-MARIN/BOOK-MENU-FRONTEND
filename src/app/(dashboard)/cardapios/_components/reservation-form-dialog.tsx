@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, ClockIcon, InfoIcon } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -73,31 +73,59 @@ const ReservationFormDialog = ({
     return defaultVar || menu.variations[0];
   }, [menu.variations]);
 
+  // Convert menu.date to YYYY-MM-DD format if it's in ISO format
+  const formattedMenuDate = useMemo(() => {
+    if (menu.date.includes("T")) {
+      // If date is in ISO format, extract just the date part
+      return menu.date.split("T")[0];
+    }
+    return menu.date;
+  }, [menu.date]);
+
   const form = useForm<ReservationFormValues>({
     resolver: zodResolver(reservationFormSchema),
     defaultValues: {
       menuId: menu.id,
       menuVariationId: defaultVariation?.id || "",
-      reservationDate: menu.date,
+      reservationDate: formattedMenuDate,
     },
   });
+
+  // Update form when default variation changes
+  useEffect(() => {
+    if (defaultVariation?.id) {
+      form.setValue("menuVariationId", defaultVariation.id);
+    }
+  }, [defaultVariation, form]);
 
   const { mutate: createReservation, isPending } = useCreateReservation();
 
   const onSubmit = (data: ReservationFormValues) => {
+    console.log("Submitting reservation:", data);
+
     // Double-check cutoff time before submitting
     if (!isBeforeCutoff) {
       toast.error("Prazo para reservas encerrado (até 8:30 AM)");
       return;
     }
 
-    createReservation(data, {
+    // Convert date to ISO 8601 format with timestamp
+    const reservationData = {
+      ...data,
+      reservationDate: new Date(data.reservationDate).toISOString(),
+    };
+
+    console.log("Formatted reservation data:", reservationData);
+
+    createReservation(reservationData, {
       onSuccess: () => {
+        console.log("Reservation created successfully");
         toast.success("Reserva criada com sucesso!");
         form.reset();
         onSuccess();
       },
       onError: (error: Error) => {
+        console.error("Error creating reservation:", error);
         const errorMessage = error?.message || "Erro ao criar reserva.";
         toast.error(errorMessage);
       },
@@ -328,9 +356,15 @@ const ReservationFormDialog = ({
                   disabled={
                     isPending ||
                     !menu.variations ||
-                    menu.variations.length === 0
+                    menu.variations.length === 0 ||
+                    !form.watch("menuVariationId")
                   }
                   className="w-full text-white sm:w-auto"
+                  onClick={() => {
+                    console.log("Button clicked");
+                    console.log("Form values:", form.getValues());
+                    console.log("Form errors:", form.formState.errors);
+                  }}
                 >
                   {isPending ? "Criando reserva..." : "Confirmar Reserva"}
                 </Button>

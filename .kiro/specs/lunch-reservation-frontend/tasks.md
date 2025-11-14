@@ -331,7 +331,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Desabilitar ações se prazo expirado
   - _Requirements: 8.1, 8.2, 8.7, 8.8_
 
-- [ ] 35. Criar modal de alteração de variação
+- [x] 35. Criar modal de alteração de variação
   - Criar `src/app/(dashboard)/minhas-reservas/_components/change-variation-dialog.tsx`
   - Exibir variações disponíveis com radio buttons
   - Marcar variação atual como selecionada

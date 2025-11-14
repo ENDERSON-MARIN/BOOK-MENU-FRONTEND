@@ -1,5 +1,11 @@
-import { EditIcon, EyeIcon, MoreVerticalIcon, TrashIcon } from "lucide-react";
-import { useState } from "react";
+import {
+  CalendarCheckIcon,
+  EditIcon,
+  EyeIcon,
+  MoreVerticalIcon,
+  TrashIcon,
+} from "lucide-react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -24,12 +30,17 @@ import {
   DropdownMenuTrigger,
 } from "@/_components/ui/dropdown-menu";
 import { useDeleteMenu } from "@/_hooks/mutations/use-delete-menu";
+import { useGetMyReservations } from "@/_hooks/queries/use-get-my-reservations";
 import { useAuth } from "@/_hooks/use-auth";
-import { isFutureDate as checkIsFutureDate } from "@/_lib/date-utils";
+import {
+  isBeforeCutoffTime,
+  isFutureDate as checkIsFutureDate,
+} from "@/_lib/date-utils";
 import { Menu } from "@/_types/menu";
 
 import MenuDetailsDialog from "./menu-details-dialog";
 import MenuFormDialog from "./menu-form-dialog";
+import ReservationFormDialog from "./reservation-form-dialog";
 
 interface MenusTableActionsProps {
   menu: Menu;
@@ -38,12 +49,33 @@ interface MenusTableActionsProps {
 const MenusTableActions = ({ menu }: MenusTableActionsProps) => {
   const [upsertDialogIsOpen, setUpsertDialogIsOpen] = useState(false);
   const [detailsDialogIsOpen, setDetailsDialogIsOpen] = useState(false);
+  const [reservationDialogIsOpen, setReservationDialogIsOpen] = useState(false);
   const { user } = useAuth();
   const isAdmin = user?.role === "ADMIN";
+  const isUser = user?.role === "USER";
 
   const { mutate: deleteMenu, isPending: isDeletePending } = useDeleteMenu();
 
+  // Fetch user reservations to check if already has reservation for this menu
+  const { data: myReservations } = useGetMyReservations({
+    status: "ACTIVE",
+  });
+
   const isFutureDate = checkIsFutureDate(menu.date);
+
+  // Check if user already has a reservation for this menu
+  const hasReservation = useMemo(() => {
+    if (!myReservations || !isUser) return false;
+    return myReservations.some(
+      (reservation) =>
+        reservation.menuId === menu.id && reservation.status === "ACTIVE",
+    );
+  }, [myReservations, menu.id, isUser]);
+
+  // Check if reservation deadline has passed (8:30 AM)
+  const isBeforeCutoff = useMemo(() => {
+    return isBeforeCutoffTime(menu.date);
+  }, [menu.date]);
 
   const handleDeleteMenuClick = () => {
     if (!isFutureDate) {
@@ -81,6 +113,21 @@ const MenusTableActions = ({ menu }: MenusTableActionsProps) => {
             <EyeIcon className="mr-2 h-4 w-4" />
             Ver Detalhes
           </DropdownMenuItem>
+
+          {isUser && (
+            <DropdownMenuItem
+              onClick={() => setReservationDialogIsOpen(true)}
+              disabled={hasReservation || !isBeforeCutoff}
+            >
+              <CalendarCheckIcon className="mr-2 h-4 w-4" />
+              {hasReservation
+                ? "Reserva já realizada"
+                : !isBeforeCutoff
+                  ? "Prazo expirado"
+                  : "Fazer Reserva"}
+            </DropdownMenuItem>
+          )}
+
           {isAdmin && (
             <>
               <DropdownMenuItem onClick={() => setUpsertDialogIsOpen(true)}>
@@ -143,6 +190,18 @@ const MenusTableActions = ({ menu }: MenusTableActionsProps) => {
       <Dialog open={detailsDialogIsOpen} onOpenChange={setDetailsDialogIsOpen}>
         <MenuDetailsDialog menu={menu} />
       </Dialog>
+
+      {isUser && (
+        <Dialog
+          open={reservationDialogIsOpen}
+          onOpenChange={setReservationDialogIsOpen}
+        >
+          <ReservationFormDialog
+            menu={menu}
+            onSuccess={() => setReservationDialogIsOpen(false)}
+          />
+        </Dialog>
+      )}
     </>
   );
 };

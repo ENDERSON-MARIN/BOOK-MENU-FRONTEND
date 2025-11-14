@@ -29,6 +29,8 @@ import { useCancelReservation } from "@/_hooks/mutations/use-cancel-reservation"
 import { isBeforeCutoffTime } from "@/_lib/date-utils";
 import { Reservation } from "@/_types/reservation";
 
+import ChangeVariationDialog from "./change-variation-dialog";
+
 interface MyReservationsTableActionsProps {
   reservation: Reservation;
 }
@@ -37,6 +39,8 @@ const MyReservationsTableActions = ({
   reservation,
 }: MyReservationsTableActionsProps) => {
   const [detailsDialogIsOpen, setDetailsDialogIsOpen] = useState(false);
+  const [changeVariationDialogIsOpen, setChangeVariationDialogIsOpen] =
+    useState(false);
 
   const { mutate: cancelReservation, isPending: isCancelPending } =
     useCancelReservation();
@@ -74,7 +78,10 @@ const MyReservationsTableActions = ({
               <EyeIcon className="mr-2 h-4 w-4" />
               Ver Detalhes
             </DropdownMenuItem>
-            <DropdownMenuItem disabled={!canModify}>
+            <DropdownMenuItem
+              disabled={!canModify}
+              onClick={() => setChangeVariationDialogIsOpen(true)}
+            >
               <RefreshCwIcon className="mr-2 h-4 w-4" />
               Alterar Variação
             </DropdownMenuItem>
@@ -112,9 +119,20 @@ const MyReservationsTableActions = ({
             </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* TODO: Implement details dialog in future task */}
       </Dialog>
 
-      {/* TODO: Implement details and change variation dialogs in future tasks */}
+      {/* Change Variation Dialog */}
+      <Dialog
+        open={changeVariationDialogIsOpen}
+        onOpenChange={setChangeVariationDialogIsOpen}
+      >
+        <ChangeVariationDialog
+          reservation={reservation}
+          onSuccess={() => setChangeVariationDialogIsOpen(false)}
+        />
+      </Dialog>
     </>
   );
 };
