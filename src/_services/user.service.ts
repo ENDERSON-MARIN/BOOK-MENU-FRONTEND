@@ -3,16 +3,42 @@ import type {
   CreateUserRequest,
   UpdateUserRequest,
   User,
+  UserRole,
   UserStatus,
+  UserType,
 } from "@/_types/user";
 
+interface GetUsersParams {
+  status?: UserStatus;
+  role?: UserRole;
+  userType?: UserType;
+}
+
 export const UserService = {
-  async getAll(): Promise<User[]> {
+  async getAll(params?: GetUsersParams): Promise<User[]> {
     // A API só suporta o parâmetro includeInactive
     // Filtragem por status, role e userType deve ser feita no frontend
     const endpoint = "/lunch-reservation/users?includeInactive=true";
 
-    return apiClient<User[]>(endpoint);
+    const users = await apiClient<User[]>(endpoint);
+
+    // Apply client-side filtering
+    if (!params) {
+      return users;
+    }
+
+    return users.filter((user) => {
+      if (params.status && user.status !== params.status) {
+        return false;
+      }
+      if (params.role && user.role !== params.role) {
+        return false;
+      }
+      if (params.userType && user.userType !== params.userType) {
+        return false;
+      }
+      return true;
+    });
   },
 
   async getById(id: string): Promise<User> {

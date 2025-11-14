@@ -47,16 +47,14 @@ export function AdminDashboard() {
       startDate: today,
     });
 
-  const { data: recentReservations, isLoading: isLoadingRecent } =
-    useGetAllReservations({
-      startDate: dayjs().subtract(7, "days").format("YYYY-MM-DD"),
-      endDate: today,
-    });
+  const { data: allReservationsForStats, isLoading: isLoadingCancelled } =
+    useGetAllReservations();
 
   const activeReservations =
     allReservations?.filter((res) => res.status === "ACTIVE") || [];
+
   const cancelledReservations =
-    recentReservations?.filter((res) => res.status === "CANCELLED") || [];
+    allReservationsForStats?.filter((res) => res.status === "CANCELLED") || [];
 
   return (
     <div className="space-y-6">
@@ -94,13 +92,15 @@ export function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {isLoadingRecent ? (
+              {isLoadingCancelled ? (
                 <div className="bg-muted h-8 w-12 animate-pulse rounded" />
               ) : (
                 cancelledReservations.length
               )}
             </div>
-            <p className="text-muted-foreground text-xs">Últimos 7 dias</p>
+            <p className="text-muted-foreground text-xs">
+              Total de cancelamentos
+            </p>
           </CardContent>
         </Card>
 

@@ -366,7 +366,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Implementar paginação
   - _Requirements: 10.2_
 
-- [-] 39. Criar página de todas as reservas
+- [x] 39. Criar página de todas as reservas
   - Criar `src/app/(dashboard)/reservas/page.tsx` protegida com role ADMIN
   - Criar `src/app/(dashboard)/reservas/_components/all-reservations-table.tsx`
   - Implementar colunas: Usuário (nome + CPF), Data, Cardápio (resumo), Variação, Status, Auto
@@ -380,7 +380,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 11: Melhorias de UX e Responsividade
 
-- [ ] 40. Implementar loading states e skeletons
+- [-] 40. Implementar loading states e skeletons
   - Criar componentes skeleton para tabelas
   - Criar componentes skeleton para cards de cardápio
   - Adicionar spinners em botões durante submissão
