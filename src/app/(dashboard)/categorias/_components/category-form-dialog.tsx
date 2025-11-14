@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/_components/ui/button";
 import {
   DialogContent,
   DialogDescription,
@@ -22,6 +21,7 @@ import {
   FormMessage,
 } from "@/_components/ui/form";
 import { Input } from "@/_components/ui/input";
+import { LoadingButton } from "@/_components/ui/loading-button";
 import { Textarea } from "@/_components/ui/textarea";
 import { useCreateCategory } from "@/_hooks/mutations/use-create-category";
 import { useUpdateCategory } from "@/_hooks/mutations/use-update-category";
@@ -44,6 +44,7 @@ const CategoryFormDialog = ({
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
+    mode: "onChange",
     defaultValues: {
       name: category?.name || "",
       description: category?.description || "",
@@ -212,15 +213,15 @@ const CategoryFormDialog = ({
           />
 
           <DialogFooter>
-            <Button className="text-white" type="submit" disabled={isPending}>
-              {isPending
-                ? isEditing
-                  ? "Atualizando..."
-                  : "Criando..."
-                : isEditing
-                  ? "Atualizar"
-                  : "Criar"}
-            </Button>
+            <LoadingButton
+              className="w-full text-white"
+              type="submit"
+              isLoading={isPending}
+              disabled={isPending || !form.formState.isValid}
+              loadingText={isEditing ? "Atualizando..." : "Criando..."}
+            >
+              {isEditing ? "Atualizar" : "Criar"}
+            </LoadingButton>
           </DialogFooter>
         </form>
       </Form>

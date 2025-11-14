@@ -26,12 +26,16 @@ import {
 } from "@/_components/ui/table";
 import { useGetMenuItems } from "@/_hooks/queries/use-get-menu-items";
 import { useGetMenus } from "@/_hooks/queries/use-get-menus";
+import { useGetMyReservations } from "@/_hooks/queries/use-get-my-reservations";
+import { useAuth } from "@/_hooks/use-auth";
 import type { DayOfWeek } from "@/_types/menu";
 
 import MenusTableContent from "./menus-table-content";
-import { menusTableColumns } from "./table-columns";
+import { adminMenusTableColumns, menusTableColumns } from "./table-columns";
 
 const MenusTable = () => {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
   const [dayOfWeekFilter, setDayOfWeekFilter] = useState<DayOfWeek | "ALL">(
     "ALL",
   );
@@ -55,14 +59,40 @@ const MenusTable = () => {
   // Fetch menu items to enrich menu compositions
   const { data: allMenuItems } = useGetMenuItems();
 
-  // Enrich menus with menu item data
+  // Fetch user reservations (only for non-admin users)
+  const { data: userReservations } = useGetMyReservations(
+    {
+      startDate,
+      endDate,
+    },
+    { enabled: !isAdmin },
+  );
+
+  // Create a map of reservations by menuId (only for non-admin users)
+  const reservationsByMenuId = !isAdmin
+    ? userReservations?.reduce(
+        (acc, reservation) => {
+          acc[reservation.menuId] = reservation;
+          return acc;
+        },
+        {} as Record<string, (typeof userReservations)[0]>,
+      )
+    : undefined;
+
+  // Enrich menus with menu item data and reservation status
   const enrichedMenus = allMenus?.map((menu) => {
+    const reservation = reservationsByMenuId?.[menu.id];
+
     if (!menu.menuCompositions || !allMenuItems) {
-      return menu;
+      return {
+        ...menu,
+        userReservation: reservation,
+      };
     }
 
     return {
       ...menu,
+      userReservation: reservation,
       menuCompositions: menu.menuCompositions.map((comp) => {
         if (comp.menuItem?.name) {
           return comp;
@@ -281,7 +311,10 @@ const MenusTable = () => {
         </Select>
       </div>
 
-      <MenusTableContent data={menus || []} columns={menusTableColumns} />
+      <MenusTableContent
+        data={menus || []}
+        columns={isAdmin ? adminMenusTableColumns : menusTableColumns}
+      />
     </div>
   );
 };

@@ -35,6 +35,7 @@ import {
   FormMessage,
 } from "@/_components/ui/form";
 import { Input } from "@/_components/ui/input";
+import { LoadingButton } from "@/_components/ui/loading-button";
 import {
   Popover,
   PopoverContent,
@@ -89,6 +90,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
 
   const form = useForm<MenuFormValues>({
     resolver: zodResolver(menuFormSchema),
+    mode: "onChange",
     defaultValues: {
       date: menu?.date || "",
       dayOfWeek: menu?.dayOfWeek || "MONDAY",
@@ -724,19 +726,17 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
           )}
 
           <DialogFooter>
-            <Button
+            <LoadingButton
               className="w-full text-white"
               type="submit"
-              disabled={isPending || selectedItems.size === 0}
+              disabled={
+                selectedItems.size === 0 || isPending || !form.formState.isValid
+              }
+              isLoading={isPending}
+              loadingText={isEditing ? "Atualizando..." : "Criando..."}
             >
-              {isPending
-                ? isEditing
-                  ? "Atualizando..."
-                  : "Criando..."
-                : isEditing
-                  ? "Atualizar"
-                  : "Criar"}
-            </Button>
+              {isEditing ? "Atualizar" : "Criar"}
+            </LoadingButton>
           </DialogFooter>
         </form>
       </Form>

@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
+import { toastMessages } from "@/_lib/toast-messages";
 import { UserService } from "@/_services/user.service";
 import type { UpdateUserRequest } from "@/_types/user";
 
@@ -16,6 +18,10 @@ export function useUpdateUser() {
       UserService.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success(toastMessages.user.updateSuccess);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || toastMessages.user.updateError);
     },
   });
 }

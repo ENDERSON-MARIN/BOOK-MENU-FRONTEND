@@ -14,9 +14,10 @@ export const CreateCategoryButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="text-white">
+        <Button className="w-full text-white sm:w-auto">
           <PlusIcon className="mr-2 h-4 w-4" />
-          Nova Categoria
+          <span className="hidden sm:inline">Nova Categoria</span>
+          <span className="sm:hidden">Nova</span>
         </Button>
       </DialogTrigger>
       <CategoryFormDialog onSuccess={() => setIsOpen(false)} />

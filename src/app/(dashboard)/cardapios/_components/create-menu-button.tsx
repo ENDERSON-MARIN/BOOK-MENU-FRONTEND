@@ -20,9 +20,10 @@ export const CreateMenuButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="text-white">
+        <Button className="w-full text-white sm:w-auto">
           <PlusIcon className="mr-2 h-4 w-4" />
-          Novo Cardápio
+          <span className="hidden sm:inline">Novo Cardápio</span>
+          <span className="sm:hidden">Novo</span>
         </Button>
       </DialogTrigger>
       <MenuFormDialog onSuccess={() => setIsOpen(false)} />

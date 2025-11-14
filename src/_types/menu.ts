@@ -37,6 +37,10 @@ export interface Menu {
   variations: MenuVariation[];
   createdAt: string;
   updatedAt: string;
+  userReservation?: {
+    id: string;
+    status: "ACTIVE" | "CANCELLED";
+  };
 }
 
 export interface CreateMenuRequest {

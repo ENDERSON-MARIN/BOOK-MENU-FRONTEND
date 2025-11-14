@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
+import { toastMessages } from "@/_lib/toast-messages";
 import { ReservationService } from "@/_services/reservation.service";
 import type { UpdateReservationRequest } from "@/_types/reservation";
 
@@ -15,10 +17,20 @@ export function useUpdateReservation() {
     mutationFn: ({ id, data }: UseUpdateReservationParams) =>
       ReservationService.update(id, data),
     onSuccess: () => {
-      // Invalidate reservations queries to refresh the lists
+      // Invalidate all queries related to reservations and menus
       queryClient.invalidateQueries({ queryKey: ["my-reservations"] });
       queryClient.invalidateQueries({ queryKey: ["reservations"] });
+      queryClient.invalidateQueries({ queryKey: ["all-reservations"] });
       queryClient.invalidateQueries({ queryKey: ["reservation"] });
+      // Invalidate all menu queries to update reservation status
+      queryClient.invalidateQueries({
+        queryKey: ["menus"],
+        refetchType: "all",
+      });
+      toast.success(toastMessages.reservation.updateSuccess);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || toastMessages.reservation.updateError);
     },
   });
 }

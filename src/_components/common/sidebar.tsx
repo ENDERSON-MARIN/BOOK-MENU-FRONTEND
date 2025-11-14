@@ -69,7 +69,7 @@ const navItems: NavItem[] = [
   },
   {
     title: "Minhas Reservas",
-    href: "/reservas",
+    href: "/minhas-reservas",
     icon: BookOpen,
     roles: ["USER"],
   },
@@ -95,16 +95,8 @@ export function Sidebar({ onClose }: SidebarProps) {
       {/* Logo and Close Button (Mobile) */}
       <div className="flex h-16 items-center justify-between border-b px-6">
         <div className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="size-10"
-            quality={100}
-            priority
-          />
-          <span className="text-lg font-semibold">Reservas</span>
+          <Image src="/logo.png" alt="Logo" width={80} height={40} />
+          <span className="text-md font-bold">BookingMenu</span>
         </div>
         {onClose && (
           <button

@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/_components/ui/button";
 import {
   DialogContent,
   DialogDescription,
@@ -22,6 +21,7 @@ import {
   FormMessage,
 } from "@/_components/ui/form";
 import { Input } from "@/_components/ui/input";
+import { LoadingButton } from "@/_components/ui/loading-button";
 import {
   Select,
   SelectContent,
@@ -52,6 +52,7 @@ const MenuItemFormDialog = ({
 
   const form = useForm<MenuItemFormValues>({
     resolver: zodResolver(menuItemFormSchema),
+    mode: "onChange",
     defaultValues: {
       name: menuItem?.name || "",
       description: menuItem?.description || "",
@@ -223,19 +224,15 @@ const MenuItemFormDialog = ({
           />
 
           <DialogFooter>
-            <Button
+            <LoadingButton
               className="w-full text-white"
               type="submit"
-              disabled={isPending}
+              isLoading={isPending}
+              disabled={isPending || !form.formState.isValid}
+              loadingText={isEditing ? "Atualizando..." : "Criando..."}
             >
-              {isPending
-                ? isEditing
-                  ? "Atualizando..."
-                  : "Criando..."
-                : isEditing
-                  ? "Atualizar"
-                  : "Criar"}
-            </Button>
+              {isEditing ? "Atualizar" : "Criar"}
+            </LoadingButton>
           </DialogFooter>
         </form>
       </Form>

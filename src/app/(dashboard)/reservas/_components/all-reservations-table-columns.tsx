@@ -8,8 +8,6 @@ import { Button } from "@/_components/ui/button";
 import { formatDateBR } from "@/_lib/date-utils";
 import { Reservation } from "@/_types/reservation";
 
-import MyReservationsTableActions from "./table-actions";
-
 const statusLabels: Record<string, string> = {
   ACTIVE: "Ativa",
   CANCELLED: "Cancelada",
@@ -20,43 +18,42 @@ const statusVariants: Record<string, "default" | "destructive"> = {
   CANCELLED: "destructive",
 };
 
-const userColumn: ColumnDef<Reservation> = {
-  id: "user",
-  header: ({ column }) => {
-    return (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Usuário
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    );
-  },
-  cell: ({ row }) => {
-    const reservation = row.original;
-    if (!reservation.user) {
+export const allReservationsTableColumns: ColumnDef<Reservation>[] = [
+  {
+    id: "user",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Usuário
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const reservation = row.original;
+      if (!reservation.user) {
+        return (
+          <div className="flex flex-col">
+            <span className="text-muted-foreground text-sm">
+              ID: {reservation.userId}
+            </span>
+          </div>
+        );
+      }
       return (
         <div className="flex flex-col">
+          <span className="font-medium">{reservation.user.name}</span>
           <span className="text-muted-foreground text-sm">
-            ID: {reservation.userId}
+            CPF: {reservation.user.cpf}
           </span>
         </div>
       );
-    }
-    return (
-      <div className="flex flex-col">
-        <span className="font-medium">{reservation.user.name}</span>
-        <span className="text-muted-foreground text-sm">
-          CPF: {reservation.user.cpf}
-        </span>
-      </div>
-    );
+    },
+    accessorFn: (row) => row.user?.name || row.userId,
   },
-  accessorFn: (row) => row.user?.name || row.userId,
-};
-
-const baseColumns: ColumnDef<Reservation>[] = [
   {
     id: "reservationDate",
     accessorKey: "reservationDate",
@@ -152,21 +149,4 @@ const baseColumns: ColumnDef<Reservation>[] = [
       ) : null;
     },
   },
-  {
-    id: "actions",
-    header: "Ações",
-    cell: (params) => {
-      const reservation = params.row.original;
-      return <MyReservationsTableActions reservation={reservation} />;
-    },
-  },
-];
-
-// Columns for regular users (without user column)
-export const myReservationsTableColumns: ColumnDef<Reservation>[] = baseColumns;
-
-// Columns for admins (with user column)
-export const adminReservationsTableColumns: ColumnDef<Reservation>[] = [
-  userColumn,
-  ...baseColumns,
 ];

@@ -14,9 +14,10 @@ export const CreateMenuItemButton = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="text-white">
+        <Button className="w-full text-white sm:w-auto">
           <PlusIcon className="mr-2 h-4 w-4" />
-          Novo Item
+          <span className="hidden sm:inline">Novo Item</span>
+          <span className="sm:hidden">Novo</span>
         </Button>
       </DialogTrigger>
       <MenuItemFormDialog onSuccess={() => setIsOpen(false)} />

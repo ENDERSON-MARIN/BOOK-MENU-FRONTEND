@@ -320,9 +320,10 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Abrir modal de criação de reserva ao clicar
   - _Requirements: 7.1, 7.4, 7.5_
 
-- [x] 34. Criar página de minhas reservas
+- [x] 34. Criar página de minhas reservas ✅
   - Criar `src/app/(dashboard)/minhas-reservas/page.tsx` (acessível para USER e ADMIN)
-  - Criar `src/app/(dashboard)/minhas-reservas/_components/my-reservations-table.tsx`
+  - Reutilizar componentes existentes de `reservas/_components/my-reservations-table.tsx`
+  - Atualizar sidebar para apontar USER para `/minhas-reservas` ao invés de `/reservas`
   - Implementar colunas: Data, Cardápio (resumo), Variação, Status, Auto, Ações
   - Adicionar badge "Auto" para reservas geradas automaticamente
   - Adicionar filtros: Status, Período (date range)
@@ -348,7 +349,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir data de criação e última atualização
   - _Requirements: 8.2_
 
-- [ ] 37. Implementar cancelamento de reserva
+- [x] 37. Implementar cancelamento de reserva
   - Adicionar botão "Cancelar Reserva" na tabela e no modal de detalhes
   - Exibir dialog de confirmação
   - Validar horário limite (desabilitar se após 8:30 AM)
@@ -361,12 +362,12 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 10: Gerenciamento de Todas as Reservas (Admin)
 
-- [ ] 38. Criar hooks Tanstack Query para todas as reservas
+- [x] 38. Criar hooks Tanstack Query para todas as reservas
   - Criar `src/_hooks/queries/use-get-all-reservations.ts` com filtros (status, startDate, endDate, userId)
   - Implementar paginação
   - _Requirements: 10.2_
 
-- [ ] 39. Criar página de todas as reservas
+- [x] 39. Criar página de todas as reservas
   - Criar `src/app/(dashboard)/reservas/page.tsx` protegida com role ADMIN
   - Criar `src/app/(dashboard)/reservas/_components/all-reservations-table.tsx`
   - Implementar colunas: Usuário (nome + CPF), Data, Cardápio (resumo), Variação, Status, Auto
@@ -380,28 +381,29 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 11: Melhorias de UX e Responsividade
 
-- [ ] 40. Implementar loading states e skeletons
+- [x] 40. Implementar loading states e skeletons
   - Criar componentes skeleton para tabelas
   - Criar componentes skeleton para cards de cardápio
   - Adicionar spinners em botões durante submissão
   - Usar Suspense boundaries onde apropriado
   - _Requirements: 9.3_
 
-- [ ] 41. Implementar toast notifications
+- [x] 41. Implementar toast notifications
   - Configurar sonner para exibir toasts
+
   - Padronizar mensagens de sucesso/erro
   - Adicionar toasts em todas as operações CRUD
   - Adicionar toasts para erros de validação da API
   - _Requirements: 9.4_
 
-- [ ] 42. Implementar validação de formulários em tempo real
+- [x] 42. Implementar validação de formulários em tempo real
   - Configurar React Hook Form para validação onChange
   - Exibir erros inline abaixo dos campos
   - Desabilitar botão de submit enquanto há erros
   - Adicionar feedback visual (bordas vermelhas/verdes)
   - _Requirements: 9.5_
 
-- [ ] 43. Otimizar responsividade mobile
+- [x] 43. Otimizar responsividade mobile
   - Testar todas as páginas em viewport 320px+
   - Ajustar tabelas para scroll horizontal em mobile
   - Implementar menu hamburguer para sidebar em mobile
@@ -409,11 +411,12 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Testar formulários em mobile (teclado virtual)
   - _Requirements: 9.1_
 
-- [ ] 44. Implementar dark mode
+- [x] 44. Implementar dark mode
   - Configurar next-themes provider
   - Adicionar toggle no header
   - Testar todos os componentes em dark mode
   - Ajustar cores para contraste adequado
+  - Implement Cores da empresa no APP: #1b994b #e4e30d
   - _Requirements: 9.7_
 
 ---
