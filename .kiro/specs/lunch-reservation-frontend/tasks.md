@@ -340,7 +340,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 8.3, 8.4, 8.6_
 
-- [ ] 36. Criar modal de detalhes da reserva
+- [x] 36. Criar modal de detalhes da reserva
   - Criar `src/app/(dashboard)/minhas-reservas/_components/reservation-details-dialog.tsx`
   - Exibir data, status e se foi gerada automaticamente
   - Exibir cardápio completo organizado por categoria

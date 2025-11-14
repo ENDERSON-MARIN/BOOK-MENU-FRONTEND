@@ -30,6 +30,7 @@ import { isBeforeCutoffTime } from "@/_lib/date-utils";
 import { Reservation } from "@/_types/reservation";
 
 import ChangeVariationDialog from "./change-variation-dialog";
+import ReservationDetailsDialog from "./reservation-details-dialog";
 
 interface MyReservationsTableActionsProps {
   reservation: Reservation;
@@ -120,7 +121,7 @@ const MyReservationsTableActions = ({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* TODO: Implement details dialog in future task */}
+        <ReservationDetailsDialog reservation={reservation} />
       </Dialog>
 
       {/* Change Variation Dialog */}
