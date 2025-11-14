@@ -1,7 +1,11 @@
 "use client";
 
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { useState } from "react";
+
+// Extend dayjs with UTC plugin
+dayjs.extend(utc);
 
 import { Input } from "@/_components/ui/input";
 import {
@@ -78,7 +82,7 @@ const MenusTable = () => {
   const menus = enrichedMenus?.filter((menu) => {
     if (dateFilter) {
       // Compare only the date part (YYYY-MM-DD) ignoring time
-      const menuDate = dayjs(menu.date).format("YYYY-MM-DD");
+      const menuDate = dayjs.utc(menu.date).format("YYYY-MM-DD");
       if (menuDate !== dateFilter) {
         return false;
       }

@@ -3,7 +3,7 @@ import type { LoginRequest, LoginResponse } from "@/_types/auth";
 
 export const AuthService = {
   async login(data: LoginRequest): Promise<LoginResponse> {
-    return apiClient<LoginResponse>("/auth/login", {
+    return apiClient<LoginResponse>("/lunch-reservation/auth/login", {
       method: "POST",
       body: JSON.stringify(data),
     });

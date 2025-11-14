@@ -302,7 +302,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Usar dayjs para manipulação de datas
   - _Requirements: 7.4, 8.6_
 
-- [ ] 32. Criar modal de criação de reserva
+- [x] 32. Criar modal de criação de reserva
   - Criar `src/app/(dashboard)/cardapios/_components/reservation-form-dialog.tsx`
   - Exibir composição completa do cardápio
   - Implementar seleção de variação com radio buttons (Padrão, Com Ovo)
@@ -312,7 +312,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.6, 7.7_
 
-- [ ] 33. Integrar botão de reserva na visualização de cardápios
+- [x] 33. Integrar botão de reserva na visualização de cardápios
   - Adicionar botão "Fazer Reserva" nos cards de cardápio (se USER)
   - Verificar se usuário já tem reserva para aquela data
   - Exibir "Reserva já realizada" se já existe reserva
@@ -320,7 +320,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Abrir modal de criação de reserva ao clicar
   - _Requirements: 7.1, 7.4, 7.5_
 
-- [ ] 34. Criar página de minhas reservas
+- [x] 34. Criar página de minhas reservas
   - Criar `src/app/(dashboard)/minhas-reservas/page.tsx` (acessível para USER e ADMIN)
   - Criar `src/app/(dashboard)/minhas-reservas/_components/my-reservations-table.tsx`
   - Implementar colunas: Data, Cardápio (resumo), Variação, Status, Auto, Ações
@@ -331,7 +331,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Desabilitar ações se prazo expirado
   - _Requirements: 8.1, 8.2, 8.7, 8.8_
 
-- [ ] 35. Criar modal de alteração de variação
+- [x] 35. Criar modal de alteração de variação
   - Criar `src/app/(dashboard)/minhas-reservas/_components/change-variation-dialog.tsx`
   - Exibir variações disponíveis com radio buttons
   - Marcar variação atual como selecionada
@@ -340,7 +340,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Exibir toast de sucesso/erro
   - _Requirements: 8.3, 8.4, 8.6_
 
-- [ ] 36. Criar modal de detalhes da reserva
+- [x] 36. Criar modal de detalhes da reserva
   - Criar `src/app/(dashboard)/minhas-reservas/_components/reservation-details-dialog.tsx`
   - Exibir data, status e se foi gerada automaticamente
   - Exibir cardápio completo organizado por categoria

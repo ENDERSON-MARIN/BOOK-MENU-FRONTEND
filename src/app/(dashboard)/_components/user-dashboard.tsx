@@ -14,6 +14,7 @@ import {
 } from "@/_components/ui/card";
 import { useGetMenus } from "@/_hooks/queries/use-get-menus";
 import { useGetMyReservations } from "@/_hooks/queries/use-get-my-reservations";
+import { formatDateBR, getTodayFormatted } from "@/_lib/date-utils";
 import type { Menu } from "@/_types/menu";
 
 const DAY_OF_WEEK_PT: Record<string, string> = {
@@ -27,7 +28,7 @@ const DAY_OF_WEEK_PT: Record<string, string> = {
 };
 
 export function UserDashboard() {
-  const today = dayjs().format("YYYY-MM-DD");
+  const today = getTodayFormatted();
   const nextWeek = dayjs().add(7, "days").format("YYYY-MM-DD");
 
   const { data: upcomingMenus, isLoading: isLoadingMenus } = useGetMenus({
@@ -147,9 +148,7 @@ export function UserDashboard() {
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <p className="font-medium">
-                          {dayjs(menu.date).format("DD/MM/YYYY")}
-                        </p>
+                        <p className="font-medium">{formatDateBR(menu.date)}</p>
                         <span className="text-muted-foreground text-sm">
                           • {DAY_OF_WEEK_PT[menu.dayOfWeek]}
                         </span>

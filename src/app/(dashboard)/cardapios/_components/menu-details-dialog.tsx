@@ -1,6 +1,5 @@
 "use client";
 
-import dayjs from "dayjs";
 import { CalendarIcon, ClockIcon, InfoIcon, Loader2Icon } from "lucide-react";
 import { useMemo } from "react";
 
@@ -16,6 +15,7 @@ import {
 import { Separator } from "@/_components/ui/separator";
 import { useGetMenuItems } from "@/_hooks/queries/use-get-menu-items";
 import { useAuth } from "@/_hooks/use-auth";
+import { formatDateBR, isBeforeCutoffTime } from "@/_lib/date-utils";
 import type { Menu } from "@/_types/menu";
 
 interface MenuDetailsDialogProps {
@@ -83,23 +83,14 @@ const MenuDetailsDialog = ({
 
   // Group menu items by category
   const itemsByCategory = useMemo(() => {
-    console.log("=== GROUPING BY CATEGORY ===");
-    console.log("enrichedCompositions:", enrichedCompositions);
-    console.log("enrichedCompositions.length:", enrichedCompositions?.length);
-
     const grouped: Record<string, typeof enrichedCompositions> = {};
 
     if (!enrichedCompositions || enrichedCompositions.length === 0) {
-      console.log("No enrichedCompositions to group!");
       return grouped;
     }
 
     enrichedCompositions.forEach((composition) => {
       const categoryName = composition.menuItem?.category?.name || "Outros";
-      console.log(
-        `Grouping composition into category: ${categoryName}`,
-        composition,
-      );
       if (!grouped[categoryName]) {
         grouped[categoryName] = [];
       }
@@ -132,15 +123,13 @@ const MenuDetailsDialog = ({
   }, [itemsByCategory, enrichedCompositions]);
 
   // Format date
-  const formattedDate = dayjs(menuData.date).format("DD/MM/YYYY");
+  const formattedDate = formatDateBR(menuData.date);
   const dayOfWeek =
     DAY_OF_WEEK_LABELS[menuData.dayOfWeek] || menuData.dayOfWeek;
 
   // Check if reservation deadline has passed (8:30 AM)
   const isBeforeCutoff = useMemo(() => {
-    const menuDate = dayjs(menuData.date);
-    const cutoffTime = menuDate.hour(8).minute(30).second(0);
-    return dayjs().isBefore(cutoffTime);
+    return isBeforeCutoffTime(menuData.date);
   }, [menuData.date]);
 
   return (

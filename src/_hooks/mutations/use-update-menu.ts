@@ -12,12 +12,24 @@ export function useUpdateMenu() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: UseUpdateMenuParams) =>
-      MenuService.update(id, data),
-    onSuccess: () => {
-      // Invalidate both menus and menu-items queries to refresh the table
-      queryClient.invalidateQueries({ queryKey: ["menus"] });
-      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
+    mutationFn: async ({ id, data }: UseUpdateMenuParams) => {
+      console.log("🔄 Calling MenuService.update with:", {
+        id,
+        itemsCount: data.menuItems.length,
+      });
+      const result = await MenuService.update(id, data);
+      console.log("📥 Backend response:", result);
+      console.log(
+        "📊 Response has menuCompositions:",
+        !!result.menuCompositions,
+      );
+
+      // Invalidate and refetch queries before returning
+      await queryClient.invalidateQueries({ queryKey: ["menus"] });
+      await queryClient.invalidateQueries({ queryKey: ["menu-items"] });
+      await queryClient.refetchQueries({ queryKey: ["menus"], type: "active" });
+
+      return result;
     },
   });
 }

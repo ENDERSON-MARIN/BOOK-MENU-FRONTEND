@@ -51,12 +51,11 @@ export interface CreateMenuRequest {
 }
 
 export interface UpdateMenuRequest {
-  date?: string;
-  dayOfWeek?: DayOfWeek;
   observations?: string;
-  isActive?: boolean;
-  menuCompositions?: {
+  menuItems: {
     menuItemId: string;
+    observations?: string;
     isMainProtein: boolean;
+    isAlternativeProtein: boolean;
   }[];
 }

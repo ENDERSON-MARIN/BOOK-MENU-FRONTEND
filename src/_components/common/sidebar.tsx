@@ -69,7 +69,7 @@ const navItems: NavItem[] = [
   },
   {
     title: "Minhas Reservas",
-    href: "/minhas-reservas",
+    href: "/reservas",
     icon: BookOpen,
     roles: ["USER"],
   },

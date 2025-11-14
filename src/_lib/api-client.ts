@@ -41,6 +41,15 @@ export async function apiClient<T>(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
+
+    // Handle 404 Not Found
+    if (response.status === 404) {
+      throw new AppError(
+        errorData?.error || errorData?.message || "Recurso não encontrado.",
+        404,
+      );
+    }
+
     throw new AppError(
       errorData?.error ||
         errorData?.message ||
