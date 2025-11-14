@@ -12,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/_components/ui/dialog";
-import { LoadingButton } from "@/_components/ui/loading-button";
 import {
   Form,
   FormControl,
@@ -22,6 +21,7 @@ import {
   FormMessage,
 } from "@/_components/ui/form";
 import { Input } from "@/_components/ui/input";
+import { LoadingButton } from "@/_components/ui/loading-button";
 import { Textarea } from "@/_components/ui/textarea";
 import { useCreateCategory } from "@/_hooks/mutations/use-create-category";
 import { useUpdateCategory } from "@/_hooks/mutations/use-update-category";
@@ -44,6 +44,7 @@ const CategoryFormDialog = ({
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
+    mode: "onChange",
     defaultValues: {
       name: category?.name || "",
       description: category?.description || "",
@@ -213,9 +214,10 @@ const CategoryFormDialog = ({
 
           <DialogFooter>
             <LoadingButton
-              className="text-white"
+              className="w-full text-white"
               type="submit"
               isLoading={isPending}
+              disabled={isPending || !form.formState.isValid}
               loadingText={isEditing ? "Atualizando..." : "Criando..."}
             >
               {isEditing ? "Atualizar" : "Criar"}

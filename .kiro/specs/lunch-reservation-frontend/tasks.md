@@ -395,7 +395,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar toasts para erros de validação da API
   - _Requirements: 9.4_
 
-- [ ] 42. Implementar validação de formulários em tempo real
+- [x] 42. Implementar validação de formulários em tempo real
   - Configurar React Hook Form para validação onChange
   - Exibir erros inline abaixo dos campos
   - Desabilitar botão de submit enquanto há erros
@@ -415,6 +415,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Adicionar toggle no header
   - Testar todos os componentes em dark mode
   - Ajustar cores para contraste adequado
+  - Cores da empresa: #1b994b #e4e30d
   - _Requirements: 9.7_
 
 ---

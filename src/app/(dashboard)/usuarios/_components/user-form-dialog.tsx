@@ -55,6 +55,7 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
 
   const form = useForm<UserFormValues | UpdateUserFormValues>({
     resolver: zodResolver(isEditing ? updateUserFormSchema : userFormSchema),
+    mode: "onChange",
     defaultValues: isEditing
       ? {
           name: user.name,
@@ -283,6 +284,7 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
               className="w-full text-white"
               type="submit"
               isLoading={isPending}
+              disabled={isPending || !form.formState.isValid}
               loadingText={isEditing ? "Atualizando..." : "Criando..."}
             >
               {isEditing ? "Atualizar" : "Criar"}

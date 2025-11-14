@@ -35,6 +35,7 @@ export function LoginForm() {
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    mode: "onChange",
     defaultValues: {
       cpf: "",
       password: "",
@@ -132,7 +133,7 @@ export function LoginForm() {
             <Button
               type="submit"
               className="w-full text-white"
-              disabled={isLoading}
+              disabled={isLoading || !form.formState.isValid}
             >
               {isLoading && <Loader2 className="animate-spin" />}
               {isLoading ? "Entrando..." : "Entrar"}

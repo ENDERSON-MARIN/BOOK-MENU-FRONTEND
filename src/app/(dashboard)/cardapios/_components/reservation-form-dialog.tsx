@@ -84,6 +84,7 @@ const ReservationFormDialog = ({
 
   const form = useForm<ReservationFormValues>({
     resolver: zodResolver(reservationFormSchema),
+    mode: "onChange",
     defaultValues: {
       menuId: menu.id,
       menuVariationId: defaultVariation?.id || "",
@@ -356,7 +357,9 @@ const ReservationFormDialog = ({
                   disabled={
                     !menu.variations ||
                     menu.variations.length === 0 ||
-                    !form.watch("menuVariationId")
+                    !form.watch("menuVariationId") ||
+                    isPending ||
+                    !form.formState.isValid
                   }
                   isLoading={isPending}
                   loadingText="Criando reserva..."

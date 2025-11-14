@@ -52,6 +52,7 @@ const MenuItemFormDialog = ({
 
   const form = useForm<MenuItemFormValues>({
     resolver: zodResolver(menuItemFormSchema),
+    mode: "onChange",
     defaultValues: {
       name: menuItem?.name || "",
       description: menuItem?.description || "",
@@ -227,6 +228,7 @@ const MenuItemFormDialog = ({
               className="w-full text-white"
               type="submit"
               isLoading={isPending}
+              disabled={isPending || !form.formState.isValid}
               loadingText={isEditing ? "Atualizando..." : "Criando..."}
             >
               {isEditing ? "Atualizar" : "Criar"}

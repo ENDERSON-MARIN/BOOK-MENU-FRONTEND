@@ -72,6 +72,7 @@ const ChangeVariationDialog = ({
 
   const form = useForm<UpdateReservationFormValues>({
     resolver: zodResolver(updateReservationFormSchema),
+    mode: "onChange",
     defaultValues: {
       menuVariationId: reservation.menuVariationId,
     },
@@ -300,7 +301,11 @@ const ChangeVariationDialog = ({
                 <DialogFooter>
                   <LoadingButton
                     type="submit"
-                    disabled={availableVariations.length === 0}
+                    disabled={
+                      availableVariations.length === 0 ||
+                      isPending ||
+                      !form.formState.isValid
+                    }
                     isLoading={isPending}
                     loadingText="Alterando..."
                     className="w-full text-white sm:w-auto"

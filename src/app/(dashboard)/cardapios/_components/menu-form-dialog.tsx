@@ -90,6 +90,7 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
 
   const form = useForm<MenuFormValues>({
     resolver: zodResolver(menuFormSchema),
+    mode: "onChange",
     defaultValues: {
       date: menu?.date || "",
       dayOfWeek: menu?.dayOfWeek || "MONDAY",
@@ -728,7 +729,9 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             <LoadingButton
               className="w-full text-white"
               type="submit"
-              disabled={selectedItems.size === 0}
+              disabled={
+                selectedItems.size === 0 || isPending || !form.formState.isValid
+              }
               isLoading={isPending}
               loadingText={isEditing ? "Atualizando..." : "Criando..."}
             >
