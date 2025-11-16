@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Sistema de Reservas de Almoço",
   description: "Sistema de gerenciamento de reservas de almoço corporativo",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
