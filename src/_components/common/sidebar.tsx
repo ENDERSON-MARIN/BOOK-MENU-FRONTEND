@@ -35,7 +35,7 @@ const navItems: NavItem[] = [
     title: "Dashboard",
     href: "/",
     icon: LayoutDashboard,
-    roles: ["ADMIN"],
+    roles: ["ADMIN", "USER"],
   },
   {
     title: "Usuários",
@@ -73,12 +73,12 @@ const navItems: NavItem[] = [
     icon: BookOpen,
     roles: ["USER"],
   },
-  {
-    title: "Perfil",
-    href: "/perfil",
-    icon: User,
-    roles: ["ADMIN", "USER"],
-  },
+  // {
+  //   title: "Perfil",
+  //   href: "/perfil",
+  //   icon: User,
+  //   roles: ["ADMIN", "USER"],
+  // },
 ];
 
 export function Sidebar({ onClose }: SidebarProps) {

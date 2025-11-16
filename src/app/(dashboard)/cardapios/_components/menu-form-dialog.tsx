@@ -209,7 +209,9 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
               isMainProtein,
             }),
           );
-          form.setValue("menuCompositions", compositions);
+          form.setValue("menuCompositions", compositions, {
+            shouldValidate: true,
+          });
         }
         return newMap;
       });
@@ -232,7 +234,9 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             isMainProtein,
           }),
         );
-        form.setValue("menuCompositions", compositions);
+        form.setValue("menuCompositions", compositions, {
+          shouldValidate: true,
+        });
 
         return newMap;
       });
@@ -263,7 +267,9 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             isMainProtein,
           }),
         );
-        form.setValue("menuCompositions", compositions);
+        form.setValue("menuCompositions", compositions, {
+          shouldValidate: true,
+        });
 
         return newMap;
       });
@@ -294,7 +300,9 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             isMainProtein,
           }),
         );
-        form.setValue("menuCompositions", compositions);
+        form.setValue("menuCompositions", compositions, {
+          shouldValidate: true,
+        });
 
         return newMap;
       });
