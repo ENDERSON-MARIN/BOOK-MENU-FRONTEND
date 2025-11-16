@@ -35,7 +35,7 @@ const navItems: NavItem[] = [
     title: "Dashboard",
     href: "/",
     icon: LayoutDashboard,
-    roles: ["ADMIN"],
+    roles: ["ADMIN", "USER"],
   },
   {
     title: "Usuários",
