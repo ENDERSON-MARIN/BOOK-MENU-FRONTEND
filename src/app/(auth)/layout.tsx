@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/_components/common/footer";
 import { AuthProvider } from "@/_providers/auth-provider";
 
 export default function AuthLayout({
@@ -9,8 +10,9 @@ export default function AuthLayout({
 }) {
   return (
     <AuthProvider>
-      <div className="from-background to-muted min-h-screen bg-gradient-to-br">
-        {children}
+      <div className="from-background to-muted flex min-h-screen flex-col bg-gradient-to-br">
+        <div className="flex-1">{children}</div>
+        <Footer />
       </div>
     </AuthProvider>
   );

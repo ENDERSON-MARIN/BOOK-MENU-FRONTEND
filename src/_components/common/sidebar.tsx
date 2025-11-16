@@ -73,12 +73,12 @@ const navItems: NavItem[] = [
     icon: BookOpen,
     roles: ["USER"],
   },
-  {
-    title: "Perfil",
-    href: "/perfil",
-    icon: User,
-    roles: ["ADMIN", "USER"],
-  },
+  // {
+  //   title: "Perfil",
+  //   href: "/perfil",
+  //   icon: User,
+  //   roles: ["ADMIN", "USER"],
+  // },
 ];
 
 export function Sidebar({ onClose }: SidebarProps) {

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import Footer from "@/_components/common/footer";
 import { Header } from "@/_components/common/header";
 import { ProtectedRoute } from "@/_components/common/protected-route";
 import { Sidebar } from "@/_components/common/sidebar";
@@ -45,7 +46,10 @@ export default function DashboardLayout({
 
             {/* Page Content */}
             <main className="bg-muted/30 flex-1 overflow-y-auto">
-              {children}
+              <div className="flex min-h-full flex-col">
+                <div className="flex-1">{children}</div>
+                <Footer />
+              </div>
             </main>
           </div>
         </div>

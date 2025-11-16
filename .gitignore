@@ -42,9 +42,9 @@ next-env.d.ts
 !.vscode/tasks.json
 !.vscode/extensions.json
 
-#Kiro
-.kiro/*
-/.kiro/
+# #Kiro
+# .kiro/*
+# /.kiro/
 
-#swagger
-swagger.ts
+# #swagger
+# swagger.ts
