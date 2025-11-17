@@ -23,17 +23,29 @@ Este é o frontend do sistema de reservas de almoço corporativo que permite:
 
 ## 📸 Screenshots
 
-### Tela de Login
-
-![Login](./public/screenshots/login.png)
-
-### Dashboard
-
-![Home](./public/screenshots/home.png)
-
-### Sidebar de Navegação
-
-![Sidebar](./public/screenshots/sidebar.png)
+<div style="overflow-x: auto;">
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50%;"><img src="./public/screenshots/login.png" alt="Página de Login do Sistema" style="width: 100%; height: auto; object-fit: cover;" /></td>
+            <td style="width: 50%;"><img src="./public/screenshots/dashboard-admin.png" alt="Dashboard do Administrador" style="width: 100%; height: auto; object-fit: cover;" /></td>
+        </tr>
+        <tr>
+            <td style="width: 50%;"><img src="./public/screenshots/dashboard-user.png" alt="Dashboard do Usuario" style="width: 100%; height: auto; object-fit: cover;" /></td>
+            <td style="width: 50%;"><img src="./public/screenshots/users.png" alt="Gestão de Usuarios" style="width: 100%; height: auto; object-fit: cover;" /></td>
+        </tr>
+        <tr>
+            <td style="width: 50%;"><img src="./public/screenshots/categories.png" alt="Gestão de Categorias" style="width: 100%; height: auto; object-fit: cover;" /></td>
+            <td style="width: 50%;"><img src="./public/screenshots/menu-items.png" alt="Gestão de Items do Menu" style="width: 100%; height: auto; object-fit: cover;" /></td>
+        </tr>
+        <tr>
+            <td style="width: 50%;"><img src="./public/screenshots/cardapios.png" alt="Gestão de Cardápios" style="width: 100%; height: auto; object-fit: cover;" /></td>
+            <td style="width: 50%;"><img src="./public/screenshots/cardapios-user.png" alt="Gestão de Cardápios do Usuario" style="width: 100%; height: auto; object-fit: cover;" /></td>
+        </tr>
+        <tr>
+            <td style="width: 50%;"><img src="./public/screenshots/minhas-reservas.png" alt="Gestão de Reservas do Usuario" style="width: 100%; height: auto; object-fit: cover;" /></td>
+        </tr>
+    </table>
+</div>
 
 ## 🚀 Tecnologias
 
