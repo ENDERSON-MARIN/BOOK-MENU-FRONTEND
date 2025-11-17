@@ -429,7 +429,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
   - Testar custom hooks (use-auth)
   - _Requirements: 9.5_
 
-- [ ] 46. Escrever testes de integração
+- [x] 46. Escrever testes de integração
   - Testar fluxo de login
   - Testar criação de reserva
   - Testar alteração de variação
