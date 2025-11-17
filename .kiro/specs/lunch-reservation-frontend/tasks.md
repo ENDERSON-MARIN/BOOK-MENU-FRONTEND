@@ -423,20 +423,20 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 12: Testes e Documentação
 
-- [ ] 45. Escrever testes unitários
+- [x] 45. Escrever testes unitários
   - Testar schemas Zod (validações)
   - Testar utilitários (date-utils, formatters)
   - Testar custom hooks (use-auth)
   - _Requirements: 9.5_
 
-- [ ] 46. Escrever testes de integração
+- [x] 46. Escrever testes de integração
   - Testar fluxo de login
   - Testar criação de reserva
   - Testar alteração de variação
   - Testar cancelamento de reserva
   - _Requirements: 1.1-1.5, 7.1-7.7, 8.3-8.6_
 
-- [ ] 47. Atualizar documentação do projeto
+- [x] 47. Atualizar documentação do projeto
   - Atualizar README.md com informações do sistema de reservas
   - Documentar variáveis de ambiente necessárias
   - Documentar estrutura de pastas
