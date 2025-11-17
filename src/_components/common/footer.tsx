@@ -10,15 +10,39 @@ const Footer = () => {
       <p className="text-muted-foreground text-xs font-bold">
         Feito por{" "}
         <Link
+          href="https://github.com/ENDERSON-MARIN"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground cursor:pointer underline transition-colors"
+        >
+          Ing.
+        </Link>{" "}
+        <Link
+          href="https://portfolio-ecmm.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground cursor:pointer underline transition-colors"
+        >
+          Enderson
+        </Link>{" "}
+        <Link
           href="https://www.linkedin.com/in/enderson-millan"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-foreground underline transition-colors"
+          className="hover:text-foreground cursor:pointer underline transition-colors"
         >
-          Enderson Millan
+          Millán
         </Link>{" "}
         com muito <Heart className="inline h-4 w-4 fill-red-500 text-red-500" />{" "}
-        para Cravil.
+        para{" "}
+        <Link
+          href="https://www.cravil.com.br/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground cursor:pointer underline transition-colors"
+        >
+          Cravil
+        </Link>
       </p>
     </div>
   );
