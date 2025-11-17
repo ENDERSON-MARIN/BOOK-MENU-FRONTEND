@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -28,7 +29,7 @@ const mockReservation: Reservation = {
     date: "2025-12-01",
     dayOfWeek: "MONDAY",
     weekNumber: 48,
-    observations: null,
+    observations: undefined,
     isActive: true,
     menuCompositions: [],
     variations: [],
@@ -41,8 +42,8 @@ const mockReservation: Reservation = {
     menuId: "menu-1",
     variationType: "STANDARD",
     isDefault: true,
-    proteinItem: null,
-    createdAt: "2025-01-01",
+    proteinItem: undefined,
+    proteinItemId: "protein-1",
   },
   reservationDate: "2025-12-01",
   status: "ACTIVE",
@@ -58,7 +59,7 @@ const MockCancelReservationButton = ({
   isPending,
 }: {
   onSuccess: () => void;
-  mockMutate: (id: string, callbacks: any) => void;
+  mockMutate: (id: string, callbacks: { onSuccess?: () => void }) => void;
   isPending: boolean;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
