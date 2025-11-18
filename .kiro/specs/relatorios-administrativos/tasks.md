@@ -110,7 +110,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Adicionar item "Relatórios" na sidebar para administradores
   - _Requirements: 1.1, 1.2, 1.5, 11.1, 11.2_
 
-- [ ] 13. Criar componente de dashboard de relatórios
+- [x] 13. Criar componente de dashboard de relatórios
   - Criar `src/app/(dashboard)/relatorios/_components/reports-dashboard.tsx`
   - Criar `src/app/(dashboard)/relatorios/_components/report-card.tsx`
   - Implementar grid responsivo de cards (2 colunas em desktop, 1 em mobile)

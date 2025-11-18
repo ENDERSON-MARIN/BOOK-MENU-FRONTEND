@@ -6,6 +6,8 @@ import {
   PageHeaderTitle,
 } from "@/_components/ui/page-container";
 
+import { ReportsDashboard } from "./_components/reports-dashboard";
+
 export default function RelatoriosPage() {
   return (
     <PageContainer>
@@ -17,6 +19,7 @@ export default function RelatoriosPage() {
           </PageHeaderDescription>
         </PageHeaderContent>
       </PageHeaderContainer>
+      <ReportsDashboard />
     </PageContainer>
   );
 }
