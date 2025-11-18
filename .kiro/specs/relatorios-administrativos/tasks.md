@@ -78,7 +78,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Aplicar cores da empresa (#1b994b, #e4e30d)
   - _Requirements: 2.5, 3.6, 4.6, 5.6, 6.6, 10.3_
 
-- [ ] 9. Criar componentes de cards de estatísticas
+- [x] 9. Criar componentes de cards de estatísticas
   - Criar `src/_components/reports/stat-card.tsx`
   - Suportar ícone, título, valor, tendência e descrição
   - Implementar indicadores visuais de tendência (↑/↓)
