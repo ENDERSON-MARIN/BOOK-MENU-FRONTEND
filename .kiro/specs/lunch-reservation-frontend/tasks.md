@@ -448,7 +448,7 @@ Este plano de implementação detalha as tarefas necessárias para migrar o fron
 
 ## Phase 13: Refinamentos Finais
 
-- [ ] 48. Implementar tratamento de erros global
+- [x] 48. Implementar tratamento de erros global
   - Criar Error Boundary para erros não tratados
   - Adicionar página 404 customizada
   - Adicionar página 500 customizada

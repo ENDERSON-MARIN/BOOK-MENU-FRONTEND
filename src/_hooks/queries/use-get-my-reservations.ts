@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { criticalQueryRetry } from "@/_lib/query-utils";
 import { ReservationService } from "@/_services/reservation.service";
 import type { ReservationStatus } from "@/_types/reservation";
 
@@ -21,5 +22,6 @@ export function useGetMyReservations(
     queryKey: ["my-reservations", params],
     queryFn: () => ReservationService.getMyReservations(params),
     enabled: options?.enabled ?? true,
+    ...criticalQueryRetry,
   });
 }
