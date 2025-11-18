@@ -104,7 +104,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 4: Dashboard Principal de Relatórios
 
-- [ ] 12. Criar layout e rota principal de relatórios
+- [x] 12. Criar layout e rota principal de relatórios
   - Criar `src/app/(dashboard)/relatorios/layout.tsx` com ProtectedRoute para ADMIN
   - Criar `src/app/(dashboard)/relatorios/page.tsx` como dashboard principal
   - Adicionar item "Relatórios" na sidebar para administradores
