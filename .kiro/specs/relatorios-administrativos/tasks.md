@@ -93,7 +93,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Exibir mensagens de erro inline
   - _Requirements: 8.1, 8.2, 8.7, 9.5_
 
-- [ ] 11. Criar componentes de loading e empty states
+- [x] 11. Criar componentes de loading e empty states
   - Criar `src/_components/reports/report-stats-skeleton.tsx`
   - Criar `src/_components/reports/report-chart-skeleton.tsx`
   - Criar `src/_components/reports/report-table-skeleton.tsx`
