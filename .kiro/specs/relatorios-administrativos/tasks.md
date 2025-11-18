@@ -250,23 +250,23 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 9: Relatório de Desperdício e Cancelamentos
 
-- [ ] 32. Criar página de relatório de desperdício
+- [x] 32. Criar página de relatório de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/page.tsx`
   - _Requirements: 6.1_
 
-- [ ] 33. Criar componente de filtros de desperdício
+- [x] 33. Criar componente de filtros de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/_components/waste-report-filters.tsx`
   - Reutilizar PeriodFilter
   - _Requirements: 6.1_
 
-- [ ] 34. Criar componente de estatísticas de desperdício
+- [x] 34. Criar componente de estatísticas de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/_components/waste-report-stats.tsx`
   - Exibir 3 cards: Total Cancelamentos, Taxa, Custo Estimado
   - Adicionar card com distribuição antes/depois do prazo
   - Destacar em vermelho cancelamentos após prazo
   - _Requirements: 6.2, 6.3, 6.4, 6.8_
 
-- [ ] 35. Criar componente de análise de desperdício
+- [x] 35. Criar componente de análise de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/_components/waste-report-analysis.tsx`
   - Exibir top 10 usuários com mais cancelamentos
   - Adicionar gráfico de linha com evolução temporal
