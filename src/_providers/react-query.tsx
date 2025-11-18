@@ -11,9 +11,16 @@ const ReactQueryProvider = ({ children }: { children: React.ReactNode }) => {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 1000 * 60 * 5, // 5 minutos
-            gcTime: 1000 * 60 * 10, // 10 minutos (anteriormente cacheTime)
-            refetchOnWindowFocus: false,
+            // Cache configuration
+            staleTime: 1000 * 60 * 5, // 5 minutos - dados considerados frescos
+            gcTime: 1000 * 60 * 10, // 10 minutos - tempo antes de garbage collection
+
+            // Refetch configuration
+            refetchOnWindowFocus: false, // Não refetch ao focar na janela
+            refetchOnMount: true, // Refetch ao montar componente se dados estão stale
+            refetchOnReconnect: true, // Refetch ao reconectar internet
+
+            // Retry configuration
             retry: (failureCount, error) => {
               // Não fazer retry em erros de autenticação ou autorização
               if (error instanceof AppError) {
@@ -32,9 +39,17 @@ const ReactQueryProvider = ({ children }: { children: React.ReactNode }) => {
               // Exponential backoff: 1s, 2s, 4s
               return Math.min(1000 * 2 ** attemptIndex, 4000);
             },
+
+            // Performance optimizations
+            structuralSharing: true, // Compartilhar estruturas de dados imutáveis
           },
           mutations: {
             retry: false, // Não fazer retry automático em mutations
+            // Otimizar re-renders durante mutations
+            onMutate: undefined,
+            onError: undefined,
+            onSuccess: undefined,
+            onSettled: undefined,
           },
         },
       }),

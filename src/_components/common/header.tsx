@@ -5,6 +5,7 @@ import { LogOut, Menu, Moon, Sun, User } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { memo } from "react";
 
 import { Avatar, AvatarFallback } from "@/_components/ui/avatar";
 import { Button } from "@/_components/ui/button";
@@ -22,7 +23,7 @@ interface HeaderProps {
   onMenuClick?: () => void;
 }
 
-export function Header({ onMenuClick }: HeaderProps) {
+export const Header = memo(function Header({ onMenuClick }: HeaderProps) {
   const { user, logout } = useAuth();
 
   const router = useRouter();
@@ -139,4 +140,4 @@ export function Header({ onMenuClick }: HeaderProps) {
       </div>
     </header>
   );
-}
+});

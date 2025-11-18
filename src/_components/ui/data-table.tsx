@@ -11,7 +11,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 import { Button } from "@/_components/ui/button";
 import {
@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+function DataTableComponent<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -138,3 +138,6 @@ export function DataTable<TData, TValue>({
     </>
   );
 }
+
+// Export memoized version
+export const DataTable = memo(DataTableComponent) as typeof DataTableComponent;

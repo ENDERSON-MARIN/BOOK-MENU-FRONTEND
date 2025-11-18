@@ -13,6 +13,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { memo } from "react";
 
 import { ScrollArea } from "@/_components/ui/scroll-area";
 import { Separator } from "@/_components/ui/separator";
@@ -81,7 +82,7 @@ const navItems: NavItem[] = [
   // },
 ];
 
-export function Sidebar({ onClose }: SidebarProps) {
+export const Sidebar = memo(function Sidebar({ onClose }: SidebarProps) {
   const pathname = usePathname();
   const { user } = useAuth();
 
@@ -157,4 +158,4 @@ export function Sidebar({ onClose }: SidebarProps) {
       )}
     </div>
   );
-}
+});

@@ -1,12 +1,28 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
 
 import Footer from "@/_components/common/footer";
-import { Header } from "@/_components/common/header";
 import { ProtectedRoute } from "@/_components/common/protected-route";
-import { Sidebar } from "@/_components/common/sidebar";
 import { AuthProvider } from "@/_providers/auth-provider";
+
+// Lazy load components for better performance
+const Header = dynamic(
+  () =>
+    import("@/_components/common/header").then((mod) => ({
+      default: mod.Header,
+    })),
+  { ssr: false },
+);
+
+const Sidebar = dynamic(
+  () =>
+    import("@/_components/common/sidebar").then((mod) => ({
+      default: mod.Sidebar,
+    })),
+  { ssr: false },
+);
 
 export default function DashboardLayout({
   children,

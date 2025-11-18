@@ -324,10 +324,11 @@ npm run start
 
 ## 📚 Documentação Adicional
 
-- [CONTRIBUTING.md](./CONTRIBUTING.md) - Guia de contribuição para o projeto
-- [DEVELOPMENT.md](./DEVELOPMENT.md) - Guia detalhado de desenvolvimento
-- [CHANGELOG.md](./CHANGELOG.md) - Histórico de mudanças do projeto
-- [README_API.MD](./README_API.MD) - Documentação completa da API REST
+- [CONTRIBUTING.md](./docs/CONTRIBUTING.md) - Guia de contribuição para o projeto
+- [DEVELOPMENT.md](./docs/DEVELOPMENT.md) - Guia detalhado de desenvolvimento
+- [CHANGELOG.md](./docs/CHANGELOG.md) - Histórico de mudanças do projeto
+- [PERFORMANCE.md](./docs/PERFORMANCE.md) - Guia de otimização de performance
+- [ERROR-HANDLING.md](./docs/ERROR-HANDLING.md) - Guia de tratamento de erros
 - [Next.js Documentation](https://nextjs.org/docs)
 - [shadcn/ui Components](https://ui.shadcn.com/)
 - [Tanstack Query](https://tanstack.com/query/latest)
