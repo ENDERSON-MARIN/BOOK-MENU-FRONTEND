@@ -195,23 +195,23 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 7: Relatório de Usuários Ativos
 
-- [ ] 24. Criar página de relatório de usuários ativos
+- [x] 24. Criar página de relatório de usuários ativos
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/page.tsx`
   - _Requirements: 4.1_
 
-- [ ] 25. Criar componente de filtros de usuários
+- [x] 25. Criar componente de filtros de usuários
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/_components/active-users-filters.tsx`
   - Reutilizar PeriodFilter
   - Adicionar filtro por tipo de usuário (FIXO, NAO_FIXO, TODOS)
   - _Requirements: 4.1, 8.4_
 
-- [ ] 26. Criar componente de estatísticas de usuários
+- [x] 26. Criar componente de estatísticas de usuários
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/_components/active-users-stats.tsx`
   - Exibir 3 cards: Total Ativos, Total Cadastrados, Taxa de Adesão
   - Adicionar gráfico de pizza para distribuição FIXO vs NAO_FIXO
   - _Requirements: 4.2, 4.3, 4.7_
 
-- [ ] 27. Criar componente de tabela de usuários
+- [x] 27. Criar componente de tabela de usuários
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/_components/active-users-table.tsx`
   - Implementar colunas: Nome, CPF (mascarado), Tipo, Total Reservas, Canceladas, Taxa Cancelamento
   - Destacar em vermelho usuários com taxa >20%

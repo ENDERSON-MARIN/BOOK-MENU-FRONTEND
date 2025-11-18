@@ -109,11 +109,6 @@ export function useReportFilters(
         "Data inicial não pode ser posterior à data final";
     }
 
-    // Validar se data final não é futura
-    if (end.isValid() && end.isAfter(today, "day")) {
-      validationErrors.endDate = "Data final não pode ser futura";
-    }
-
     // Validar limite máximo de período (1 ano)
     if (start.isValid() && end.isValid()) {
       const daysDiff = end.diff(start, "days");

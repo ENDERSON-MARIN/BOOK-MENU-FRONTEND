@@ -1,5 +1,5 @@
 import {
-  BarChart3Icon,
+  // BarChart3Icon,
   CalendarDaysIcon,
   TrashIcon,
   TrendingUpIcon,
@@ -18,11 +18,11 @@ export function ReportsDashboard() {
       href: "/relatorios/reservas-periodo",
     },
     {
-      title: "Cardápios Populares",
+      title: "Usuários Ativos",
       description:
-        "Visualize os cardápios mais reservados e identifique preferências alimentares para planejar cardápios futuros.",
-      icon: BarChart3Icon,
-      href: "/relatorios/cardapios-populares",
+        "Entenda o engajamento dos colaboradores com estatísticas sobre usuários ativos e taxas de adesão.",
+      icon: UsersIcon,
+      href: "/relatorios/usuarios-ativos",
     },
     {
       title: "Estatísticas Operacionais",
@@ -39,11 +39,11 @@ export function ReportsDashboard() {
       href: "/relatorios/desperdicio-cancelamentos",
     },
     // {
-    //   title: "Usuários Ativos",
+    //   title: "Cardápios Populares",
     //   description:
-    //     "Entenda o engajamento dos colaboradores com estatísticas sobre usuários ativos e taxas de adesão.",
-    //   icon: UsersIcon,
-    //   href: "/relatorios/usuarios-ativos",
+    //     "Visualize os cardápios mais reservados e identifique preferências alimentares para planejar cardápios futuros.",
+    //   icon: BarChart3Icon,
+    //   href: "/relatorios/cardapios-populares",
     // },
   ];
 

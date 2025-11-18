@@ -79,9 +79,9 @@ export function PopularMenusRanking({
   };
 
   // Pegar apenas os top 10
-  const topMenus = data.topMenus.slice(0, 10);
+  const topMenus = data?.topMenus?.slice(0, 10) || [];
 
-  if (topMenus.length === 0) {
+  if (!data || topMenus.length === 0) {
     return (
       <Card className={className}>
         <CardHeader>

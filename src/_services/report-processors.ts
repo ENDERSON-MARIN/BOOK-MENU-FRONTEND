@@ -128,8 +128,10 @@ export function processPopularMenusData(
   // Count reservations per menu
   const menuReservationCounts = new Map<string, number>();
   reservations.forEach((r) => {
-    const count = menuReservationCounts.get(r.menuId) || 0;
-    menuReservationCounts.set(r.menuId, count + 1);
+    if (r.menuId) {
+      const count = menuReservationCounts.get(r.menuId) || 0;
+      menuReservationCounts.set(r.menuId, count + 1);
+    }
   });
 
   // Build menu data with reservation counts
@@ -138,12 +140,13 @@ export function processPopularMenusData(
       const totalReservations = menuReservationCounts.get(menu.id) || 0;
       const menuReservations = reservations.filter((r) => r.menuId === menu.id);
 
-      // Calculate variation distribution
+      // Calculate variation distribution with safe access
       const standardCount = menuReservations.filter(
-        (r) => r.menuVariation?.variationType === "STANDARD",
+        (r) => r.menuVariation && r.menuVariation.variationType === "STANDARD",
       ).length;
       const withEggCount = menuReservations.filter(
-        (r) => r.menuVariation?.variationType === "EGG_SUBSTITUTE",
+        (r) =>
+          r.menuVariation && r.menuVariation.variationType === "EGG_SUBSTITUTE",
       ).length;
 
       // Get menu composition grouped by category
@@ -163,6 +166,7 @@ export function processPopularMenusData(
         },
       };
     })
+    .filter((menu) => menu.totalReservations > 0) // Only include menus with reservations
     .sort((a, b) => b.totalReservations - a.totalReservations)
     .slice(0, 10); // Top 10
 
@@ -583,14 +587,20 @@ function getMenuSummary(menu: Menu): string {
 function getMenuComposition(
   menu: Menu,
 ): Array<{ categoryName: string; items: string[] }> {
+  if (!menu.menuCompositions || menu.menuCompositions.length === 0) {
+    return [];
+  }
+
   const categoryMap = new Map<string, string[]>();
 
   menu.menuCompositions.forEach((mc) => {
-    const categoryName = mc.menuItem.category?.name || "Outros";
-    if (!categoryMap.has(categoryName)) {
-      categoryMap.set(categoryName, []);
+    if (mc.menuItem) {
+      const categoryName = mc.menuItem.category?.name || "Outros";
+      if (!categoryMap.has(categoryName)) {
+        categoryMap.set(categoryName, []);
+      }
+      categoryMap.get(categoryName)!.push(mc.menuItem.name);
     }
-    categoryMap.get(categoryName)!.push(mc.menuItem.name);
   });
 
   return Array.from(categoryMap.entries()).map(([categoryName, items]) => ({

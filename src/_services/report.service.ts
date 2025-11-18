@@ -62,14 +62,19 @@ export const reportService = {
     // Fetch both reservations and menus for the period
     const [reservations, menus] = await Promise.all([
       apiClient<Reservation[]>(
-        `/lunch-reservation/admin/reservations?startDate=${filters.startDate}&endDate=${filters.endDate}&status=ACTIVE`,
+        `/lunch-reservation/admin/reservations?startDate=${filters.startDate}&endDate=${filters.endDate}`,
       ),
       apiClient<Menu[]>(
         `/lunch-reservation/menus?startDate=${filters.startDate}&endDate=${filters.endDate}`,
       ),
     ]);
 
-    return processPopularMenusData(reservations, menus);
+    // Filter only active reservations for the report
+    const activeReservations = reservations.filter(
+      (r) => r.status === "ACTIVE",
+    );
+
+    return processPopularMenusData(activeReservations, menus);
   },
 
   /**
@@ -116,7 +121,7 @@ export const reportService = {
    * Analyzes cancellation patterns to identify waste opportunities
    */
   async getWasteReport(filters: ReportFilters): Promise<WasteReportData> {
-    // Fetch only cancelled reservations
+    // Fetch only cancelled reservations using status filter
     const reservations = await apiClient<Reservation[]>(
       `/lunch-reservation/admin/reservations?startDate=${filters.startDate}&endDate=${filters.endDate}&status=CANCELLED`,
     );

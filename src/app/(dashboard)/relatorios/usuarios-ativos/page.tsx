@@ -14,17 +14,18 @@ import {
   PageHeaderDescription,
   PageHeaderTitle,
 } from "@/_components/ui/page-container";
-import { useGetPopularMenusReport } from "@/_hooks/queries/use-get-popular-menus-report";
+import { useGetActiveUsersReport } from "@/_hooks/queries/use-get-active-users-report";
 import { ReportFilters } from "@/_types/report";
 
-import { PopularMenusChart } from "./_components/popular-menus-chart";
-import { PopularMenusFilters } from "./_components/popular-menus-filters";
-import { PopularMenusRanking } from "./_components/popular-menus-ranking";
+import { ActiveUsersFilters } from "./_components/active-users-filters";
+import { ActiveUsersStats } from "./_components/active-users-stats";
+import { ActiveUsersTable } from "./_components/active-users-table";
 
-export default function CardapiosPopularesPage() {
+export default function UsuariosAtivosPage() {
   const [filters, setFilters] = useState<ReportFilters>({
     startDate: "",
     endDate: "",
+    userType: "ALL",
   });
 
   const handleFiltersChange = (newFilters: ReportFilters) => {
@@ -33,7 +34,7 @@ export default function CardapiosPopularesPage() {
 
   const hasValidFilters = filters.startDate && filters.endDate;
 
-  const { data, isLoading, isError, error } = useGetPopularMenusReport(filters);
+  const { data, isLoading, isError } = useGetActiveUsersReport(filters);
 
   const handleExportPDF = () => {
     // TODO: Implementar exportação de PDF (Phase 10)
@@ -44,9 +45,9 @@ export default function CardapiosPopularesPage() {
     <PageContainer>
       <PageHeaderContainer>
         <PageHeaderContent>
-          <PageHeaderTitle>Relatório de Cardápios Populares</PageHeaderTitle>
+          <PageHeaderTitle>Relatório de Usuários Ativos</PageHeaderTitle>
           <PageHeaderDescription>
-            Análise dos cardápios mais reservados e preferências alimentares
+            Análise de engajamento e estatísticas de usuários do sistema
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
@@ -64,7 +65,7 @@ export default function CardapiosPopularesPage() {
       <PageContent>
         <div className="space-y-6">
           {/* Filtros */}
-          <PopularMenusFilters onFiltersChange={handleFiltersChange} />
+          <ActiveUsersFilters onFiltersChange={handleFiltersChange} />
 
           {/* Conteúdo do relatório */}
           {!hasValidFilters ? (
@@ -86,19 +87,17 @@ export default function CardapiosPopularesPage() {
                   Erro ao carregar relatório
                 </p>
                 <p className="text-muted-foreground mt-2 text-xs">
-                  {error instanceof Error
-                    ? error.message
-                    : "Tente novamente mais tarde"}
+                  Tente novamente mais tarde
                 </p>
               </div>
             </div>
           ) : data ? (
             <div className="space-y-6">
-              {/* Ranking de Cardápios */}
-              <PopularMenusRanking data={data} />
+              {/* Estatísticas e gráfico de distribuição */}
+              <ActiveUsersStats data={data} />
 
-              {/* Gráficos */}
-              <PopularMenusChart data={data} />
+              {/* Tabela de usuários */}
+              <ActiveUsersTable data={data} />
             </div>
           ) : null}
         </div>
