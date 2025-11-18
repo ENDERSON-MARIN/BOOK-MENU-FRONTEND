@@ -5,6 +5,7 @@ import { LogOut, Menu, Moon, Sun, User } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { memo } from "react";
 
 import { Avatar, AvatarFallback } from "@/_components/ui/avatar";
 import { Button } from "@/_components/ui/button";
@@ -22,7 +23,7 @@ interface HeaderProps {
   onMenuClick?: () => void;
 }
 
-export function Header({ onMenuClick }: HeaderProps) {
+export const Header = memo(function Header({ onMenuClick }: HeaderProps) {
   const { user, logout } = useAuth();
 
   const router = useRouter();
@@ -56,7 +57,10 @@ export function Header({ onMenuClick }: HeaderProps) {
   };
 
   return (
-    <header className="bg-card flex h-16 items-center justify-between border-b px-4 lg:px-6">
+    <header
+      className="bg-card flex h-16 items-center justify-between border-b px-4 lg:px-6"
+      role="banner"
+    >
       {/* Left Section - Menu Button (Mobile) + Logo */}
       <div className="flex items-center gap-4">
         {/* Mobile Menu Button */}
@@ -66,30 +70,48 @@ export function Header({ onMenuClick }: HeaderProps) {
             size="icon"
             onClick={onMenuClick}
             className="lg:hidden"
-            aria-label="Abrir menu"
+            aria-label="Abrir menu de navegação"
+            aria-expanded="false"
+            aria-controls="navigation"
+            type="button"
           >
-            <Menu className="size-5" />
+            <Menu className="size-5" aria-hidden="true" />
           </Button>
         )}
 
         {/* Logo - Hidden on mobile, visible on desktop */}
         <div className="hidden items-center gap-2 lg:flex">
           {/* <Image src="/logo.png" alt="Logo" width={80} height={40} /> */}
-          <span className="text-lg font-semibold">Reservas de Almoço</span>
+          <h1 className="text-lg font-semibold">Reservas de Almoço</h1>
         </div>
       </div>
 
       {/* Right Section - Theme Toggle + User Menu */}
-      <div className="flex items-center gap-2">
+      <div
+        className="flex items-center gap-2"
+        role="region"
+        aria-label="Ações do usuário"
+      >
         {/* Theme Toggle */}
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleTheme}
-          aria-label="Alternar tema"
+          aria-label={`Alternar para tema ${theme === "dark" ? "claro" : "escuro"}`}
+          aria-pressed={theme === "dark"}
+          type="button"
         >
-          <Sun className="size-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute size-5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <Sun
+            className="size-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+            aria-hidden="true"
+          />
+          <Moon
+            className="absolute size-5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+            aria-hidden="true"
+          />
+          <span className="sr-only">
+            {theme === "dark" ? "Modo escuro ativo" : "Modo claro ativo"}
+          </span>
         </Button>
 
         {/* User Menu */}
@@ -99,10 +121,15 @@ export function Header({ onMenuClick }: HeaderProps) {
               <Button
                 variant="ghost"
                 className="flex items-center gap-2 px-2"
-                aria-label="Menu do usuário"
+                aria-label={`Menu do usuário ${user.name}`}
+                aria-haspopup="true"
+                type="button"
               >
                 <Avatar className="size-8">
-                  <AvatarFallback className="bg-primary text-primary-foreground text-sm font-medium">
+                  <AvatarFallback
+                    className="bg-primary text-primary-foreground text-sm font-medium"
+                    aria-label={`Avatar de ${user.name}`}
+                  >
                     {getUserInitials(user.name)}
                   </AvatarFallback>
                 </Avatar>
@@ -114,7 +141,7 @@ export function Header({ onMenuClick }: HeaderProps) {
                 </div>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="w-56" role="menu">
               <DropdownMenuLabel>
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium">{user.name}</p>
@@ -124,13 +151,22 @@ export function Header({ onMenuClick }: HeaderProps) {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleProfileClick}>
-                <User className="mr-2 size-4" />
+              <DropdownMenuItem
+                onClick={handleProfileClick}
+                role="menuitem"
+                aria-label="Ir para perfil"
+              >
+                <User className="mr-2 size-4" aria-hidden="true" />
                 Perfil
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout} variant="destructive">
-                <LogOut className="mr-2 size-4" />
+              <DropdownMenuItem
+                onClick={handleLogout}
+                variant="destructive"
+                role="menuitem"
+                aria-label="Sair do sistema"
+              >
+                <LogOut className="mr-2 size-4" aria-hidden="true" />
                 Sair
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -139,4 +175,4 @@ export function Header({ onMenuClick }: HeaderProps) {
       </div>
     </header>
   );
-}
+});

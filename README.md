@@ -197,6 +197,7 @@ npm run start        # Inicia servidor de produção
 # Qualidade de Código
 npm run lint         # Executa ESLint
 npm run test         # Executa testes com Vitest
+npm run test:a11y    # Executa testes de acessibilidade
 
 # Git Hooks
 npm run prepare      # Configura Husky para git hooks
@@ -322,12 +323,45 @@ npm run build
 npm run start
 ```
 
+## ♿ Acessibilidade
+
+O sistema foi desenvolvido seguindo as diretrizes **WCAG 2.1 nível AA** para garantir acessibilidade a todos os usuários.
+
+### Recursos de Acessibilidade
+
+- ✅ **Navegação por teclado** completa
+- ✅ **Skip links** para conteúdo principal
+- ✅ **ARIA labels** em todos os componentes interativos
+- ✅ **Focus indicators** visíveis e com alto contraste
+- ✅ **Contraste de cores** WCAG AA em todos os temas
+- ✅ **Suporte a screen readers** (NVDA, JAWS, VoiceOver)
+- ✅ **Touch targets** mínimos de 44x44px
+- ✅ **Suporte a prefers-reduced-motion**
+- ✅ **Formulários** totalmente acessíveis
+- ✅ **Tabelas** com estrutura semântica apropriada
+
+### Testes de Acessibilidade
+
+Execute os testes automatizados:
+
+```bash
+npm run test:a11y
+```
+
+Para mais informações sobre acessibilidade e testes manuais, consulte:
+
+- [ACCESSIBILITY.md](./docs/ACCESSIBILITY.md) - Guia completo de acessibilidade
+- [ACCESSIBILITY_TESTING.md](./docs/ACCESSIBILITY_TESTING.md) - Guia de testes
+
 ## 📚 Documentação Adicional
 
-- [CONTRIBUTING.md](./CONTRIBUTING.md) - Guia de contribuição para o projeto
-- [DEVELOPMENT.md](./DEVELOPMENT.md) - Guia detalhado de desenvolvimento
-- [CHANGELOG.md](./CHANGELOG.md) - Histórico de mudanças do projeto
-- [README_API.MD](./README_API.MD) - Documentação completa da API REST
+- [ACCESSIBILITY.md](./docs/ACCESSIBILITY.md) - Guia completo de acessibilidade
+- [ACCESSIBILITY_TESTING.md](./docs/ACCESSIBILITY_TESTING.md) - Guia de testes de acessibilidade
+- [CONTRIBUTING.md](./docs/CONTRIBUTING.md) - Guia de contribuição para o projeto
+- [DEVELOPMENT.md](./docs/DEVELOPMENT.md) - Guia detalhado de desenvolvimento
+- [CHANGELOG.md](./docs/CHANGELOG.md) - Histórico de mudanças do projeto
+- [PERFORMANCE.md](./docs/PERFORMANCE.md) - Guia de otimização de performance
+- [ERROR-HANDLING.md](./docs/ERROR-HANDLING.md) - Guia de tratamento de erros
 - [Next.js Documentation](https://nextjs.org/docs)
 - [shadcn/ui Components](https://ui.shadcn.com/)
 - [Tanstack Query](https://tanstack.com/query/latest)

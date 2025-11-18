@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "test": "vitest"
+    "test": "vitest",
+    "test:a11y": "node scripts/test-accessibility.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

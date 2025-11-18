@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { criticalQueryRetry } from "@/_lib/query-utils";
 import { MenuService } from "@/_services/menu.service";
 import type { DayOfWeek } from "@/_types/menu";
 
@@ -16,5 +17,6 @@ export function useGetMenus(params?: UseGetMenusParams) {
   return useQuery({
     queryKey: ["menus", params],
     queryFn: () => MenuService.getAll(params),
+    ...criticalQueryRetry,
   });
 }

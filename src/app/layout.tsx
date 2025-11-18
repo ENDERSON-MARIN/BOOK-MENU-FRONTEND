@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import ErrorBoundary from "@/_components/common/error-boundary";
 import { Toaster } from "@/_components/ui/sonner";
 import ReactQueryProvider from "@/_providers/react-query";
 import { ThemeProvider } from "@/_providers/theme-provider";
@@ -35,15 +36,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-          <Toaster richColors />
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <Toaster richColors />
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
