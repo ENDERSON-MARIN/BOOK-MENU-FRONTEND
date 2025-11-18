@@ -122,13 +122,13 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 5: Relatório de Reservas por Período
 
-- [ ] 14. Criar página de relatório de reservas
+- [x] 14. Criar página de relatório de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/page.tsx`
   - Implementar layout com filtros no topo e conteúdo abaixo
   - Adicionar botão "Exportar PDF" no header
   - _Requirements: 2.1, 7.1_
 
-- [ ] 15. Criar componente de filtros de reservas
+- [x] 15. Criar componente de filtros de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-filters.tsx`
   - Reutilizar PeriodFilter
   - Adicionar filtros por status (CONFIRMED, CANCELLED, TODOS)
@@ -136,21 +136,21 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar validação com Zod
   - _Requirements: 2.1, 2.2, 8.3, 8.5, 8.6_
 
-- [ ] 16. Criar componente de estatísticas de reservas
+- [x] 16. Criar componente de estatísticas de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-stats.tsx`
   - Exibir 4 cards: Total, Ativas, Canceladas, Taxa de Cancelamento
   - Usar StatCard component
   - Adicionar ícones apropriados (lucide-react)
   - _Requirements: 2.4_
 
-- [ ] 17. Criar componente de gráfico de reservas
+- [x] 17. Criar componente de gráfico de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-chart.tsx`
   - Usar LineChart com 3 linhas: total, confirmadas, canceladas
   - Exibir evolução diária no período
   - Adicionar tooltip com detalhes
   - _Requirements: 2.5_
 
-- [ ] 18. Criar componente de tabela de reservas
+- [x] 18. Criar componente de tabela de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-table.tsx`
   - Implementar colunas: Data, Usuário (nome + CPF mascarado), Cardápio, Variação, Status, Tipo
   - Adicionar badge "Auto" para reservas automáticas
@@ -158,7 +158,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Ordenar por data decrescente
   - _Requirements: 2.6, 2.9_
 
-- [ ] 19. Criar seção de agrupamento semanal
+- [x] 19. Criar seção de agrupamento semanal
   - Adicionar card mostrando totais por semana
   - Exibir semana (data início - data fim) e total de reservas
   - _Requirements: 2.7_
