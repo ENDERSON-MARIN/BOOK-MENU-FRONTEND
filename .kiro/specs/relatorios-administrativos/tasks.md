@@ -39,7 +39,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 2: Services e Data Fetching
 
-- [ ] 5. Criar service de relatórios
+- [x] 5. Criar service de relatórios
   - Criar `src/_services/report.service.ts`
   - Implementar `getReservationsReport(filters)` que busca reservas e processa dados
   - Implementar `getPopularMenusReport(filters)` que busca reservas e cardápios
