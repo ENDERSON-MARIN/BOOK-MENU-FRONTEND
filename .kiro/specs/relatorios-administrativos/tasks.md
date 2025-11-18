@@ -70,7 +70,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 3: Componentes de UI Reutilizáveis
 
-- [ ] 8. Criar componentes de gráficos reutilizáveis
+- [x] 8. Criar componentes de gráficos reutilizáveis
   - Criar `src/_components/charts/line-chart.tsx` usando Recharts
   - Criar `src/_components/charts/bar-chart.tsx` com suporte a layout horizontal/vertical
   - Criar `src/_components/charts/pie-chart.tsx` com labels personalizados
