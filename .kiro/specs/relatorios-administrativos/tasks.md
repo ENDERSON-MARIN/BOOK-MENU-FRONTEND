@@ -6,20 +6,20 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 1: Fundação - Types, Schemas e Infraestrutura
 
-- [ ] 1. Criar types TypeScript para relatórios
+- [x] 1. Criar types TypeScript para relatórios
   - Criar `src/_types/report.ts` com todos os types e interfaces
   - Definir `ReportType`, `ReportPeriod`, `ReportFilters`
   - Definir interfaces para dados de cada relatório: `ReservationReportData`, `PopularMenusReportData`, `ActiveUsersReportData`, `OperationalStatsReportData`, `WasteReportData`
   - _Requirements: 11.7_
 
-- [ ] 2. Instalar dependências necessárias
+- [x] 2. Instalar dependências necessárias
   - Instalar recharts: `npm install recharts`
   - Instalar react-pdf: `npm install @react-pdf/renderer`
   - Instalar file-saver: `npm install file-saver @types/file-saver`
   - Atualizar package.json
   - _Requirements: 7.1, 11.3_
 
-- [ ] 3. Criar utilitários para processamento de dados
+- [x] 3. Criar utilitários para processamento de dados
   - Criar `src/_lib/report-utils.ts` com funções auxiliares
   - Implementar `calculateCancellationRate()`
   - Implementar `calculateAdherenceRate()`
@@ -28,7 +28,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar `formatReportDate()` usando dayjs
   - _Requirements: 2.4, 3.5, 4.5, 5.4, 6.3, 11.7_
 
-- [ ] 4. Criar hook customizado para filtros de período
+- [x] 4. Criar hook customizado para filtros de período
   - Criar `src/_hooks/use-report-filters.ts`
   - Implementar lógica para períodos pré-definidos (última semana, mês, etc.)
   - Implementar validação de datas (data inicial não pode ser posterior à final)
