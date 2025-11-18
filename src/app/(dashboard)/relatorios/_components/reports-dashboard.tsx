@@ -25,13 +25,6 @@ export function ReportsDashboard() {
       href: "/relatorios/cardapios-populares",
     },
     {
-      title: "Usuários Ativos",
-      description:
-        "Entenda o engajamento dos colaboradores com estatísticas sobre usuários ativos e taxas de adesão.",
-      icon: UsersIcon,
-      href: "/relatorios/usuarios-ativos",
-    },
-    {
       title: "Estatísticas Operacionais",
       description:
         "Tenha uma visão geral consolidada do funcionamento do sistema com métricas operacionais detalhadas.",
@@ -45,6 +38,13 @@ export function ReportsDashboard() {
       icon: TrashIcon,
       href: "/relatorios/desperdicio-cancelamentos",
     },
+    // {
+    //   title: "Usuários Ativos",
+    //   description:
+    //     "Entenda o engajamento dos colaboradores com estatísticas sobre usuários ativos e taxas de adesão.",
+    //   icon: UsersIcon,
+    //   href: "/relatorios/usuarios-ativos",
+    // },
   ];
 
   return (

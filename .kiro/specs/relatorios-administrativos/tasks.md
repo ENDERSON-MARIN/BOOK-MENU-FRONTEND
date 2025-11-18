@@ -223,23 +223,23 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 8: Relatório de Estatísticas Operacionais
 
-- [ ] 28. Criar página de relatório de estatísticas operacionais
+- [x] 28. Criar página de relatório de estatísticas operacionais
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/page.tsx`
   - _Requirements: 5.1_
 
-- [ ] 29. Criar componente de filtros operacionais
+- [x] 29. Criar componente de filtros operacionais
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/_components/operational-stats-filters.tsx`
   - Reutilizar PeriodFilter
   - _Requirements: 5.1_
 
-- [ ] 30. Criar componente de cards de métricas
+- [x] 30. Criar componente de cards de métricas
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/_components/operational-stats-cards.tsx`
   - Implementar grid 2x2 com 4 seções: Reservas, Usuários, Cardápios, Cancelamentos
   - Cada seção com múltiplas métricas
   - Adicionar card de tendência de crescimento com indicador visual
   - _Requirements: 5.2, 5.3, 5.4, 5.5, 5.8_
 
-- [ ] 31. Criar componente de gráficos operacionais
+- [x] 31. Criar componente de gráficos operacionais
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/_components/operational-stats-charts.tsx`
   - Implementar tabs para diferentes visualizações
   - Gráfico de barras: distribuição por dia da semana
