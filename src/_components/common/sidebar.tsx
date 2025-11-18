@@ -96,23 +96,32 @@ export const Sidebar = memo(function Sidebar({ onClose }: SidebarProps) {
       {/* Logo and Close Button (Mobile) */}
       <div className="flex h-16 items-center justify-between border-b px-6">
         <div className="flex items-center gap-2">
-          <Image src="/logo.png" alt="Logo" width={80} height={40} />
-          <span className="text-md font-bold">BookingMenu</span>
+          <Image
+            src="/logo.png"
+            alt="Logo BookingMenu - Sistema de Reservas de Almoço"
+            width={80}
+            height={40}
+            priority
+          />
+          <span className="text-md font-bold" aria-label="BookingMenu">
+            BookingMenu
+          </span>
         </div>
         {onClose && (
           <button
             onClick={onClose}
             className="ring-offset-background focus:ring-ring rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden lg:hidden"
-            aria-label="Fechar menu"
+            aria-label="Fechar menu de navegação"
+            type="button"
           >
-            <X className="size-5" />
+            <X className="size-5" aria-hidden="true" />
           </button>
         )}
       </div>
 
       {/* Navigation */}
       <ScrollArea className="flex-1 px-3 py-4">
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-1" aria-label="Menu de navegação">
           {filteredNavItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -124,12 +133,15 @@ export const Sidebar = memo(function Sidebar({ onClose }: SidebarProps) {
                 onClick={onClose}
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
                   isActive
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
                 )}
+                aria-current={isActive ? "page" : undefined}
+                aria-label={`${item.title}${isActive ? " (página atual)" : ""}`}
               >
-                <Icon className="size-5" />
+                <Icon className="size-5" aria-hidden="true" />
                 <span>{item.title}</span>
               </Link>
             );
@@ -140,15 +152,30 @@ export const Sidebar = memo(function Sidebar({ onClose }: SidebarProps) {
       {/* User Info */}
       {user && (
         <>
-          <Separator />
-          <div className="p-4">
+          <Separator role="separator" aria-label="Separador" />
+          <div
+            className="p-4"
+            role="region"
+            aria-label="Informações do usuário"
+          >
             <div className="flex items-center gap-3">
-              <div className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-full">
+              <div
+                className="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-full"
+                aria-hidden="true"
+              >
                 <User className="size-5" />
               </div>
               <div className="flex-1 overflow-hidden">
-                <p className="truncate text-sm font-medium">{user.name}</p>
-                <p className="text-muted-foreground truncate text-xs">
+                <p
+                  className="truncate text-sm font-medium"
+                  aria-label={`Usuário: ${user.name}`}
+                >
+                  {user.name}
+                </p>
+                <p
+                  className="text-muted-foreground truncate text-xs"
+                  aria-label={`Perfil: ${user.role === "ADMIN" ? "Administrador" : "Usuário"}`}
+                >
                   {user.role === "ADMIN" ? "Administrador" : "Usuário"}
                 </p>
               </div>

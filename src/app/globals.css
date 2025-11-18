@@ -143,6 +143,30 @@
     @apply bg-background text-foreground;
   }
 
+  /* Accessibility: Screen reader only content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Accessibility: Show on focus (for skip links) */
+  .sr-only:focus,
+  .sr-only:active {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
   /* Mobile optimizations */
   @media (max-width: 640px) {
     /* Prevent zoom on input focus on iOS */
@@ -176,9 +200,50 @@
     scroll-behavior: smooth;
   }
 
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   /* Better focus visibility for keyboard navigation */
   *:focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    * {
+      border-width: 2px;
+    }
+
+    button,
+    a,
+    input,
+    select,
+    textarea {
+      border: 2px solid currentColor;
+    }
+  }
+
+  /* Ensure sufficient line height for readability */
+  p,
+  li,
+  td,
+  th {
+    line-height: 1.5;
+  }
+
+  /* Better text selection */
+  ::selection {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
   }
 }

@@ -58,17 +58,30 @@ function DataTableComponent<TData, TValue>({
     },
   });
 
+  const currentPage = table.getState().pagination.pageIndex + 1;
+  const totalPages = table.getPageCount();
+  const hasResults = table.getRowModel().rows?.length > 0;
+
   return (
     <>
       {/* Mobile: Horizontal scroll wrapper */}
-      <div className="w-full overflow-x-auto rounded-md border">
+      <div
+        className="w-full overflow-x-auto rounded-md border"
+        role="region"
+        aria-label="Tabela de dados"
+        tabIndex={0}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="whitespace-nowrap">
+                    <TableHead
+                      key={header.id}
+                      className="whitespace-nowrap"
+                      scope="col"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -82,11 +95,12 @@ function DataTableComponent<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+            {hasResults ? (
+              table.getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  aria-rowindex={index + 1}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="whitespace-nowrap">
@@ -103,6 +117,7 @@ function DataTableComponent<TData, TValue>({
                 <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center"
+                  role="cell"
                 >
                   Nenhum resultado encontrado.
                 </TableCell>
@@ -111,10 +126,18 @@ function DataTableComponent<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex flex-col items-center justify-center gap-2 py-4 sm:flex-row sm:space-x-2">
-        <div className="text-muted-foreground text-sm">
-          Página {table.getState().pagination.pageIndex + 1} de{" "}
-          {table.getPageCount()}
+      <nav
+        className="flex flex-col items-center justify-center gap-2 py-4 sm:flex-row sm:space-x-2"
+        role="navigation"
+        aria-label="Paginação da tabela"
+      >
+        <div
+          className="text-muted-foreground text-sm"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          Página {currentPage} de {totalPages}
         </div>
         <div className="flex space-x-2">
           <Button
@@ -122,6 +145,8 @@ function DataTableComponent<TData, TValue>({
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            aria-label={`Ir para página anterior (página ${currentPage - 1})`}
+            type="button"
           >
             Anterior
           </Button>
@@ -130,11 +155,13 @@ function DataTableComponent<TData, TValue>({
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            aria-label={`Ir para próxima página (página ${currentPage + 1})`}
+            type="button"
           >
             Próxima
           </Button>
         </div>
-      </div>
+      </nav>
     </>
   );
 }
