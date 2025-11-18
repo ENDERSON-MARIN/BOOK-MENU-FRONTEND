@@ -167,17 +167,17 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 6: Relatório de Cardápios Populares
 
-- [ ] 20. Criar página de relatório de cardápios populares
+- [x] 20. Criar página de relatório de cardápios populares
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/page.tsx`
   - Implementar layout similar ao relatório de reservas
   - _Requirements: 3.1_
 
-- [ ] 21. Criar componente de filtros de cardápios
+- [x] 21. Criar componente de filtros de cardápios
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/_components/popular-menus-filters.tsx`
   - Reutilizar PeriodFilter
   - _Requirements: 3.1_
 
-- [ ] 22. Criar componente de ranking de cardápios
+- [x] 22. Criar componente de ranking de cardápios
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/_components/popular-menus-ranking.tsx`
   - Exibir top 10 cardápios em cards expansíveis
   - Mostrar: data, dia da semana, resumo, total de reservas, taxa de adesão
@@ -185,7 +185,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Adicionar badge visual para taxa de adesão (alta >70%, média 40-70%, baixa <40%)
   - _Requirements: 3.4, 3.5, 3.7_
 
-- [ ] 23. Criar componente de gráfico de cardápios
+- [x] 23. Criar componente de gráfico de cardápios
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/_components/popular-menus-chart.tsx`
   - Usar BarChart horizontal com top 10
   - Adicionar gráfico de pizza para distribuição de variações
