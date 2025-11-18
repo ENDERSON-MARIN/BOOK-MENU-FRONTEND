@@ -48,7 +48,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar `getWasteReport(filters)` que busca reservas canceladas
   - _Requirements: 2.3, 3.2, 4.2, 5.2, 6.2, 11.6_
 
-- [ ] 6. Implementar funções de processamento de dados
+- [x] 6. Implementar funções de processamento de dados
   - Criar `src/_services/report-processors.ts`
   - Implementar `processReservationsData()` para agregar dados de reservas
   - Implementar `processPopularMenusData()` para ranking de cardápios
