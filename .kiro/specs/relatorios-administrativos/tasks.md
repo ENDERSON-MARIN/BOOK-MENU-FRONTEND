@@ -57,7 +57,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar `processWasteData()` para análise de cancelamentos
   - _Requirements: 2.4, 3.3, 4.3, 5.3, 6.3_
 
-- [ ] 7. Criar hooks Tanstack Query para relatórios
+- [x] 7. Criar hooks Tanstack Query para relatórios
   - Criar `src/_hooks/queries/use-get-reservations-report.ts`
   - Criar `src/_hooks/queries/use-get-popular-menus-report.ts`
   - Criar `src/_hooks/queries/use-get-active-users-report.ts`
