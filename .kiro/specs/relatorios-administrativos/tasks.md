@@ -85,7 +85,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Aplicar cores apropriadas (verde para positivo, vermelho para negativo)
   - _Requirements: 2.4, 4.4, 5.3, 9.1_
 
-- [ ] 10. Criar componente de filtro de período
+- [x] 10. Criar componente de filtro de período
   - Criar `src/_components/reports/period-filter.tsx`
   - Implementar date pickers para data inicial e final
   - Adicionar botões para períodos pré-definidos
