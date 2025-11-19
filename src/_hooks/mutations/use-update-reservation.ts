@@ -18,10 +18,23 @@ export function useUpdateReservation() {
       ReservationService.update(id, data),
     onSuccess: () => {
       // Invalidate all queries related to reservations and menus
-      queryClient.invalidateQueries({ queryKey: ["my-reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["all-reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["reservation"] });
+      // Using partial queryKey to invalidate all variations with different params
+      queryClient.invalidateQueries({
+        queryKey: ["my-reservations"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reservations"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["all-reservations"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reservation"],
+        refetchType: "all",
+      });
       // Invalidate all menu queries to update reservation status
       queryClient.invalidateQueries({
         queryKey: ["menus"],

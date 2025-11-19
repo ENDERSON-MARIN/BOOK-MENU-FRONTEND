@@ -13,9 +13,19 @@ export function useCreateReservation() {
       ReservationService.create(data),
     onSuccess: () => {
       // Invalidate all queries related to reservations and menus
-      queryClient.invalidateQueries({ queryKey: ["my-reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["all-reservations"] });
+      // Using partial queryKey to invalidate all variations with different params
+      queryClient.invalidateQueries({
+        queryKey: ["my-reservations"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reservations"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["all-reservations"],
+        refetchType: "all",
+      });
       // Invalidate all menu queries (including those with parameters)
       queryClient.invalidateQueries({
         queryKey: ["menus"],

@@ -11,9 +11,19 @@ export function useCancelReservation() {
     mutationFn: (id: string) => ReservationService.cancel(id),
     onSuccess: () => {
       // Invalidate all queries related to reservations and menus
-      queryClient.invalidateQueries({ queryKey: ["my-reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["all-reservations"] });
+      // Using partial queryKey to invalidate all variations with different params
+      queryClient.invalidateQueries({
+        queryKey: ["my-reservations"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reservations"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["all-reservations"],
+        refetchType: "all",
+      });
       // Invalidate all menu queries to update reservation status
       queryClient.invalidateQueries({
         queryKey: ["menus"],
