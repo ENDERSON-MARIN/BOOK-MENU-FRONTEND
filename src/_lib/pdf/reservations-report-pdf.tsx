@@ -22,7 +22,7 @@ export function ReservationsReportPDF({
   // Função auxiliar para formatar status
   const getStatusLabel = (status: string): string => {
     const statusMap: Record<string, string> = {
-      CONFIRMED: "Confirmada",
+      ACTIVE: "Confirmada",
       CANCELLED: "Cancelada",
       PENDING: "Pendente",
     };
@@ -31,7 +31,7 @@ export function ReservationsReportPDF({
 
   // Função auxiliar para obter estilo do badge de status
   const getStatusBadgeStyle = (status: string) => {
-    if (status === "CONFIRMED") {
+    if (status === "ACTIVE") {
       return [reportStyles.badge, reportStyles.badgeSuccess];
     }
     if (status === "CANCELLED") {
