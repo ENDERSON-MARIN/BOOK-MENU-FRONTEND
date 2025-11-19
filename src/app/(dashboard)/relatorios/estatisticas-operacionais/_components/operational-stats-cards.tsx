@@ -69,7 +69,7 @@ export function OperationalStatsCards({ data }: OperationalStatsCardsProps) {
               </div>
             </div>
             <div className="border-t pt-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1">
                   <p className="text-muted-foreground text-xs">Dia com Mais</p>
                   <p className="text-sm font-medium">

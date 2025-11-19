@@ -74,8 +74,10 @@ export const ActiveUsersStats = memo(function ActiveUsersStats({
         <CardHeader>
           <CardTitle>Distribuição por Tipo de Usuário</CardTitle>
         </CardHeader>
-        <CardContent>
-          <PieChart data={pieChartData} colors={colors} height={300} />
+        <CardContent className="flex justify-center">
+          <div className="h-[250px] w-full sm:h-[300px]">
+            <PieChart data={pieChartData} colors={colors} height={300} />
+          </div>
         </CardContent>
       </Card>
     </div>

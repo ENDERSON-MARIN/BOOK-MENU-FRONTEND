@@ -121,7 +121,7 @@ export function PopularMenusRanking({
             >
               <Card className="transition-shadow hover:shadow-md">
                 <CardHeader className="pb-4">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                     <div className="flex flex-1 items-start gap-3">
                       {/* Ranking Number */}
                       <div
@@ -139,22 +139,22 @@ export function PopularMenusRanking({
                       {/* Menu Info */}
                       <div className="flex-1 space-y-2">
                         <div>
-                          <CardTitle className="text-base">
+                          <CardTitle className="text-sm sm:text-base">
                             {formatReportDateWithWeekday(menu.date)}
                           </CardTitle>
-                          <CardDescription className="mt-1">
+                          <CardDescription className="mt-1 text-xs sm:text-sm">
                             {menu.summary}
                           </CardDescription>
                         </div>
 
                         {/* Stats */}
-                        <div className="flex flex-wrap items-center gap-3">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                           <div className="flex items-center gap-1.5">
-                            <Utensils className="text-muted-foreground h-4 w-4" />
-                            <span className="text-sm font-semibold">
+                            <Utensils className="text-muted-foreground h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            <span className="text-xs font-semibold sm:text-sm">
                               {menu.totalReservations}
                             </span>
-                            <span className="text-muted-foreground text-xs">
+                            <span className="text-muted-foreground text-[10px] sm:text-xs">
                               reservas
                             </span>
                           </div>
@@ -162,16 +162,19 @@ export function PopularMenusRanking({
                           <Separator orientation="vertical" className="h-4" />
 
                           <div className="flex items-center gap-1.5">
-                            <TrendingUp className="text-muted-foreground h-4 w-4" />
-                            <span className="text-sm font-semibold">
+                            <TrendingUp className="text-muted-foreground h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            <span className="text-xs font-semibold sm:text-sm">
                               {menu.adherenceRate.toFixed(1)}%
                             </span>
-                            <span className="text-muted-foreground text-xs">
+                            <span className="text-muted-foreground text-[10px] sm:text-xs">
                               adesão
                             </span>
                           </div>
 
-                          <Badge variant={adherenceBadgeVariant}>
+                          <Badge
+                            variant={adherenceBadgeVariant}
+                            className="text-[10px] sm:text-xs"
+                          >
                             {adherenceLabel}
                           </Badge>
                         </div>
@@ -181,7 +184,7 @@ export function PopularMenusRanking({
                     {/* Expand Button */}
                     <CollapsibleTrigger asChild>
                       <button
-                        className="text-muted-foreground hover:text-foreground hover:bg-accent shrink-0 rounded-md p-2 transition-colors"
+                        className="text-muted-foreground hover:text-foreground hover:bg-accent shrink-0 self-end rounded-md p-2 transition-colors sm:self-auto"
                         aria-label={
                           isExpanded
                             ? "Recolher composição"
@@ -205,13 +208,13 @@ export function PopularMenusRanking({
 
                     {/* Variation Distribution */}
                     <div>
-                      <h4 className="mb-2 text-sm font-semibold">
+                      <h4 className="mb-2 text-xs font-semibold sm:text-sm">
                         Distribuição de Variações
                       </h4>
-                      <div className="flex gap-4">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
                         <div className="flex items-center gap-2">
-                          <div className="bg-primary h-3 w-3 rounded-full" />
-                          <span className="text-sm">
+                          <div className="bg-primary h-3 w-3 shrink-0 rounded-full" />
+                          <span className="text-xs sm:text-sm">
                             Padrão:{" "}
                             <span className="font-medium">
                               {menu.variationDistribution.standard}
@@ -219,8 +222,8 @@ export function PopularMenusRanking({
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                          <span className="text-sm">
+                          <div className="h-3 w-3 shrink-0 rounded-full bg-yellow-500" />
+                          <span className="text-xs sm:text-sm">
                             Com Ovo:{" "}
                             <span className="font-medium">
                               {menu.variationDistribution.withEgg}
@@ -234,23 +237,23 @@ export function PopularMenusRanking({
 
                     {/* Menu Composition by Category */}
                     <div>
-                      <h4 className="mb-3 text-sm font-semibold">
+                      <h4 className="mb-3 text-xs font-semibold sm:text-sm">
                         Composição Completa
                       </h4>
                       <div className="space-y-3">
                         {menu.composition.map((category, idx) => (
                           <div
                             key={idx}
-                            className="bg-muted/30 rounded-lg border p-3"
+                            className="bg-muted/30 rounded-lg border p-2.5 sm:p-3"
                           >
-                            <h5 className="mb-2 text-sm font-medium">
+                            <h5 className="mb-2 text-xs font-medium sm:text-sm">
                               {category.categoryName}
                             </h5>
-                            <ul className="text-muted-foreground space-y-1 text-sm">
+                            <ul className="text-muted-foreground space-y-1 text-xs sm:text-sm">
                               {category.items.map((item, itemIdx) => (
                                 <li key={itemIdx} className="flex items-start">
                                   <span className="mr-2">•</span>
-                                  <span>{item}</span>
+                                  <span className="break-words">{item}</span>
                                 </li>
                               ))}
                             </ul>

@@ -62,32 +62,32 @@ export const WasteReportAnalysis = memo(function WasteReportAnalysis({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             {/* Cancelamentos de Última Hora */}
-            <div className="space-y-3 rounded-lg border p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-950">
-                  <Clock className="h-6 w-6 text-orange-600 dark:text-orange-500" />
+            <div className="space-y-3 rounded-lg border p-3 sm:p-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-100 sm:h-12 sm:w-12 dark:bg-orange-950">
+                  <Clock className="h-5 w-5 text-orange-600 sm:h-6 sm:w-6 dark:text-orange-500" />
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-medium sm:text-sm">
                     Cancelamentos de Última Hora
                   </p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-muted-foreground text-[10px] sm:text-xs">
                     Entre 6:30 AM e 8:30 AM do dia anterior
                   </p>
                 </div>
               </div>
               <div className="flex items-end justify-between">
-                <span className="text-3xl font-bold text-orange-600 dark:text-orange-500">
+                <span className="text-2xl font-bold text-orange-600 sm:text-3xl dark:text-orange-500">
                   {patterns.lastMinuteCancellations}
                 </span>
-                <span className="text-muted-foreground text-sm">
+                <span className="text-muted-foreground text-xs sm:text-sm">
                   cancelamentos
                 </span>
               </div>
               {patterns.lastMinuteCancellations > 0 && (
-                <p className="text-xs text-orange-600 dark:text-orange-500">
+                <p className="text-[10px] text-orange-600 sm:text-xs dark:text-orange-500">
                   ⚠️ Cancelamentos em horário crítico que dificultam o
                   planejamento
                 </p>
@@ -95,28 +95,30 @@ export const WasteReportAnalysis = memo(function WasteReportAnalysis({
             </div>
 
             {/* Canceladores Recorrentes */}
-            <div className="space-y-3 rounded-lg border p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-950">
-                  <Users className="h-6 w-6 text-red-600 dark:text-red-500" />
+            <div className="space-y-3 rounded-lg border p-3 sm:p-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 sm:h-12 sm:w-12 dark:bg-red-950">
+                  <Users className="h-5 w-5 text-red-600 sm:h-6 sm:w-6 dark:text-red-500" />
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-medium sm:text-sm">
                     Canceladores Recorrentes
                   </p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-muted-foreground text-[10px] sm:text-xs">
                     Usuários com mais de 3 cancelamentos
                   </p>
                 </div>
               </div>
               <div className="flex items-end justify-between">
-                <span className="text-3xl font-bold text-red-600 dark:text-red-500">
+                <span className="text-2xl font-bold text-red-600 sm:text-3xl dark:text-red-500">
                   {patterns.recurringCancellers}
                 </span>
-                <span className="text-muted-foreground text-sm">usuários</span>
+                <span className="text-muted-foreground text-xs sm:text-sm">
+                  usuários
+                </span>
               </div>
               {patterns.recurringCancellers > 0 && (
-                <p className="text-xs text-red-600 dark:text-red-500">
+                <p className="text-[10px] text-red-600 sm:text-xs dark:text-red-500">
                   ⚠️ Usuários com padrão de cancelamento frequente
                 </p>
               )}
@@ -186,17 +188,22 @@ export const WasteReportAnalysis = memo(function WasteReportAnalysis({
         </CardHeader>
         <CardContent>
           {topCancellers.length > 0 ? (
-            <div className="overflow-x-auto">
+            <div
+              className="w-full overflow-x-auto rounded-md border"
+              role="region"
+              aria-label="Tabela de usuários com mais cancelamentos"
+              tabIndex={0}
+            >
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-12">#</TableHead>
-                    <TableHead>Nome</TableHead>
-                    <TableHead>CPF</TableHead>
-                    <TableHead className="text-right">
+                    <TableHead className="w-12 whitespace-nowrap">#</TableHead>
+                    <TableHead className="whitespace-nowrap">Nome</TableHead>
+                    <TableHead className="whitespace-nowrap">CPF</TableHead>
+                    <TableHead className="text-right whitespace-nowrap">
                       Total de Cancelamentos
                     </TableHead>
-                    <TableHead className="text-right">
+                    <TableHead className="text-right whitespace-nowrap">
                       Taxa de Cancelamento
                     </TableHead>
                   </TableRow>
@@ -210,7 +217,7 @@ export const WasteReportAnalysis = memo(function WasteReportAnalysis({
                           "bg-red-50 dark:bg-red-950/20",
                       )}
                     >
-                      <TableCell className="font-medium">
+                      <TableCell className="font-medium whitespace-nowrap">
                         <div
                           className={cn(
                             "flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold",
@@ -226,13 +233,13 @@ export const WasteReportAnalysis = memo(function WasteReportAnalysis({
                           {index + 1}
                         </div>
                       </TableCell>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-medium whitespace-nowrap">
                         {user.userName}
                       </TableCell>
-                      <TableCell className="text-muted-foreground font-mono text-sm">
+                      <TableCell className="text-muted-foreground font-mono text-sm whitespace-nowrap">
                         {user.userCpf}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right whitespace-nowrap">
                         <span
                           className={cn(
                             "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
@@ -246,7 +253,7 @@ export const WasteReportAnalysis = memo(function WasteReportAnalysis({
                           {user.totalCancellations}
                         </span>
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right whitespace-nowrap">
                         <span
                           className={cn(
                             "font-medium",
@@ -275,22 +282,22 @@ export const WasteReportAnalysis = memo(function WasteReportAnalysis({
 
           {/* Legenda de cores */}
           {topCancellers.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-4 border-t pt-4">
+            <div className="mt-4 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:flex-wrap sm:gap-4">
               <div className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-full bg-red-500" />
-                <span className="text-muted-foreground text-xs">
+                <div className="h-3 w-3 shrink-0 rounded-full bg-red-500" />
+                <span className="text-muted-foreground text-[10px] sm:text-xs">
                   Crítico (&gt;10 cancelamentos ou &gt;50% taxa)
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-full bg-orange-500" />
-                <span className="text-muted-foreground text-xs">
+                <div className="h-3 w-3 shrink-0 rounded-full bg-orange-500" />
+                <span className="text-muted-foreground text-[10px] sm:text-xs">
                   Moderado (5-10 cancelamentos ou 30-50% taxa)
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                <span className="text-muted-foreground text-xs">
+                <div className="h-3 w-3 shrink-0 rounded-full bg-yellow-500" />
+                <span className="text-muted-foreground text-[10px] sm:text-xs">
                   Baixo (&lt;5 cancelamentos ou &lt;30% taxa)
                 </span>
               </div>

@@ -74,7 +74,7 @@ export const PieChart = memo(function PieChart({
   );
 
   return (
-    <ResponsiveContainer width="100%" height={height}>
+    <ResponsiveContainer width="100%" height={height} minWidth={300}>
       <RechartsPieChart>
         <Pie
           data={data}
@@ -82,7 +82,7 @@ export const PieChart = memo(function PieChart({
           cy="50%"
           labelLine={false}
           label={renderCustomLabel}
-          outerRadius={80}
+          outerRadius={height < 300 ? 60 : 80}
           fill="#8884d8"
           dataKey="value"
         >
@@ -95,9 +95,10 @@ export const PieChart = memo(function PieChart({
             backgroundColor: "hsl(var(--background))",
             border: "1px solid hsl(var(--border))",
             borderRadius: "var(--radius)",
+            fontSize: "12px",
           }}
         />
-        <Legend />
+        <Legend wrapperStyle={{ fontSize: "12px" }} />
       </RechartsPieChart>
     </ResponsiveContainer>
   );

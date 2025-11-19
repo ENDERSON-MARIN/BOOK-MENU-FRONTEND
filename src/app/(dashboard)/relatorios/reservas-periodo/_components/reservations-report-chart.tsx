@@ -62,7 +62,9 @@ export const ReservationsReportChart = memo(function ReservationsReportChart({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <LineChart data={chartData} xKey="date" lines={lines} height={350} />
+        <div className="h-[250px] sm:h-[350px]">
+          <LineChart data={chartData} xKey="date" lines={lines} height={350} />
+        </div>
       </CardContent>
     </Card>
   );
