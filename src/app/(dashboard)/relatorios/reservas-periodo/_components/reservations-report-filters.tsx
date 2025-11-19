@@ -1,6 +1,7 @@
 "use client";
 
 import { FilterX } from "lucide-react";
+import { useCallback } from "react";
 import { z } from "zod";
 
 import { PeriodFilter } from "@/_components/reports/period-filter";
@@ -64,52 +65,71 @@ export function ReservationsReportFilters({
   });
 
   // Validar filtros com Zod e notificar mudanças
-  const handleFiltersChange = (updatedFilters: ReportFilters) => {
-    try {
-      const validatedFilters = reservationsFiltersSchema.parse(updatedFilters);
-      onFiltersChange(validatedFilters);
-    } catch (error) {
-      // Validação falhou, não notificar mudanças
-      console.error("Validation error:", error);
-    }
-  };
+  const handleFiltersChange = useCallback(
+    (updatedFilters: ReportFilters) => {
+      try {
+        const validatedFilters =
+          reservationsFiltersSchema.parse(updatedFilters);
+        onFiltersChange(validatedFilters);
+      } catch (error) {
+        // Validação falhou, não notificar mudanças
+        console.error("Validation error:", error);
+      }
+    },
+    [onFiltersChange],
+  );
 
   // Handlers para mudanças nos filtros
-  const handleStartDateChange = (date: string) => {
-    setStartDate(date);
-    const updatedFilters = { ...filters, startDate: date };
-    handleFiltersChange(updatedFilters);
-  };
+  const handleStartDateChange = useCallback(
+    (date: string) => {
+      setStartDate(date);
+      const updatedFilters = { ...filters, startDate: date };
+      handleFiltersChange(updatedFilters);
+    },
+    [filters, setStartDate, handleFiltersChange],
+  );
 
-  const handleEndDateChange = (date: string) => {
-    setEndDate(date);
-    const updatedFilters = { ...filters, endDate: date };
-    handleFiltersChange(updatedFilters);
-  };
+  const handleEndDateChange = useCallback(
+    (date: string) => {
+      setEndDate(date);
+      const updatedFilters = { ...filters, endDate: date };
+      handleFiltersChange(updatedFilters);
+    },
+    [filters, setEndDate, handleFiltersChange],
+  );
 
-  const handlePresetSelect = (preset: ReportPeriod) => {
-    setPresetPeriod(preset);
-    // O hook já atualiza startDate e endDate, então notificamos após um pequeno delay
-    setTimeout(() => {
-      handleFiltersChange(filters);
-    }, 0);
-  };
+  const handlePresetSelect = useCallback(
+    (preset: ReportPeriod) => {
+      setPresetPeriod(preset);
+      // O hook já atualiza startDate e endDate, então notificamos após um pequeno delay
+      setTimeout(() => {
+        handleFiltersChange(filters);
+      }, 0);
+    },
+    [setPresetPeriod, filters, handleFiltersChange],
+  );
 
-  const handleStatusChange = (value: string) => {
-    const status = value as ReportFilters["status"];
-    setStatus(status);
-    const updatedFilters = { ...filters, status };
-    handleFiltersChange(updatedFilters);
-  };
+  const handleStatusChange = useCallback(
+    (value: string) => {
+      const status = value as ReportFilters["status"];
+      setStatus(status);
+      const updatedFilters = { ...filters, status };
+      handleFiltersChange(updatedFilters);
+    },
+    [filters, setStatus, handleFiltersChange],
+  );
 
-  const handleReservationTypeChange = (value: string) => {
-    const reservationType = value as ReportFilters["reservationType"];
-    setReservationType(reservationType);
-    const updatedFilters = { ...filters, reservationType };
-    handleFiltersChange(updatedFilters);
-  };
+  const handleReservationTypeChange = useCallback(
+    (value: string) => {
+      const reservationType = value as ReportFilters["reservationType"];
+      setReservationType(reservationType);
+      const updatedFilters = { ...filters, reservationType };
+      handleFiltersChange(updatedFilters);
+    },
+    [filters, setReservationType, handleFiltersChange],
+  );
 
-  const handleClearFilters = () => {
+  const handleClearFilters = useCallback(() => {
     clearFilters();
     onFiltersChange({
       startDate: "",
@@ -117,7 +137,7 @@ export function ReservationsReportFilters({
       status: "ALL",
       reservationType: "ALL",
     });
-  };
+  }, [clearFilters, onFiltersChange]);
 
   // Contar filtros ativos (além das datas obrigatórias)
   const activeFiltersCount = [

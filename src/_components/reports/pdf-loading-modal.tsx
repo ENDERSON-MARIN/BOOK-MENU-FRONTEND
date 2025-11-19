@@ -21,19 +21,22 @@ export function PDFLoadingModal({
 }: PDFLoadingModalProps) {
   return (
     <Dialog open={isOpen}>
-      <DialogContent showCloseButton={false} className="sm:max-w-md">
+      <DialogContent
+        showCloseButton={false}
+        className="w-[calc(100vw-2rem)] max-w-md sm:w-full"
+      >
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <FileDownIcon className="text-primary h-5 w-5" />
+          <DialogTitle className="flex items-center justify-center gap-2 text-base sm:justify-start sm:text-lg">
+            <FileDownIcon className="text-primary h-5 w-5 shrink-0" />
             Gerando PDF
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-center text-xs sm:text-left sm:text-sm">
             Por favor, aguarde enquanto o relatório está sendo gerado...
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col items-center justify-center space-y-4 py-6">
-          <Loader2Icon className="text-primary h-12 w-12 animate-spin" />
+        <div className="flex flex-col items-center justify-center space-y-4 py-4 sm:py-6">
+          <Loader2Icon className="text-primary h-10 w-10 animate-spin sm:h-12 sm:w-12" />
 
           {/* Progress bar */}
           <div className="w-full space-y-2">
@@ -43,7 +46,7 @@ export function PDFLoadingModal({
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="text-muted-foreground text-center text-sm">
+            <p className="text-muted-foreground text-center text-xs sm:text-sm">
               {progress < 30 && "Preparando dados..."}
               {progress >= 30 && progress < 70 && "Gerando documento..."}
               {progress >= 70 && progress < 100 && "Finalizando..."}

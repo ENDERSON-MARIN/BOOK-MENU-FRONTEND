@@ -1,6 +1,7 @@
 "use client";
 
 import { TrendingUp, UserCheck, Users } from "lucide-react";
+import { memo, useMemo } from "react";
 
 import { PieChart } from "@/_components/charts/pie-chart";
 import { StatCard } from "@/_components/reports/stat-card";
@@ -16,23 +17,33 @@ interface ActiveUsersStatsProps {
   data: ActiveUsersReportData;
 }
 
-export function ActiveUsersStats({ data }: ActiveUsersStatsProps) {
+export const ActiveUsersStats = memo(function ActiveUsersStats({
+  data,
+}: ActiveUsersStatsProps) {
   const { summary, userTypeDistribution } = data;
 
-  // Preparar dados para o gráfico de pizza
-  const pieChartData = [
-    {
-      name: "Fixo",
-      value: userTypeDistribution.fixo,
-    },
-    {
-      name: "Não Fixo",
-      value: userTypeDistribution.naoFixo,
-    },
-  ];
+  // Preparar dados para o gráfico de pizza com useMemo
+  const pieChartData = useMemo(
+    () => [
+      {
+        name: "Fixo",
+        value: userTypeDistribution.fixo,
+      },
+      {
+        name: "Não Fixo",
+        value: userTypeDistribution.naoFixo,
+      },
+    ],
+    [userTypeDistribution.fixo, userTypeDistribution.naoFixo],
+  );
 
   // Cores da empresa: verde principal e amarelo
-  const colors = ["#1b994b", "#e4e30d"];
+  const colors = useMemo(() => ["#1b994b", "#e4e30d"], []);
+
+  const adherenceRate = useMemo(
+    () => summary.adherenceRate.toFixed(1),
+    [summary.adherenceRate],
+  );
 
   return (
     <div className="space-y-6">
@@ -53,7 +64,7 @@ export function ActiveUsersStats({ data }: ActiveUsersStatsProps) {
         <StatCard
           icon={TrendingUp}
           title="Taxa de Adesão"
-          value={`${summary.adherenceRate.toFixed(1)}%`}
+          value={`${adherenceRate}%`}
           description="Percentual de usuários ativos"
         />
       </div>
@@ -63,10 +74,12 @@ export function ActiveUsersStats({ data }: ActiveUsersStatsProps) {
         <CardHeader>
           <CardTitle>Distribuição por Tipo de Usuário</CardTitle>
         </CardHeader>
-        <CardContent>
-          <PieChart data={pieChartData} colors={colors} height={300} />
+        <CardContent className="flex justify-center">
+          <div className="h-[250px] w-full sm:h-[300px]">
+            <PieChart data={pieChartData} colors={colors} height={300} />
+          </div>
         </CardContent>
       </Card>
     </div>
   );
-}
+});

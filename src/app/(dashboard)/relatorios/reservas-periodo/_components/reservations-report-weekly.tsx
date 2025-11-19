@@ -33,20 +33,24 @@ export function ReservationsReportWeekly({
           {data.weeklyData.map((week, index) => (
             <div
               key={`${week.weekStart}-${week.weekEnd}`}
-              className="hover:bg-muted/50 flex items-center justify-between rounded-lg border p-4 transition-colors"
+              className="hover:bg-muted/50 flex flex-col gap-3 rounded-lg border p-3 transition-colors sm:flex-row sm:items-center sm:justify-between sm:p-4"
             >
               <div className="flex flex-col gap-1">
-                <span className="text-sm font-medium">Semana {index + 1}</span>
-                <span className="text-muted-foreground text-xs">
+                <span className="text-xs font-medium sm:text-sm">
+                  Semana {index + 1}
+                </span>
+                <span className="text-muted-foreground text-[10px] sm:text-xs">
                   {dayjs(week.weekStart).format("DD/MM/YYYY")} -{" "}
                   {dayjs(week.weekEnd).format("DD/MM/YYYY")}
                 </span>
               </div>
-              <div className="flex flex-col items-end gap-1">
-                <span className="text-primary text-2xl font-bold">
+              <div className="flex flex-col items-start gap-1 sm:items-end">
+                <span className="text-primary text-xl font-bold sm:text-2xl">
                   {week.total}
                 </span>
-                <span className="text-muted-foreground text-xs">reservas</span>
+                <span className="text-muted-foreground text-[10px] sm:text-xs">
+                  reservas
+                </span>
               </div>
             </div>
           ))}

@@ -1,5 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { memo } from "react";
 
 import { Button } from "@/_components/ui/button";
 import {
@@ -18,7 +19,7 @@ interface ReportCardProps {
   href: string;
 }
 
-export function ReportCard({
+export const ReportCard = memo(function ReportCard({
   title,
   description,
   icon: Icon,
@@ -44,4 +45,4 @@ export function ReportCard({
       </CardFooter>
     </Card>
   );
-}
+});

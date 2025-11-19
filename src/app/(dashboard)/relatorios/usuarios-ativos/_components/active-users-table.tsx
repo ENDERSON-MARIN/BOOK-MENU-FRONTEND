@@ -10,7 +10,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 
 import { Button } from "@/_components/ui/button";
 import {
@@ -35,7 +35,9 @@ interface ActiveUsersTableProps {
   data: ActiveUsersReportData;
 }
 
-export function ActiveUsersTable({ data }: ActiveUsersTableProps) {
+export const ActiveUsersTable = memo(function ActiveUsersTable({
+  data,
+}: ActiveUsersTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: "totalReservations", desc: true },
   ]);
@@ -185,4 +187,4 @@ export function ActiveUsersTable({ data }: ActiveUsersTableProps) {
       </CardContent>
     </Card>
   );
-}
+});

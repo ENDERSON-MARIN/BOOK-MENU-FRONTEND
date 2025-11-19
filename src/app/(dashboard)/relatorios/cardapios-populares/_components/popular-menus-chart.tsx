@@ -86,8 +86,12 @@ export function PopularMenusChart({ data, className }: PopularMenusChartProps) {
     <div className={cn("space-y-4", className)}>
       <Tabs defaultValue="bar-chart" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="bar-chart">Top 10 Cardápios</TabsTrigger>
-          <TabsTrigger value="pie-chart">Distribuição de Variações</TabsTrigger>
+          <TabsTrigger value="bar-chart" className="text-xs sm:text-sm">
+            Top 10 Cardápios
+          </TabsTrigger>
+          <TabsTrigger value="pie-chart" className="text-xs sm:text-sm">
+            Distribuição de Variações
+          </TabsTrigger>
         </TabsList>
 
         {/* Gráfico de Barras Horizontal - Top 10 */}
@@ -100,19 +104,21 @@ export function PopularMenusChart({ data, className }: PopularMenusChartProps) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <BarChart
-                data={barChartData}
-                xKey="name"
-                bars={[
-                  {
-                    dataKey: "reservas",
-                    name: "Reservas",
-                    color: "#1b994b",
-                  },
-                ]}
-                layout="horizontal"
-                height={400}
-              />
+              <div className="h-[300px] sm:h-[400px]">
+                <BarChart
+                  data={barChartData}
+                  xKey="name"
+                  bars={[
+                    {
+                      dataKey: "reservas",
+                      name: "Reservas",
+                      color: "#1b994b",
+                    },
+                  ]}
+                  layout="horizontal"
+                  height={400}
+                />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -127,12 +133,14 @@ export function PopularMenusChart({ data, className }: PopularMenusChartProps) {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
-              <PieChart
-                data={pieChartData}
-                colors={pieColors}
-                height={350}
-                showPercentage={true}
-              />
+              <div className="h-[250px] w-full sm:h-[350px]">
+                <PieChart
+                  data={pieChartData}
+                  colors={pieColors}
+                  height={350}
+                  showPercentage={true}
+                />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

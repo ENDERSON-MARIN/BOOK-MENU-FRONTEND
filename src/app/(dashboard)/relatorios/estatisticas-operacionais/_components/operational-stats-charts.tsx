@@ -47,8 +47,12 @@ export function OperationalStatsCharts({ data }: OperationalStatsChartsProps) {
       <CardContent>
         <Tabs defaultValue="day-of-week" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="day-of-week">Por Dia da Semana</TabsTrigger>
-            <TabsTrigger value="variation">Por Variação</TabsTrigger>
+            <TabsTrigger value="day-of-week" className="text-xs sm:text-sm">
+              Por Dia da Semana
+            </TabsTrigger>
+            <TabsTrigger value="variation" className="text-xs sm:text-sm">
+              Por Variação
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="day-of-week" className="mt-6">
@@ -59,7 +63,7 @@ export function OperationalStatsCharts({ data }: OperationalStatsChartsProps) {
               <p className="text-muted-foreground text-xs">
                 Visualize quais dias da semana têm maior volume de reservas
               </p>
-              <div className="mt-4">
+              <div className="mt-4 h-[250px] sm:h-[350px]">
                 <BarChart
                   data={dayOfWeekChartData}
                   xKey="dayOfWeek"
@@ -84,7 +88,7 @@ export function OperationalStatsCharts({ data }: OperationalStatsChartsProps) {
               <p className="text-muted-foreground text-xs">
                 Proporção entre reservas padrão e com ovo
               </p>
-              <div className="mt-4 flex justify-center">
+              <div className="mt-4 flex h-[250px] w-full justify-center sm:h-[350px]">
                 <PieChart
                   data={variationChartData}
                   colors={["#1b994b", "#e4e30d"]}

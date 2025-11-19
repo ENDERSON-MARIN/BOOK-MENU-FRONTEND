@@ -342,7 +342,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Adicionar loading states apropriados
   - _Requirements: 9.6_
 
-- [ ] 45. Implementar memoization
+- [x] 45. Implementar memoization
   - Adicionar React.memo em componentes de gráficos
   - Usar useMemo para cálculos pesados de processamento
   - Usar useCallback para funções passadas como props
@@ -368,7 +368,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 12: Responsividade e Acessibilidade
 
-- [ ] 49. Otimizar layout para mobile
+- [x] 49. Otimizar layout para mobile
   - Testar todos os relatórios em viewport 320px+
   - Implementar scroll horizontal em tabelas para mobile
   - Ajustar grid de cards para 1 coluna em mobile

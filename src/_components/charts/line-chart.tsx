@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   CartesianGrid,
   Legend,
@@ -24,28 +25,41 @@ interface LineChartProps {
   height?: number;
 }
 
-export function LineChart({ data, xKey, lines, height = 300 }: LineChartProps) {
+export const LineChart = memo(function LineChart({
+  data,
+  xKey,
+  lines,
+  height = 300,
+}: LineChartProps) {
   return (
-    <ResponsiveContainer width="100%" height={height}>
-      <RechartsLineChart data={data}>
+    <ResponsiveContainer width="100%" height={height} minWidth={300}>
+      <RechartsLineChart
+        data={data}
+        margin={{ top: 5, right: 10, left: -10, bottom: 5 }}
+      >
         <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
         <XAxis
           dataKey={xKey}
           className="text-xs"
-          tick={{ fill: "hsl(var(--muted-foreground))" }}
+          tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
+          angle={-45}
+          textAnchor="end"
+          height={60}
         />
         <YAxis
           className="text-xs"
-          tick={{ fill: "hsl(var(--muted-foreground))" }}
+          tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
+          width={40}
         />
         <Tooltip
           contentStyle={{
             backgroundColor: "hsl(var(--background))",
             border: "1px solid hsl(var(--border))",
             borderRadius: "var(--radius)",
+            fontSize: "12px",
           }}
         />
-        <Legend />
+        <Legend wrapperStyle={{ fontSize: "12px" }} />
         {lines.map((line) => (
           <Line
             key={line.dataKey}
@@ -54,11 +68,11 @@ export function LineChart({ data, xKey, lines, height = 300 }: LineChartProps) {
             name={line.name}
             stroke={line.color}
             strokeWidth={2}
-            dot={{ fill: line.color }}
-            activeDot={{ r: 6 }}
+            dot={{ fill: line.color, r: 3 }}
+            activeDot={{ r: 5 }}
           />
         ))}
       </RechartsLineChart>
     </ResponsiveContainer>
   );
-}
+});
