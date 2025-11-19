@@ -1,10 +1,9 @@
 "use client";
 
-import { Download } from "lucide-react";
 import { useState } from "react";
 
+import { ExportPDFButton } from "@/_components/reports/export-pdf-button";
 import { ReportChartSkeleton } from "@/_components/reports/report-chart-skeleton";
-import { Button } from "@/_components/ui/button";
 import {
   PageContainer,
   PageContent,
@@ -15,6 +14,8 @@ import {
   PageHeaderTitle,
 } from "@/_components/ui/page-container";
 import { useGetWasteReport } from "@/_hooks/queries/use-get-waste-report";
+import { generateReportFilename, REPORT_TYPES } from "@/_lib/pdf/generate-pdf";
+import { WasteReportPDF } from "@/_lib/pdf/waste-report-pdf";
 import { ReportFilters } from "@/_types/report";
 
 import { WasteReportAnalysis } from "./_components/waste-report-analysis";
@@ -35,11 +36,6 @@ export default function DesperdicioPage() {
 
   const { data, isLoading, isError } = useGetWasteReport(filters);
 
-  const handleExportPDF = () => {
-    // TODO: Implementar exportação de PDF (Phase 10)
-    console.log("Exportar PDF", filters);
-  };
-
   return (
     <PageContainer>
       <PageHeaderContainer>
@@ -52,14 +48,16 @@ export default function DesperdicioPage() {
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
-          <Button
-            onClick={handleExportPDF}
-            disabled={!hasValidFilters}
+          <ExportPDFButton
+            pdfComponent={<WasteReportPDF data={data!} filters={filters} />}
+            filename={generateReportFilename(
+              REPORT_TYPES.WASTE,
+              filters.startDate,
+              filters.endDate,
+            )}
+            disabled={!hasValidFilters || isLoading || !data}
             variant="outline"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Exportar PDF
-          </Button>
+          />
         </PageHeaderActions>
       </PageHeaderContainer>
 

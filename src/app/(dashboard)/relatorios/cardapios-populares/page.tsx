@@ -2,6 +2,7 @@
 
 import { Download } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { ReportChartSkeleton } from "@/_components/reports/report-chart-skeleton";
 import { Button } from "@/_components/ui/button";
@@ -36,8 +37,10 @@ export default function CardapiosPopularesPage() {
   const { data, isLoading, isError, error } = useGetPopularMenusReport(filters);
 
   const handleExportPDF = () => {
-    // TODO: Implementar exportação de PDF (Phase 10)
-    console.log("Exportar PDF", filters);
+    // TODO: Implementar componente PDF para cardápios populares (Task 38)
+    toast.info(
+      "Exportação de PDF para cardápios populares será implementada em breve.",
+    );
   };
 
   return (

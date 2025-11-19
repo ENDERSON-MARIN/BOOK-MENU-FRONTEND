@@ -1,10 +1,9 @@
 "use client";
 
-import { Download } from "lucide-react";
 import { useState } from "react";
 
+import { ExportPDFButton } from "@/_components/reports/export-pdf-button";
 import { ReportChartSkeleton } from "@/_components/reports/report-chart-skeleton";
-import { Button } from "@/_components/ui/button";
 import {
   PageContainer,
   PageContent,
@@ -15,6 +14,8 @@ import {
   PageHeaderTitle,
 } from "@/_components/ui/page-container";
 import { useGetReservationsReport } from "@/_hooks/queries/use-get-reservations-report";
+import { generateReportFilename, REPORT_TYPES } from "@/_lib/pdf/generate-pdf";
+import { ReservationsReportPDF } from "@/_lib/pdf/reservations-report-pdf";
 import { ReportFilters } from "@/_types/report";
 
 import { ReservationsReportChart } from "./_components/reservations-report-chart";
@@ -39,11 +40,6 @@ export default function ReservasPeriodoPage() {
 
   const { data, isLoading, isError } = useGetReservationsReport(filters);
 
-  const handleExportPDF = () => {
-    // TODO: Implementar exportação de PDF (Phase 10)
-    console.log("Exportar PDF", filters);
-  };
-
   return (
     <PageContainer>
       <PageHeaderContainer>
@@ -55,14 +51,18 @@ export default function ReservasPeriodoPage() {
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
-          <Button
-            onClick={handleExportPDF}
-            disabled={!hasValidFilters}
+          <ExportPDFButton
+            pdfComponent={
+              <ReservationsReportPDF data={data!} filters={filters} />
+            }
+            filename={generateReportFilename(
+              REPORT_TYPES.RESERVATIONS,
+              filters.startDate,
+              filters.endDate,
+            )}
+            disabled={!hasValidFilters || isLoading || !data}
             variant="outline"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Exportar PDF
-          </Button>
+          />
         </PageHeaderActions>
       </PageHeaderContainer>
 

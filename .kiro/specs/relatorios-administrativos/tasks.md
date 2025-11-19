@@ -277,7 +277,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 10: Exportação de Relatórios em PDF
 
-- [ ] 36. Criar template base de PDF
+- [x] 36. Criar template base de PDF
   - Criar `src/_lib/pdf/report-pdf-template.tsx`
   - Implementar componente ReportPDF com header, footer e layout
   - Aplicar estilos com cores da empresa
@@ -285,7 +285,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Adicionar numeração de páginas
   - _Requirements: 7.3, 7.4, 7.5, 7.6_
 
-- [ ] 37. Criar componente PDF para relatório de reservas
+- [x] 37. Criar componente PDF para relatório de reservas
   - Criar `src/_lib/pdf/reservations-report-pdf.tsx`
   - Incluir estatísticas em cards
   - Incluir tabela de reservas
@@ -298,27 +298,27 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Incluir composição de cada cardápio
   - _Requirements: 7.4_
 
-- [ ] 39. Criar componente PDF para relatório de usuários
+- [x] 39. Criar componente PDF para relatório de usuários
   - Criar `src/_lib/pdf/active-users-report-pdf.tsx`
   - Incluir estatísticas gerais
   - Incluir tabela de usuários
   - Mascarar CPF
   - _Requirements: 7.4_
 
-- [ ] 40. Criar componente PDF para relatório operacional
+- [x] 40. Criar componente PDF para relatório operacional
   - Criar `src/_lib/pdf/operational-stats-report-pdf.tsx`
   - Incluir todas as métricas consolidadas
   - Organizar em seções
   - _Requirements: 7.4_
 
-- [ ] 41. Criar componente PDF para relatório de desperdício
+- [x] 41. Criar componente PDF para relatório de desperdício
   - Criar `src/_lib/pdf/waste-report-pdf.tsx`
   - Incluir estatísticas de cancelamento
   - Incluir análise de padrões
   - Destacar cancelamentos críticos
   - _Requirements: 7.4_
 
-- [ ] 42. Implementar função de geração e download de PDF
+- [x] 42. Implementar função de geração e download de PDF
   - Criar `src/_lib/pdf/generate-pdf.ts`
   - Implementar `generateAndDownloadPDF(component, filename)`
   - Adicionar tratamento de erros
@@ -326,7 +326,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar nomenclatura padrão: relatorio-[tipo]-[data-inicio]-[data-fim].pdf
   - _Requirements: 7.1, 7.2, 7.7, 7.8_
 
-- [ ] 43. Integrar botão de exportação em todos os relatórios
+- [x] 43. Integrar botão de exportação em todos os relatórios
   - Adicionar botão "Exportar PDF" no header de cada relatório
   - Desabilitar botão durante loading ou sem dados
   - Exibir toast de sucesso/erro

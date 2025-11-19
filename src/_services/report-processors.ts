@@ -211,21 +211,10 @@ export function processActiveUsersData(
     userReservations.get(r.userId)!.push(r);
   });
 
-  // Calculate user statistics
-  const usersWithStats = Array.from(userReservations.entries())
-    .map(([userId, userReservationsList]) => {
-      const user = users.find((u) => u.id === userId);
-      if (!user) return null;
-
-      // Filter by user type if needed
-      if (
-        filters.userType &&
-        filters.userType !== "ALL" &&
-        user.userType !== filters.userType
-      ) {
-        return null;
-      }
-
+  // Calculate user statistics for ALL filtered users (including those without reservations)
+  const usersWithStats = filteredUsers
+    .map((user) => {
+      const userReservationsList = userReservations.get(user.id) || [];
       const totalReservations = userReservationsList.length;
       const cancelledReservations = userReservationsList.filter(
         (r) => r.status === "CANCELLED",
@@ -245,16 +234,20 @@ export function processActiveUsersData(
         cancellationRate,
       };
     })
-    .filter((u) => u !== null)
-    .sort((a, b) => b!.totalReservations - a!.totalReservations);
+    .sort((a, b) => b.totalReservations - a.totalReservations);
 
-  // Calculate type distribution
-  const fixoCount = usersWithStats.filter((u) => u!.userType === "FIXO").length;
-  const naoFixoCount = usersWithStats.filter(
-    (u) => u!.userType === "NAO_FIXO",
+  // Calculate type distribution (only users with at least one reservation)
+  const activeUsersWithReservations = usersWithStats.filter(
+    (u) => u.totalReservations > 0,
+  );
+  const fixoCount = activeUsersWithReservations.filter(
+    (u) => u.userType === "FIXO",
+  ).length;
+  const naoFixoCount = activeUsersWithReservations.filter(
+    (u) => u.userType === "NAO_FIXO",
   ).length;
 
-  const totalActiveUsers = usersWithStats.length;
+  const totalActiveUsers = activeUsersWithReservations.length;
   const totalRegisteredUsers = filteredUsers.length;
   const adherenceRate = calculateAdherenceRate(
     totalActiveUsers,
@@ -446,8 +439,8 @@ export function processWasteData(
   // For now, we'll calculate based on cancelled only
   const cancellationRate = 100; // All fetched reservations are cancelled
 
-  // Estimate waste cost (assuming R$ 15 per meal)
-  const estimatedWasteCost = totalCancellations * 15;
+  // Estimate waste cost (assuming R$ 10 per meal)
+  const estimatedWasteCost = totalCancellations * 10;
 
   // Time distribution (before/after 8:30 AM deadline)
   const deadline = "08:30";

@@ -1,10 +1,9 @@
 "use client";
 
-import { Download } from "lucide-react";
 import { useState } from "react";
 
+import { ExportPDFButton } from "@/_components/reports/export-pdf-button";
 import { ReportChartSkeleton } from "@/_components/reports/report-chart-skeleton";
-import { Button } from "@/_components/ui/button";
 import {
   PageContainer,
   PageContent,
@@ -15,6 +14,8 @@ import {
   PageHeaderTitle,
 } from "@/_components/ui/page-container";
 import { useGetActiveUsersReport } from "@/_hooks/queries/use-get-active-users-report";
+import { ActiveUsersReportPDF } from "@/_lib/pdf/active-users-report-pdf";
+import { generateReportFilename, REPORT_TYPES } from "@/_lib/pdf/generate-pdf";
 import { ReportFilters } from "@/_types/report";
 
 import { ActiveUsersFilters } from "./_components/active-users-filters";
@@ -36,11 +37,6 @@ export default function UsuariosAtivosPage() {
 
   const { data, isLoading, isError } = useGetActiveUsersReport(filters);
 
-  const handleExportPDF = () => {
-    // TODO: Implementar exportação de PDF (Phase 10)
-    console.log("Exportar PDF", filters);
-  };
-
   return (
     <PageContainer>
       <PageHeaderContainer>
@@ -51,14 +47,18 @@ export default function UsuariosAtivosPage() {
           </PageHeaderDescription>
         </PageHeaderContent>
         <PageHeaderActions>
-          <Button
-            onClick={handleExportPDF}
-            disabled={!hasValidFilters || !data}
+          <ExportPDFButton
+            pdfComponent={
+              <ActiveUsersReportPDF data={data!} filters={filters} />
+            }
+            filename={generateReportFilename(
+              REPORT_TYPES.ACTIVE_USERS,
+              filters.startDate,
+              filters.endDate,
+            )}
+            disabled={!hasValidFilters || isLoading || !data}
             variant="outline"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Exportar PDF
-          </Button>
+          />
         </PageHeaderActions>
       </PageHeaderContainer>
 
