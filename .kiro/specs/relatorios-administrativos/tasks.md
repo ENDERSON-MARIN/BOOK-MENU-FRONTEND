@@ -6,20 +6,20 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 1: Fundação - Types, Schemas e Infraestrutura
 
-- [ ] 1. Criar types TypeScript para relatórios
+- [x] 1. Criar types TypeScript para relatórios
   - Criar `src/_types/report.ts` com todos os types e interfaces
   - Definir `ReportType`, `ReportPeriod`, `ReportFilters`
   - Definir interfaces para dados de cada relatório: `ReservationReportData`, `PopularMenusReportData`, `ActiveUsersReportData`, `OperationalStatsReportData`, `WasteReportData`
   - _Requirements: 11.7_
 
-- [ ] 2. Instalar dependências necessárias
+- [x] 2. Instalar dependências necessárias
   - Instalar recharts: `npm install recharts`
   - Instalar react-pdf: `npm install @react-pdf/renderer`
   - Instalar file-saver: `npm install file-saver @types/file-saver`
   - Atualizar package.json
   - _Requirements: 7.1, 11.3_
 
-- [ ] 3. Criar utilitários para processamento de dados
+- [x] 3. Criar utilitários para processamento de dados
   - Criar `src/_lib/report-utils.ts` com funções auxiliares
   - Implementar `calculateCancellationRate()`
   - Implementar `calculateAdherenceRate()`
@@ -28,7 +28,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar `formatReportDate()` usando dayjs
   - _Requirements: 2.4, 3.5, 4.5, 5.4, 6.3, 11.7_
 
-- [ ] 4. Criar hook customizado para filtros de período
+- [x] 4. Criar hook customizado para filtros de período
   - Criar `src/_hooks/use-report-filters.ts`
   - Implementar lógica para períodos pré-definidos (última semana, mês, etc.)
   - Implementar validação de datas (data inicial não pode ser posterior à final)
@@ -39,7 +39,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 2: Services e Data Fetching
 
-- [ ] 5. Criar service de relatórios
+- [x] 5. Criar service de relatórios
   - Criar `src/_services/report.service.ts`
   - Implementar `getReservationsReport(filters)` que busca reservas e processa dados
   - Implementar `getPopularMenusReport(filters)` que busca reservas e cardápios
@@ -48,7 +48,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar `getWasteReport(filters)` que busca reservas canceladas
   - _Requirements: 2.3, 3.2, 4.2, 5.2, 6.2, 11.6_
 
-- [ ] 6. Implementar funções de processamento de dados
+- [x] 6. Implementar funções de processamento de dados
   - Criar `src/_services/report-processors.ts`
   - Implementar `processReservationsData()` para agregar dados de reservas
   - Implementar `processPopularMenusData()` para ranking de cardápios
@@ -57,7 +57,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar `processWasteData()` para análise de cancelamentos
   - _Requirements: 2.4, 3.3, 4.3, 5.3, 6.3_
 
-- [ ] 7. Criar hooks Tanstack Query para relatórios
+- [x] 7. Criar hooks Tanstack Query para relatórios
   - Criar `src/_hooks/queries/use-get-reservations-report.ts`
   - Criar `src/_hooks/queries/use-get-popular-menus-report.ts`
   - Criar `src/_hooks/queries/use-get-active-users-report.ts`
@@ -70,7 +70,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 3: Componentes de UI Reutilizáveis
 
-- [ ] 8. Criar componentes de gráficos reutilizáveis
+- [x] 8. Criar componentes de gráficos reutilizáveis
   - Criar `src/_components/charts/line-chart.tsx` usando Recharts
   - Criar `src/_components/charts/bar-chart.tsx` com suporte a layout horizontal/vertical
   - Criar `src/_components/charts/pie-chart.tsx` com labels personalizados
@@ -78,14 +78,14 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Aplicar cores da empresa (#1b994b, #e4e30d)
   - _Requirements: 2.5, 3.6, 4.6, 5.6, 6.6, 10.3_
 
-- [ ] 9. Criar componentes de cards de estatísticas
+- [x] 9. Criar componentes de cards de estatísticas
   - Criar `src/_components/reports/stat-card.tsx`
   - Suportar ícone, título, valor, tendência e descrição
   - Implementar indicadores visuais de tendência (↑/↓)
   - Aplicar cores apropriadas (verde para positivo, vermelho para negativo)
   - _Requirements: 2.4, 4.4, 5.3, 9.1_
 
-- [ ] 10. Criar componente de filtro de período
+- [x] 10. Criar componente de filtro de período
   - Criar `src/_components/reports/period-filter.tsx`
   - Implementar date pickers para data inicial e final
   - Adicionar botões para períodos pré-definidos
@@ -93,7 +93,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Exibir mensagens de erro inline
   - _Requirements: 8.1, 8.2, 8.7, 9.5_
 
-- [ ] 11. Criar componentes de loading e empty states
+- [x] 11. Criar componentes de loading e empty states
   - Criar `src/_components/reports/report-stats-skeleton.tsx`
   - Criar `src/_components/reports/report-chart-skeleton.tsx`
   - Criar `src/_components/reports/report-table-skeleton.tsx`
@@ -104,13 +104,13 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 4: Dashboard Principal de Relatórios
 
-- [ ] 12. Criar layout e rota principal de relatórios
+- [x] 12. Criar layout e rota principal de relatórios
   - Criar `src/app/(dashboard)/relatorios/layout.tsx` com ProtectedRoute para ADMIN
   - Criar `src/app/(dashboard)/relatorios/page.tsx` como dashboard principal
   - Adicionar item "Relatórios" na sidebar para administradores
   - _Requirements: 1.1, 1.2, 1.5, 11.1, 11.2_
 
-- [ ] 13. Criar componente de dashboard de relatórios
+- [x] 13. Criar componente de dashboard de relatórios
   - Criar `src/app/(dashboard)/relatorios/_components/reports-dashboard.tsx`
   - Criar `src/app/(dashboard)/relatorios/_components/report-card.tsx`
   - Implementar grid responsivo de cards (2 colunas em desktop, 1 em mobile)
@@ -122,13 +122,13 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 5: Relatório de Reservas por Período
 
-- [ ] 14. Criar página de relatório de reservas
+- [x] 14. Criar página de relatório de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/page.tsx`
   - Implementar layout com filtros no topo e conteúdo abaixo
   - Adicionar botão "Exportar PDF" no header
   - _Requirements: 2.1, 7.1_
 
-- [ ] 15. Criar componente de filtros de reservas
+- [x] 15. Criar componente de filtros de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-filters.tsx`
   - Reutilizar PeriodFilter
   - Adicionar filtros por status (CONFIRMED, CANCELLED, TODOS)
@@ -136,21 +136,21 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar validação com Zod
   - _Requirements: 2.1, 2.2, 8.3, 8.5, 8.6_
 
-- [ ] 16. Criar componente de estatísticas de reservas
+- [x] 16. Criar componente de estatísticas de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-stats.tsx`
   - Exibir 4 cards: Total, Ativas, Canceladas, Taxa de Cancelamento
   - Usar StatCard component
   - Adicionar ícones apropriados (lucide-react)
   - _Requirements: 2.4_
 
-- [ ] 17. Criar componente de gráfico de reservas
+- [x] 17. Criar componente de gráfico de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-chart.tsx`
   - Usar LineChart com 3 linhas: total, confirmadas, canceladas
   - Exibir evolução diária no período
   - Adicionar tooltip com detalhes
   - _Requirements: 2.5_
 
-- [ ] 18. Criar componente de tabela de reservas
+- [x] 18. Criar componente de tabela de reservas
   - Criar `src/app/(dashboard)/relatorios/reservas-periodo/_components/reservations-report-table.tsx`
   - Implementar colunas: Data, Usuário (nome + CPF mascarado), Cardápio, Variação, Status, Tipo
   - Adicionar badge "Auto" para reservas automáticas
@@ -158,7 +158,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Ordenar por data decrescente
   - _Requirements: 2.6, 2.9_
 
-- [ ] 19. Criar seção de agrupamento semanal
+- [x] 19. Criar seção de agrupamento semanal
   - Adicionar card mostrando totais por semana
   - Exibir semana (data início - data fim) e total de reservas
   - _Requirements: 2.7_
@@ -167,17 +167,17 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 6: Relatório de Cardápios Populares
 
-- [ ] 20. Criar página de relatório de cardápios populares
+- [x] 20. Criar página de relatório de cardápios populares
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/page.tsx`
   - Implementar layout similar ao relatório de reservas
   - _Requirements: 3.1_
 
-- [ ] 21. Criar componente de filtros de cardápios
+- [x] 21. Criar componente de filtros de cardápios
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/_components/popular-menus-filters.tsx`
   - Reutilizar PeriodFilter
   - _Requirements: 3.1_
 
-- [ ] 22. Criar componente de ranking de cardápios
+- [x] 22. Criar componente de ranking de cardápios
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/_components/popular-menus-ranking.tsx`
   - Exibir top 10 cardápios em cards expansíveis
   - Mostrar: data, dia da semana, resumo, total de reservas, taxa de adesão
@@ -185,7 +185,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Adicionar badge visual para taxa de adesão (alta >70%, média 40-70%, baixa <40%)
   - _Requirements: 3.4, 3.5, 3.7_
 
-- [ ] 23. Criar componente de gráfico de cardápios
+- [x] 23. Criar componente de gráfico de cardápios
   - Criar `src/app/(dashboard)/relatorios/cardapios-populares/_components/popular-menus-chart.tsx`
   - Usar BarChart horizontal com top 10
   - Adicionar gráfico de pizza para distribuição de variações
@@ -195,23 +195,23 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 7: Relatório de Usuários Ativos
 
-- [ ] 24. Criar página de relatório de usuários ativos
+- [x] 24. Criar página de relatório de usuários ativos
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/page.tsx`
   - _Requirements: 4.1_
 
-- [ ] 25. Criar componente de filtros de usuários
+- [x] 25. Criar componente de filtros de usuários
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/_components/active-users-filters.tsx`
   - Reutilizar PeriodFilter
   - Adicionar filtro por tipo de usuário (FIXO, NAO_FIXO, TODOS)
   - _Requirements: 4.1, 8.4_
 
-- [ ] 26. Criar componente de estatísticas de usuários
+- [x] 26. Criar componente de estatísticas de usuários
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/_components/active-users-stats.tsx`
   - Exibir 3 cards: Total Ativos, Total Cadastrados, Taxa de Adesão
   - Adicionar gráfico de pizza para distribuição FIXO vs NAO_FIXO
   - _Requirements: 4.2, 4.3, 4.7_
 
-- [ ] 27. Criar componente de tabela de usuários
+- [x] 27. Criar componente de tabela de usuários
   - Criar `src/app/(dashboard)/relatorios/usuarios-ativos/_components/active-users-table.tsx`
   - Implementar colunas: Nome, CPF (mascarado), Tipo, Total Reservas, Canceladas, Taxa Cancelamento
   - Destacar em vermelho usuários com taxa >20%
@@ -223,23 +223,23 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 8: Relatório de Estatísticas Operacionais
 
-- [ ] 28. Criar página de relatório de estatísticas operacionais
+- [x] 28. Criar página de relatório de estatísticas operacionais
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/page.tsx`
   - _Requirements: 5.1_
 
-- [ ] 29. Criar componente de filtros operacionais
+- [x] 29. Criar componente de filtros operacionais
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/_components/operational-stats-filters.tsx`
   - Reutilizar PeriodFilter
   - _Requirements: 5.1_
 
-- [ ] 30. Criar componente de cards de métricas
+- [x] 30. Criar componente de cards de métricas
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/_components/operational-stats-cards.tsx`
   - Implementar grid 2x2 com 4 seções: Reservas, Usuários, Cardápios, Cancelamentos
   - Cada seção com múltiplas métricas
   - Adicionar card de tendência de crescimento com indicador visual
   - _Requirements: 5.2, 5.3, 5.4, 5.5, 5.8_
 
-- [ ] 31. Criar componente de gráficos operacionais
+- [x] 31. Criar componente de gráficos operacionais
   - Criar `src/app/(dashboard)/relatorios/estatisticas-operacionais/_components/operational-stats-charts.tsx`
   - Implementar tabs para diferentes visualizações
   - Gráfico de barras: distribuição por dia da semana
@@ -250,23 +250,23 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 9: Relatório de Desperdício e Cancelamentos
 
-- [ ] 32. Criar página de relatório de desperdício
+- [x] 32. Criar página de relatório de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/page.tsx`
   - _Requirements: 6.1_
 
-- [ ] 33. Criar componente de filtros de desperdício
+- [x] 33. Criar componente de filtros de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/_components/waste-report-filters.tsx`
   - Reutilizar PeriodFilter
   - _Requirements: 6.1_
 
-- [ ] 34. Criar componente de estatísticas de desperdício
+- [x] 34. Criar componente de estatísticas de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/_components/waste-report-stats.tsx`
   - Exibir 3 cards: Total Cancelamentos, Taxa, Custo Estimado
   - Adicionar card com distribuição antes/depois do prazo
   - Destacar em vermelho cancelamentos após prazo
   - _Requirements: 6.2, 6.3, 6.4, 6.8_
 
-- [ ] 35. Criar componente de análise de desperdício
+- [x] 35. Criar componente de análise de desperdício
   - Criar `src/app/(dashboard)/relatorios/desperdicio-cancelamentos/_components/waste-report-analysis.tsx`
   - Exibir top 10 usuários com mais cancelamentos
   - Adicionar gráfico de linha com evolução temporal
@@ -277,7 +277,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
 
 ## Phase 10: Exportação de Relatórios em PDF
 
-- [ ] 36. Criar template base de PDF
+- [x] 36. Criar template base de PDF
   - Criar `src/_lib/pdf/report-pdf-template.tsx`
   - Implementar componente ReportPDF com header, footer e layout
   - Aplicar estilos com cores da empresa
@@ -285,7 +285,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Adicionar numeração de páginas
   - _Requirements: 7.3, 7.4, 7.5, 7.6_
 
-- [ ] 37. Criar componente PDF para relatório de reservas
+- [x] 37. Criar componente PDF para relatório de reservas
   - Criar `src/_lib/pdf/reservations-report-pdf.tsx`
   - Incluir estatísticas em cards
   - Incluir tabela de reservas
@@ -298,27 +298,27 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Incluir composição de cada cardápio
   - _Requirements: 7.4_
 
-- [ ] 39. Criar componente PDF para relatório de usuários
+- [x] 39. Criar componente PDF para relatório de usuários
   - Criar `src/_lib/pdf/active-users-report-pdf.tsx`
   - Incluir estatísticas gerais
   - Incluir tabela de usuários
   - Mascarar CPF
   - _Requirements: 7.4_
 
-- [ ] 40. Criar componente PDF para relatório operacional
+- [x] 40. Criar componente PDF para relatório operacional
   - Criar `src/_lib/pdf/operational-stats-report-pdf.tsx`
   - Incluir todas as métricas consolidadas
   - Organizar em seções
   - _Requirements: 7.4_
 
-- [ ] 41. Criar componente PDF para relatório de desperdício
+- [x] 41. Criar componente PDF para relatório de desperdício
   - Criar `src/_lib/pdf/waste-report-pdf.tsx`
   - Incluir estatísticas de cancelamento
   - Incluir análise de padrões
   - Destacar cancelamentos críticos
   - _Requirements: 7.4_
 
-- [ ] 42. Implementar função de geração e download de PDF
+- [x] 42. Implementar função de geração e download de PDF
   - Criar `src/_lib/pdf/generate-pdf.ts`
   - Implementar `generateAndDownloadPDF(component, filename)`
   - Adicionar tratamento de erros
@@ -326,7 +326,7 @@ Este plano de implementação detalha as tarefas necessárias para desenvolver o
   - Implementar nomenclatura padrão: relatorio-[tipo]-[data-inicio]-[data-fim].pdf
   - _Requirements: 7.1, 7.2, 7.7, 7.8_
 
-- [ ] 43. Integrar botão de exportação em todos os relatórios
+- [x] 43. Integrar botão de exportação em todos os relatórios
   - Adicionar botão "Exportar PDF" no header de cada relatório
   - Desabilitar botão durante loading ou sem dados
   - Exibir toast de sucesso/erro

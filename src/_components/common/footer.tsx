@@ -10,15 +10,15 @@ const Footer = () => {
       <p className="text-muted-foreground text-xs font-bold">
         Feito por{" "}
         <Link
-          href="https://github.com/ENDERSON-MARIN"
+          href="https://portfolio-ecmm.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-foreground cursor:pointer underline transition-colors"
         >
-          Ing.
+          Eng.
         </Link>{" "}
         <Link
-          href="https://portfolio-ecmm.vercel.app/"
+          href="https://github.com/ENDERSON-MARIN"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-foreground cursor:pointer underline transition-colors"

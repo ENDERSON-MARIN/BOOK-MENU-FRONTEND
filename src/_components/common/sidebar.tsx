@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BarChart3,
   BookOpen,
   CalendarDays,
   FolderTree,
@@ -66,6 +67,12 @@ const navItems: NavItem[] = [
     title: "Reservas",
     href: "/reservas",
     icon: BookOpen,
+    roles: ["ADMIN"],
+  },
+  {
+    title: "Relatórios",
+    href: "/relatorios",
+    icon: BarChart3,
     roles: ["ADMIN"],
   },
   {
