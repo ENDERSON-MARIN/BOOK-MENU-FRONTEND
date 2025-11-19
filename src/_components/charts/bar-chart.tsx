@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   Bar,
   BarChart as RechartsBarChart,
@@ -25,7 +26,7 @@ interface BarChartProps {
   height?: number;
 }
 
-export function BarChart({
+export const BarChart = memo(function BarChart({
   data,
   xKey,
   bars,
@@ -84,4 +85,4 @@ export function BarChart({
       </RechartsBarChart>
     </ResponsiveContainer>
   );
-}
+});

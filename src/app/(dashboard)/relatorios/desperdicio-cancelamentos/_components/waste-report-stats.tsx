@@ -7,6 +7,7 @@ import {
   DollarSign,
   Percent,
 } from "lucide-react";
+import { memo, useMemo } from "react";
 
 import { StatCard } from "@/_components/reports/stat-card";
 import {
@@ -33,26 +34,37 @@ interface WasteReportStatsProps {
  * @example
  * <WasteReportStats data={wasteReportData} />
  */
-export function WasteReportStats({ data }: WasteReportStatsProps) {
+export const WasteReportStats = memo(function WasteReportStats({
+  data,
+}: WasteReportStatsProps) {
   const { summary, timeDistribution } = data;
 
-  // Calcular percentuais de distribuição
-  const totalCancellations =
-    timeDistribution.beforeDeadline + timeDistribution.afterDeadline;
-  const beforeDeadlinePercent =
-    totalCancellations > 0
-      ? (timeDistribution.beforeDeadline / totalCancellations) * 100
-      : 0;
-  const afterDeadlinePercent =
-    totalCancellations > 0
-      ? (timeDistribution.afterDeadline / totalCancellations) * 100
-      : 0;
+  // Calcular percentuais de distribuição com useMemo
+  const { beforeDeadlinePercent, afterDeadlinePercent } = useMemo(() => {
+    const total =
+      timeDistribution.beforeDeadline + timeDistribution.afterDeadline;
+    return {
+      beforeDeadlinePercent:
+        total > 0 ? (timeDistribution.beforeDeadline / total) * 100 : 0,
+      afterDeadlinePercent:
+        total > 0 ? (timeDistribution.afterDeadline / total) * 100 : 0,
+    };
+  }, [timeDistribution.beforeDeadline, timeDistribution.afterDeadline]);
 
-  // Formatar custo estimado
-  const formattedCost = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(summary.estimatedWasteCost);
+  // Formatar custo estimado com useMemo
+  const formattedCost = useMemo(
+    () =>
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(summary.estimatedWasteCost),
+    [summary.estimatedWasteCost],
+  );
+
+  const cancellationRateFormatted = useMemo(
+    () => summary.cancellationRate.toFixed(1),
+    [summary.cancellationRate],
+  );
 
   return (
     <div className="space-y-6">
@@ -70,7 +82,7 @@ export function WasteReportStats({ data }: WasteReportStatsProps) {
         <StatCard
           icon={Percent}
           title="Taxa de Cancelamento"
-          value={`${summary.cancellationRate.toFixed(1)}%`}
+          value={`${cancellationRateFormatted}%`}
           description={
             summary.cancellationRate > 20
               ? "Taxa crítica - requer atenção"
@@ -205,4 +217,4 @@ export function WasteReportStats({ data }: WasteReportStatsProps) {
       </Card>
     </div>
   );
-}
+});

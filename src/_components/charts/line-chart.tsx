@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import {
   CartesianGrid,
   Legend,
@@ -24,7 +25,12 @@ interface LineChartProps {
   height?: number;
 }
 
-export function LineChart({ data, xKey, lines, height = 300 }: LineChartProps) {
+export const LineChart = memo(function LineChart({
+  data,
+  xKey,
+  lines,
+  height = 300,
+}: LineChartProps) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <RechartsLineChart data={data}>
@@ -61,4 +67,4 @@ export function LineChart({ data, xKey, lines, height = 300 }: LineChartProps) {
       </RechartsLineChart>
     </ResponsiveContainer>
   );
-}
+});

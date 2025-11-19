@@ -1,6 +1,7 @@
 "use client";
 
 import { LucideIcon, TrendingDown, TrendingUp } from "lucide-react";
+import { memo } from "react";
 
 import {
   Card,
@@ -24,7 +25,7 @@ interface StatCardProps {
   className?: string;
 }
 
-export function StatCard({
+export const StatCard = memo(function StatCard({
   icon: Icon,
   title,
   value,
@@ -89,4 +90,4 @@ export function StatCard({
       </CardContent>
     </Card>
   );
-}
+});

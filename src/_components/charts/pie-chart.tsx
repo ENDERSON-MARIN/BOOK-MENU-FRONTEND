@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, useCallback } from "react";
 import {
   Cell,
   Legend,
@@ -22,52 +23,55 @@ interface PieChartProps {
   showPercentage?: boolean;
 }
 
-export function PieChart({
+export const PieChart = memo(function PieChart({
   data,
   colors,
   height = 300,
   showPercentage = true,
 }: PieChartProps) {
-  const renderCustomLabel = (props: {
-    cx?: number;
-    cy?: number;
-    midAngle?: number;
-    innerRadius?: number;
-    outerRadius?: number;
-    percent?: number;
-  }) => {
-    const { cx, cy, midAngle, innerRadius, outerRadius, percent } = props;
+  const renderCustomLabel = useCallback(
+    (props: {
+      cx?: number;
+      cy?: number;
+      midAngle?: number;
+      innerRadius?: number;
+      outerRadius?: number;
+      percent?: number;
+    }) => {
+      const { cx, cy, midAngle, innerRadius, outerRadius, percent } = props;
 
-    if (
-      !showPercentage ||
-      cx === undefined ||
-      cy === undefined ||
-      midAngle === undefined ||
-      innerRadius === undefined ||
-      outerRadius === undefined ||
-      percent === undefined
-    ) {
-      return null;
-    }
+      if (
+        !showPercentage ||
+        cx === undefined ||
+        cy === undefined ||
+        midAngle === undefined ||
+        innerRadius === undefined ||
+        outerRadius === undefined ||
+        percent === undefined
+      ) {
+        return null;
+      }
 
-    const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+      const RADIAN = Math.PI / 180;
+      const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+      const x = cx + radius * Math.cos(-midAngle * RADIAN);
+      const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-        className="text-xs font-semibold"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
+      return (
+        <text
+          x={x}
+          y={y}
+          fill="white"
+          textAnchor={x > cx ? "start" : "end"}
+          dominantBaseline="central"
+          className="text-xs font-semibold"
+        >
+          {`${(percent * 100).toFixed(0)}%`}
+        </text>
+      );
+    },
+    [showPercentage],
+  );
 
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -97,4 +101,4 @@ export function PieChart({
       </RechartsPieChart>
     </ResponsiveContainer>
   );
-}
+});

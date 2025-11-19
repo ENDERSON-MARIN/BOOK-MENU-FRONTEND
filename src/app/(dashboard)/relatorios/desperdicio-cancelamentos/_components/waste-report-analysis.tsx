@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertTriangle, Clock, TrendingUp, Users } from "lucide-react";
+import { memo, useMemo } from "react";
 
 import { LineChart } from "@/_components/charts/line-chart";
 import {
@@ -30,8 +31,22 @@ interface WasteReportAnalysisProps {
  * Exibe top 10 usuários com mais cancelamentos, gráfico de evolução temporal
  * e análise de padrões (última hora, recorrentes)
  */
-export function WasteReportAnalysis({ data }: WasteReportAnalysisProps) {
+export const WasteReportAnalysis = memo(function WasteReportAnalysis({
+  data,
+}: WasteReportAnalysisProps) {
   const { topCancellers, dailyTrend, patterns } = data;
+
+  // Memoize line chart configuration
+  const chartLines = useMemo(
+    () => [
+      {
+        dataKey: "cancellations",
+        name: "Cancelamentos",
+        color: "#ef4444",
+      },
+    ],
+    [],
+  );
 
   return (
     <div className="space-y-6">
@@ -147,13 +162,7 @@ export function WasteReportAnalysis({ data }: WasteReportAnalysisProps) {
             <LineChart
               data={dailyTrend}
               xKey="date"
-              lines={[
-                {
-                  dataKey: "cancellations",
-                  name: "Cancelamentos",
-                  color: "#ef4444",
-                },
-              ]}
+              lines={chartLines}
               height={300}
             />
           ) : (
@@ -291,4 +300,4 @@ export function WasteReportAnalysis({ data }: WasteReportAnalysisProps) {
       </Card>
     </div>
   );
-}
+});

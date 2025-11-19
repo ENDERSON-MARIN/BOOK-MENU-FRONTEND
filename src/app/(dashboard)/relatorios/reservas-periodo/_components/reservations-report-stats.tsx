@@ -1,6 +1,7 @@
 "use client";
 
 import { CalendarCheck, CalendarX, FileText, TrendingDown } from "lucide-react";
+import { memo, useMemo } from "react";
 
 import { StatCard } from "@/_components/reports/stat-card";
 import { ReservationReportData } from "@/_types/report";
@@ -9,10 +10,15 @@ interface ReservationsReportStatsProps {
   data: ReservationReportData;
 }
 
-export function ReservationsReportStats({
+export const ReservationsReportStats = memo(function ReservationsReportStats({
   data,
 }: ReservationsReportStatsProps) {
   const { summary } = data;
+
+  const cancellationRate = useMemo(
+    () => summary.cancellationRate.toFixed(1),
+    [summary.cancellationRate],
+  );
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -40,9 +46,9 @@ export function ReservationsReportStats({
       <StatCard
         icon={TrendingDown}
         title="Taxa de Cancelamento"
-        value={`${summary.cancellationRate.toFixed(1)}%`}
+        value={`${cancellationRate}%`}
         description="Percentual de cancelamentos"
       />
     </div>
   );
-}
+});
