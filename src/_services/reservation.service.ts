@@ -89,4 +89,18 @@ export const ReservationService = {
       method: "DELETE",
     });
   },
+
+  // PUT /api/lunch-reservation/admin/reservations/{id}/status
+  async toggleStatus(
+    id: string,
+    status: ReservationStatus,
+  ): Promise<Reservation> {
+    return apiClient<Reservation>(
+      `/lunch-reservation/admin/reservations/${id}/status`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ status }),
+      },
+    );
+  },
 };
