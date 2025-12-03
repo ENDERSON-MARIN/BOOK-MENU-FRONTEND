@@ -53,6 +53,16 @@ export const toastMessages = {
     updateError: "Erro ao alterar variação",
     cancelSuccess: "Reserva cancelada com sucesso",
     cancelError: "Erro ao cancelar reserva",
+    toggleStatusCancelSuccess: "Reserva cancelada com sucesso",
+    toggleStatusReactivateSuccess: "Reserva reativada com sucesso",
+    toggleStatusError: "Erro ao alterar status da reserva",
+    toggleStatusNotFound: "Reserva não encontrada",
+    toggleStatusForbidden: "Você não tem permissão para realizar esta ação",
+    toggleStatusDeadlineExpired:
+      "Prazo para alterações encerrado (até 8:30 AM do dia da refeição)",
+    toggleStatusServerError: "Erro ao alterar status da reserva",
+    toggleStatusNetworkError:
+      "Erro ao conectar com o servidor. Tente novamente",
   },
 
   // Auth messages
