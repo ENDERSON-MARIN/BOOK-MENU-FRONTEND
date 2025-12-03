@@ -39,7 +39,7 @@
   - **Property 2: Desabilitação por prazo limite**
   - **Validates: Requirements 1.4, 1.5**
 
-- [ ] 5. Implementar alert dialog de confirmação
+- [x] 5. Implementar alert dialog de confirmação
   - Adicionar AlertDialog do shadcn/ui ao componente AdminTableActions
   - Implementar títulos dinâmicos baseados na ação (cancelar/reativar)
   - Adicionar botões "Cancelar" e "Confirmar"
@@ -51,7 +51,7 @@
   - **Property 4: Títulos corretos no dialog de confirmação**
   - **Validates: Requirements 2.3, 2.4**
 
-- [ ] 6. Integrar AdminTableActions na tabela de reservas admin
+- [x] 6. Integrar AdminTableActions na tabela de reservas admin
   - Atualizar `src/app/(dashboard)/reservas/_components/all-reservations-table-columns.tsx`
   - Adicionar coluna de ações usando AdminTableActions
   - Garantir que apenas administradores vejam as novas opções
