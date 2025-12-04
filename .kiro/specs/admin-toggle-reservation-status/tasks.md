@@ -99,5 +99,5 @@
   - Verificar gerenciamento de foco no dialog
   - _Requirements: 5.1_
 
-- [-] 12. Checkpoint final - Garantir que todos os testes passam
+- [ ] 12. Checkpoint final - Garantir que todos os testes passam
   - Ensure all tests pass, ask the user if questions arise.
