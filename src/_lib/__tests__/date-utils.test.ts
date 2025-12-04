@@ -52,6 +52,42 @@ describe("date-utils", () => {
       expect(result).toBe(true);
     });
 
+    it("should return true for future date even after 8:30 AM today", () => {
+      const mealDate = dayjs().add(1, "day").format("YYYY-MM-DD");
+      vi.setSystemTime(dayjs().hour(15).minute(0).second(0).toDate());
+
+      const result = isBeforeCutoffTime(mealDate);
+
+      expect(result).toBe(true);
+    });
+
+    it("should return true for future date multiple days ahead", () => {
+      const mealDate = dayjs().add(7, "days").format("YYYY-MM-DD");
+      vi.setSystemTime(dayjs().hour(23).minute(59).second(0).toDate());
+
+      const result = isBeforeCutoffTime(mealDate);
+
+      expect(result).toBe(true);
+    });
+
+    it("should return true for future date at midnight", () => {
+      const mealDate = dayjs().add(2, "days").format("YYYY-MM-DD");
+      vi.setSystemTime(dayjs().hour(0).minute(0).second(0).toDate());
+
+      const result = isBeforeCutoffTime(mealDate);
+
+      expect(result).toBe(true);
+    });
+
+    it("should return true for future date far in advance", () => {
+      const mealDate = dayjs().add(30, "days").format("YYYY-MM-DD");
+      vi.setSystemTime(dayjs().hour(20).minute(0).second(0).toDate());
+
+      const result = isBeforeCutoffTime(mealDate);
+
+      expect(result).toBe(true);
+    });
+
     it("should return false when meal date is in the past", () => {
       const mealDate = dayjs().subtract(1, "day").format("YYYY-MM-DD");
       vi.setSystemTime(dayjs().hour(8).minute(0).second(0).toDate());

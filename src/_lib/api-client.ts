@@ -37,8 +37,8 @@ export async function apiClient<T>(
   }
 
   // Handle 403 Forbidden - access denied
+  // Note: Don't show toast here, let individual mutation hooks handle their own error messages
   if (response.status === 403) {
-    toast.error(toastMessages.auth.unauthorized);
     throw new AppError(
       "Acesso negado. Você não tem permissão para realizar esta ação.",
       403,

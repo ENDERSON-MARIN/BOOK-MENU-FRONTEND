@@ -8,6 +8,8 @@ import { Button } from "@/_components/ui/button";
 import { formatDateBR } from "@/_lib/date-utils";
 import { Reservation } from "@/_types/reservation";
 
+import AdminTableActions from "./admin-table-actions";
+
 const statusLabels: Record<string, string> = {
   ACTIVE: "Ativa",
   CANCELLED: "Cancelada",
@@ -147,6 +149,14 @@ export const allReservationsTableColumns: ColumnDef<Reservation>[] = [
           Auto
         </Badge>
       ) : null;
+    },
+  },
+  {
+    id: "actions",
+    header: "Ações",
+    cell: ({ row }) => {
+      const reservation = row.original;
+      return <AdminTableActions reservation={reservation} />;
     },
   },
 ];

@@ -99,15 +99,18 @@ describe("useAuth", () => {
 
       await result.current.login(credentials);
 
-      expect(localStorage.getItem("auth_token")).toBe("mock-token");
-      expect(result.current.user).toMatchObject({
-        id: mockUser.id,
-        cpf: mockUser.cpf,
-        name: mockUser.name,
-        role: mockUser.role,
-        userType: mockUser.userType,
-        status: mockUser.status,
+      await waitFor(() => {
+        expect(result.current.user).toMatchObject({
+          id: mockUser.id,
+          cpf: mockUser.cpf,
+          name: mockUser.name,
+          role: mockUser.role,
+          userType: mockUser.userType,
+          status: mockUser.status,
+        });
       });
+
+      expect(localStorage.getItem("auth_token")).toBe("mock-token");
       expect(result.current.isAuthenticated).toBe(true);
     });
 
@@ -164,9 +167,12 @@ describe("useAuth", () => {
 
       result.current.logout();
 
+      await waitFor(() => {
+        expect(result.current.user).toBeNull();
+      });
+
       expect(localStorage.getItem("auth_token")).toBeNull();
       expect(localStorage.getItem("auth_user")).toBeNull();
-      expect(result.current.user).toBeNull();
       expect(result.current.isAuthenticated).toBe(false);
     });
   });
