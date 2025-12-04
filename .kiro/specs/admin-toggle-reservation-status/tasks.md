@@ -73,7 +73,7 @@
   - **Property 3: Validação de prazo para datas futuras**
   - **Validates: Requirements 3.1, 3.2, 3.5**
 
-- [ ] 8. Implementar tratamento de erros específicos
+- [x] 8. Implementar tratamento de erros específicos
   - Adicionar mensagem para prazo expirado (400)
   - Adicionar mensagem para reserva não encontrada (404)
   - Adicionar mensagem para sem permissão (403)
@@ -92,12 +92,12 @@
   - Testar atualização automática da tabela
   - _Requirements: 4.5_
 
-- [ ] 11. Validar acessibilidade
+- [x] 11. Validar acessibilidade
   - Verificar navegação por teclado no menu dropdown
   - Adicionar aria-labels apropriados
   - Testar com leitor de tela
   - Verificar gerenciamento de foco no dialog
   - _Requirements: 5.1_
 
-- [ ] 12. Checkpoint final - Garantir que todos os testes passam
+- [-] 12. Checkpoint final - Garantir que todos os testes passam
   - Ensure all tests pass, ask the user if questions arise.

@@ -12,115 +12,180 @@ describe("UserService.getAll", () => {
     vi.clearAllMocks();
   });
 
-  it("deve chamar endpoint sem parâmetros quando nenhum filtro é fornecido", async () => {
+  it("deve chamar endpoint com includeInactive=true", async () => {
     vi.mocked(apiClient).mockResolvedValue([]);
 
     await UserService.getAll();
 
-    expect(apiClient).toHaveBeenCalledWith("/lunch-reservation/users");
-  });
-
-  it("deve construir query string corretamente para filtro de status", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
-
-    await UserService.getAll({ status: "ATIVO" as UserStatus });
-
     expect(apiClient).toHaveBeenCalledWith(
-      "/lunch-reservation/users?status=ATIVO",
+      "/lunch-reservation/users?includeInactive=true",
     );
   });
 
-  it("deve construir query string corretamente para filtro de role", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
+  it("deve filtrar usuários por status no lado do cliente", async () => {
+    const mockUsers = [
+      {
+        id: "1",
+        cpf: "12345678900",
+        name: "User Ativo",
+        role: "USER" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+      {
+        id: "2",
+        cpf: "12345678901",
+        name: "User Inativo",
+        role: "USER" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "INATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+    ];
 
-    await UserService.getAll({ role: "ADMIN" as UserRole });
+    vi.mocked(apiClient).mockResolvedValue(mockUsers);
+
+    const result = await UserService.getAll({ status: "ATIVO" as UserStatus });
 
     expect(apiClient).toHaveBeenCalledWith(
-      "/lunch-reservation/users?role=ADMIN",
+      "/lunch-reservation/users?includeInactive=true",
     );
+    expect(result).toHaveLength(1);
+    expect(result[0].status).toBe("ATIVO");
   });
 
-  it("deve construir query string corretamente para filtro de userType", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
+  it("deve filtrar usuários por role no lado do cliente", async () => {
+    const mockUsers = [
+      {
+        id: "1",
+        cpf: "12345678900",
+        name: "Admin User",
+        role: "ADMIN" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+      {
+        id: "2",
+        cpf: "12345678901",
+        name: "Regular User",
+        role: "USER" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+    ];
 
-    await UserService.getAll({ userType: "FIXO" as UserType });
+    vi.mocked(apiClient).mockResolvedValue(mockUsers);
 
-    expect(apiClient).toHaveBeenCalledWith(
-      "/lunch-reservation/users?userType=FIXO",
-    );
+    const result = await UserService.getAll({ role: "ADMIN" as UserRole });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].role).toBe("ADMIN");
   });
 
-  it("deve construir query string com múltiplos filtros", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
+  it("deve filtrar usuários por userType no lado do cliente", async () => {
+    const mockUsers = [
+      {
+        id: "1",
+        cpf: "12345678900",
+        name: "User Fixo",
+        role: "USER" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+      {
+        id: "2",
+        cpf: "12345678901",
+        name: "User Temporario",
+        role: "USER" as UserRole,
+        userType: "TEMPORARIO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+    ];
 
-    await UserService.getAll({
+    vi.mocked(apiClient).mockResolvedValue(mockUsers);
+
+    const result = await UserService.getAll({ userType: "FIXO" as UserType });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].userType).toBe("FIXO");
+  });
+
+  it("deve filtrar usuários com múltiplos filtros no lado do cliente", async () => {
+    const mockUsers = [
+      {
+        id: "1",
+        cpf: "12345678900",
+        name: "Admin Fixo Ativo",
+        role: "ADMIN" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+      {
+        id: "2",
+        cpf: "12345678901",
+        name: "User Fixo Ativo",
+        role: "USER" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+      {
+        id: "3",
+        cpf: "12345678902",
+        name: "Admin Temporario Ativo",
+        role: "ADMIN" as UserRole,
+        userType: "TEMPORARIO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+    ];
+
+    vi.mocked(apiClient).mockResolvedValue(mockUsers);
+
+    const result = await UserService.getAll({
       status: "ATIVO" as UserStatus,
       role: "ADMIN" as UserRole,
       userType: "FIXO" as UserType,
     });
 
-    const call = vi.mocked(apiClient).mock.calls[0][0];
-    expect(call).toContain("/lunch-reservation/users?");
-    expect(call).toContain("status=ATIVO");
-    expect(call).toContain("role=ADMIN");
-    expect(call).toContain("userType=FIXO");
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("1");
   });
 
-  it("deve construir query string com status e role", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
+  it("deve retornar todos os usuários quando nenhum filtro corresponde", async () => {
+    const mockUsers = [
+      {
+        id: "1",
+        cpf: "12345678900",
+        name: "User 1",
+        role: "USER" as UserRole,
+        userType: "FIXO" as UserType,
+        status: "ATIVO" as UserStatus,
+        createdAt: "2024-01-01",
+        updatedAt: "2024-01-01",
+      },
+    ];
 
-    await UserService.getAll({
-      status: "INATIVO" as UserStatus,
-      role: "USER" as UserRole,
-    });
+    vi.mocked(apiClient).mockResolvedValue(mockUsers);
 
-    const call = vi.mocked(apiClient).mock.calls[0][0];
-    expect(call).toContain("/lunch-reservation/users?");
-    expect(call).toContain("status=INATIVO");
-    expect(call).toContain("role=USER");
-  });
+    const result = await UserService.getAll({ role: "ADMIN" as UserRole });
 
-  it("deve construir query string com status e userType", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
-
-    await UserService.getAll({
-      status: "ATIVO" as UserStatus,
-      userType: "TEMPORARIO" as UserType,
-    });
-
-    const call = vi.mocked(apiClient).mock.calls[0][0];
-    expect(call).toContain("/lunch-reservation/users?");
-    expect(call).toContain("status=ATIVO");
-    expect(call).toContain("userType=TEMPORARIO");
-  });
-
-  it("deve construir query string com role e userType", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
-
-    await UserService.getAll({
-      role: "ADMIN" as UserRole,
-      userType: "FIXO" as UserType,
-    });
-
-    const call = vi.mocked(apiClient).mock.calls[0][0];
-    expect(call).toContain("/lunch-reservation/users?");
-    expect(call).toContain("role=ADMIN");
-    expect(call).toContain("userType=FIXO");
-  });
-
-  it("não deve incluir parâmetros undefined na URL", async () => {
-    vi.mocked(apiClient).mockResolvedValue([]);
-
-    await UserService.getAll({
-      status: "ATIVO" as UserStatus,
-      role: undefined,
-      userType: undefined,
-    });
-
-    const call = vi.mocked(apiClient).mock.calls[0][0];
-    expect(call).toBe("/lunch-reservation/users?status=ATIVO");
-    expect(call).not.toContain("role");
-    expect(call).not.toContain("userType");
+    expect(result).toHaveLength(0);
   });
 
   it("deve retornar dados quando a chamada é bem-sucedida", async () => {

@@ -87,28 +87,46 @@ const AdminTableActions = ({ reservation }: AdminTableActionsProps) => {
       ? "Essa ação irá cancelar a reserva do usuário."
       : "Essa ação irá reativar a reserva do usuário.";
 
+  // Descriptive text for disabled state
+  const disabledReason = !canModify
+    ? "Prazo para alterações encerrado (até 8:30 AM do dia da refeição)"
+    : "";
+
   return (
     <>
       <Dialog open={detailsDialogIsOpen} onOpenChange={setDetailsDialogIsOpen}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={`Ações para reserva de ${reservation.user?.name || "usuário"}`}
+            >
               <MoreVerticalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setDetailsDialogIsOpen(true)}>
-              <EyeIcon className="mr-2 h-4 w-4" />
+            <DropdownMenuItem
+              onClick={() => setDetailsDialogIsOpen(true)}
+              aria-label="Ver detalhes da reserva"
+            >
+              <EyeIcon className="mr-2 h-4 w-4" aria-hidden="true" />
               Ver Detalhes
             </DropdownMenuItem>
             {isActive && (
               <DropdownMenuItem
                 disabled={!canModify}
                 onClick={() => handleActionClick("cancel")}
+                aria-label={
+                  canModify
+                    ? "Cancelar reserva"
+                    : `Cancelar reserva - ${disabledReason}`
+                }
+                aria-disabled={!canModify}
               >
-                <XIcon className="mr-2 h-4 w-4" />
+                <XIcon className="mr-2 h-4 w-4" aria-hidden="true" />
                 Cancelar Reserva
               </DropdownMenuItem>
             )}
@@ -116,8 +134,14 @@ const AdminTableActions = ({ reservation }: AdminTableActionsProps) => {
               <DropdownMenuItem
                 disabled={!canModify}
                 onClick={() => handleActionClick("reactivate")}
+                aria-label={
+                  canModify
+                    ? "Reativar reserva"
+                    : `Reativar reserva - ${disabledReason}`
+                }
+                aria-disabled={!canModify}
               >
-                <CheckCircleIcon className="mr-2 h-4 w-4" />
+                <CheckCircleIcon className="mr-2 h-4 w-4" aria-hidden="true" />
                 Reativar Reserva
               </DropdownMenuItem>
             )}
@@ -132,16 +156,28 @@ const AdminTableActions = ({ reservation }: AdminTableActionsProps) => {
 
       {/* Alert Dialog for Confirmation */}
       <AlertDialog open={alertDialogIsOpen} onOpenChange={setAlertDialogIsOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent aria-describedby="alert-dialog-description">
           <AlertDialogHeader>
-            <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-            <AlertDialogDescription>{dialogDescription}</AlertDialogDescription>
+            <AlertDialogTitle id="alert-dialog-title">
+              {dialogTitle}
+            </AlertDialogTitle>
+            <AlertDialogDescription id="alert-dialog-description">
+              {dialogDescription}
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogCancel aria-label="Cancelar ação">
+              Cancelar
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmAction}
               disabled={isPending || !canModify}
+              aria-label={
+                isPending
+                  ? "Processando alteração"
+                  : `Confirmar ${actionType === "cancel" ? "cancelamento" : "reativação"} da reserva`
+              }
+              aria-busy={isPending}
             >
               {isPending ? "Processando..." : "Confirmar"}
             </AlertDialogAction>
