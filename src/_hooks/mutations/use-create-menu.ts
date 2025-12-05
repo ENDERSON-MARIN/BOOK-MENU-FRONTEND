@@ -12,8 +12,14 @@ export function useCreateMenu() {
     mutationFn: (data: CreateMenuRequest) => MenuService.create(data),
     onSuccess: () => {
       // Invalidate both menus and menu-items queries to refresh the table
-      queryClient.invalidateQueries({ queryKey: ["menus"] });
-      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
+      queryClient.invalidateQueries({
+        queryKey: ["menus"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["menu-items"],
+        refetchType: "all",
+      });
       toast.success(toastMessages.menu.createSuccess);
     },
     onError: (error: Error) => {

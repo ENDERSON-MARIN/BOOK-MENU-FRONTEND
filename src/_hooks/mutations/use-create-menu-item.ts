@@ -11,7 +11,10 @@ export function useCreateMenuItem() {
   return useMutation({
     mutationFn: (data: CreateMenuItemRequest) => MenuItemService.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
+      queryClient.invalidateQueries({
+        queryKey: ["menu-items"],
+        refetchType: "all",
+      });
       toast.success(toastMessages.menuItem.createSuccess);
     },
     onError: (error: Error) => {

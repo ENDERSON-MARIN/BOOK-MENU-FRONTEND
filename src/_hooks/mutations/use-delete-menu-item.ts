@@ -10,7 +10,10 @@ export function useDeleteMenuItem() {
   return useMutation({
     mutationFn: (id: string) => MenuItemService.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
+      queryClient.invalidateQueries({
+        queryKey: ["menu-items"],
+        refetchType: "all",
+      });
       toast.success(toastMessages.menuItem.deleteSuccess);
     },
     onError: (error: Error) => {

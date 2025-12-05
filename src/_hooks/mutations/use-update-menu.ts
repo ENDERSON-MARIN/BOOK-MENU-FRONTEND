@@ -26,14 +26,18 @@ export function useUpdateMenu() {
         !!result.menuCompositions,
       );
 
-      // Invalidate and refetch queries before returning
-      await queryClient.invalidateQueries({ queryKey: ["menus"] });
-      await queryClient.invalidateQueries({ queryKey: ["menu-items"] });
-      await queryClient.refetchQueries({ queryKey: ["menus"], type: "active" });
-
       return result;
     },
     onSuccess: () => {
+      // Invalidate both menus and menu-items queries to refresh the table
+      queryClient.invalidateQueries({
+        queryKey: ["menus"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["menu-items"],
+        refetchType: "all",
+      });
       toast.success(toastMessages.menu.updateSuccess);
     },
     onError: (error: Error) => {

@@ -17,7 +17,10 @@ export function useUpdateMenuItem() {
     mutationFn: ({ id, data }: UseUpdateMenuItemParams) =>
       MenuItemService.update(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
+      queryClient.invalidateQueries({
+        queryKey: ["menu-items"],
+        refetchType: "all",
+      });
       toast.success(toastMessages.menuItem.updateSuccess);
     },
     onError: (error: Error) => {

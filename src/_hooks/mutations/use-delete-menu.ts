@@ -11,8 +11,14 @@ export function useDeleteMenu() {
     mutationFn: (id: string) => MenuService.delete(id),
     onSuccess: () => {
       // Invalidate both menus and menu-items queries to refresh the table
-      queryClient.invalidateQueries({ queryKey: ["menus"] });
-      queryClient.invalidateQueries({ queryKey: ["menu-items"] });
+      queryClient.invalidateQueries({
+        queryKey: ["menus"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["menu-items"],
+        refetchType: "all",
+      });
       toast.success(toastMessages.menu.deleteSuccess);
     },
     onError: (error: Error) => {
