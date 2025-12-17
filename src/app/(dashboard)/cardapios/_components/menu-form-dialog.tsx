@@ -53,6 +53,7 @@ import { useCreateMenu } from "@/_hooks/mutations/use-create-menu";
 import { useUpdateMenu } from "@/_hooks/mutations/use-update-menu";
 import { useGetCategories } from "@/_hooks/queries/use-get-categories";
 import { useGetMenuItems } from "@/_hooks/queries/use-get-menu-items";
+import { logger } from "@/_lib/logger";
 import { menuFormSchema, type MenuFormValues } from "@/_schemas/menu.schema";
 import type { DayOfWeek, Menu } from "@/_types/menu";
 
@@ -362,16 +363,6 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
           ),
         };
 
-        console.log("📤 Sending update with payload:", {
-          menuId: menu.id,
-          itemsCount: updatePayload.menuItems.length,
-          items: updatePayload.menuItems.map((item) => ({
-            id: item.menuItemId,
-            isMain: item.isMainProtein,
-            isAlt: item.isAlternativeProtein,
-          })),
-        });
-
         updateMenu(
           {
             id: menu.id,
@@ -379,13 +370,12 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
           },
           {
             onSuccess: () => {
-              console.log("✅ Update completed, refetching data...");
               toast.success("Cardápio atualizado com sucesso.");
               // The queries will be refetched automatically by the mutation hook
               onSuccess();
             },
             onError: (error: Error) => {
-              console.error("❌ Error updating menu:", error);
+              logger.error("Error updating menu:", error);
               let errorMessage =
                 error?.message || "Erro ao atualizar cardápio.";
 
@@ -420,14 +410,14 @@ const MenuFormDialog = ({ menu, onSuccess }: MenuFormDialogProps) => {
             onSuccess();
           },
           onError: (error: Error) => {
-            console.error("Error creating menu:", error);
+            logger.error("Error creating menu:", error);
             const errorMessage = error?.message || "Erro ao criar cardápio.";
             toast.error(errorMessage);
           },
         });
       }
     } catch (error) {
-      console.error("Unexpected error in onSubmit:", error);
+      logger.error("Unexpected error in onSubmit:", error);
       toast.error("Erro inesperado ao processar o formulário.");
     }
   };

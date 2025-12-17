@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { logger } from "@/_lib/logger";
 import { criticalQueryRetry } from "@/_lib/query-utils";
 import { reportService } from "@/_services/report.service";
 import type { ReportFilters } from "@/_types/report";
@@ -18,7 +19,7 @@ export function useGetPopularMenusReport(filters: ReportFilters) {
       try {
         return await reportService.getPopularMenusReport(filters);
       } catch (error) {
-        console.error("Error fetching popular menus report:", error);
+        logger.error("Error fetching popular menus report:", error);
         throw error;
       }
     },

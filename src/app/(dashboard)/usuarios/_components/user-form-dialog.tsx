@@ -32,6 +32,7 @@ import {
 } from "@/_components/ui/select";
 import { useCreateUser } from "@/_hooks/mutations/use-create-user";
 import { useUpdateUser } from "@/_hooks/mutations/use-update-user";
+import { logger } from "@/_lib/logger";
 import {
   updateUserFormSchema,
   type UpdateUserFormValues,
@@ -84,8 +85,6 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
   }, [user, form]);
 
   const onSubmit = (data: UserFormValues | UpdateUserFormValues) => {
-    console.log("Dados do formulário:", data);
-
     if (isEditing) {
       const updateData = data as UpdateUserFormValues;
       const payload = {
@@ -94,8 +93,6 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
         userType: updateData.userType,
         ...(updateData.password && { password: updateData.password }),
       };
-
-      console.log("Payload de atualização:", payload);
 
       updateUser(
         { id: user.id, data: payload },
@@ -106,7 +103,7 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
             onSuccess();
           },
           onError: (error) => {
-            console.error("Erro ao atualizar usuário:", error);
+            logger.error("Erro ao atualizar usuário:", error);
             toast.error(
               error.message || "Erro ao atualizar usuário. Tente novamente.",
             );
@@ -115,7 +112,6 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
       );
     } else {
       const createData = data as UserFormValues;
-      console.log("Payload de criação:", createData);
 
       createUser(createData, {
         onSuccess: () => {
@@ -124,7 +120,7 @@ const UserFormDialog = ({ user, onSuccess }: UserFormDialogProps) => {
           onSuccess();
         },
         onError: (error) => {
-          console.error("Erro ao criar usuário:", error);
+          logger.error("Erro ao criar usuário:", error);
           if (error.message?.includes("CPF")) {
             form.setError("cpf", {
               type: "manual",

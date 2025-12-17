@@ -15,16 +15,7 @@ export function useUpdateMenu() {
 
   return useMutation({
     mutationFn: async ({ id, data }: UseUpdateMenuParams) => {
-      console.log("🔄 Calling MenuService.update with:", {
-        id,
-        itemsCount: data.menuItems.length,
-      });
       const result = await MenuService.update(id, data);
-      console.log("📥 Backend response:", result);
-      console.log(
-        "📊 Response has menuCompositions:",
-        !!result.menuCompositions,
-      );
 
       // Invalidate and refetch queries before returning
       await queryClient.invalidateQueries({ queryKey: ["menus"] });
