@@ -28,6 +28,7 @@ import { RadioGroup, RadioGroupItem } from "@/_components/ui/radio-group";
 import { Separator } from "@/_components/ui/separator";
 import { useCreateReservation } from "@/_hooks/mutations/use-create-reservation";
 import { formatDateBR, isBeforeCutoffTime } from "@/_lib/date-utils";
+import { logger } from "@/_lib/logger";
 import {
   reservationFormSchema,
   type ReservationFormValues,
@@ -102,8 +103,6 @@ const ReservationFormDialog = ({
   const { mutate: createReservation, isPending } = useCreateReservation();
 
   const onSubmit = (data: ReservationFormValues) => {
-    console.log("Submitting reservation:", data);
-
     // Double-check cutoff time before submitting
     if (!isBeforeCutoff) {
       toast.error("Prazo para reservas encerrado (até 8:30 AM)");
@@ -116,17 +115,14 @@ const ReservationFormDialog = ({
       reservationDate: new Date(data.reservationDate).toISOString(),
     };
 
-    console.log("Formatted reservation data:", reservationData);
-
     createReservation(reservationData, {
       onSuccess: () => {
-        console.log("Reservation created successfully");
         toast.success("Reserva criada com sucesso!");
         form.reset();
         onSuccess();
       },
       onError: (error: Error) => {
-        console.error("Error creating reservation:", error);
+        logger.error("Error creating reservation:", error);
         const errorMessage = error?.message || "Erro ao criar reserva.";
         toast.error(errorMessage);
       },

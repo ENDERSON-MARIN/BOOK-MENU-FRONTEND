@@ -33,6 +33,7 @@ import { Textarea } from "@/_components/ui/textarea";
 import { useCreateMenuItem } from "@/_hooks/mutations/use-create-menu-item";
 import { useUpdateMenuItem } from "@/_hooks/mutations/use-update-menu-item";
 import { useGetCategories } from "@/_hooks/queries/use-get-categories";
+import { logger } from "@/_lib/logger";
 import {
   menuItemFormSchema,
   type MenuItemFormValues,
@@ -121,7 +122,7 @@ const MenuItemFormDialog = ({
             const errorMessage =
               error?.message || "Erro ao atualizar item de menu.";
             toast.error(errorMessage);
-            console.error("Erro ao atualizar item:", error);
+            logger.error("Erro ao atualizar item:", error);
           },
         },
       );
@@ -135,7 +136,7 @@ const MenuItemFormDialog = ({
         onError: (error: Error) => {
           const errorMessage = error?.message || "Erro ao criar item de menu.";
           toast.error(errorMessage);
-          console.error("Erro ao criar item:", error);
+          logger.error("Erro ao criar item:", error);
         },
       });
     }

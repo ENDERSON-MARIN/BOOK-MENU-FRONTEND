@@ -5,6 +5,8 @@ import dayjs from "dayjs";
 import { saveAs } from "file-saver";
 import { JSXElementConstructor, ReactElement } from "react";
 
+import { logger } from "@/_lib/logger";
+
 /**
  * Gera e faz download de um PDF a partir de um componente React PDF
  * @param component - Componente React PDF a ser renderizado
@@ -41,7 +43,7 @@ export async function generateAndDownloadPDF(
     // Notificar conclusão (100%)
     onProgress?.(100);
   } catch (error) {
-    console.error("Erro ao gerar PDF:", error);
+    logger.error("Erro ao gerar PDF:", error);
     throw new Error(
       "Falha ao gerar o PDF. Por favor, tente novamente ou entre em contato com o suporte.",
     );

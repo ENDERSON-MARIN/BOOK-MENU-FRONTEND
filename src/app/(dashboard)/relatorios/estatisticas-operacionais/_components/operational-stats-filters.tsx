@@ -6,6 +6,7 @@ import { z } from "zod";
 import { PeriodFilter } from "@/_components/reports/period-filter";
 import { Button } from "@/_components/ui/button";
 import { useReportFilters } from "@/_hooks/use-report-filters";
+import { logger } from "@/_lib/logger";
 import { cn } from "@/_lib/utils";
 import { ReportFilters, ReportPeriod } from "@/_types/report";
 
@@ -59,7 +60,7 @@ export function OperationalStatsFilters({
       onFiltersChange(validatedFilters);
     } catch (error) {
       // Validação falhou, não notificar mudanças
-      console.error("Validation error:", error);
+      logger.error("Validation error:", error);
     }
   };
 

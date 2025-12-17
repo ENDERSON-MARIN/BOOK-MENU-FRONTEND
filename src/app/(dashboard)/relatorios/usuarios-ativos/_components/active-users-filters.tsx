@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/_components/ui/select";
 import { useReportFilters } from "@/_hooks/use-report-filters";
+import { logger } from "@/_lib/logger";
 import { cn } from "@/_lib/utils";
 import { ReportFilters, ReportPeriod } from "@/_types/report";
 
@@ -68,7 +69,7 @@ export function ActiveUsersFilters({
       onFiltersChange(validatedFilters);
     } catch (error) {
       // Validação falhou, não notificar mudanças
-      console.error("Validation error:", error);
+      logger.error("Validation error:", error);
     }
   };
 

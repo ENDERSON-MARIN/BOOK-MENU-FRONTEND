@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { isTokenExpired } from "@/_lib/jwt-utils";
+import { logger } from "@/_lib/logger";
 import { toastMessages } from "@/_lib/toast-messages";
 import { AuthService } from "@/_services/auth.service";
 import type { AuthUser, LoginRequest } from "@/_types/auth";
@@ -50,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const userData = JSON.parse(userDataStr);
         setUser(userData);
       } catch (error) {
-        console.error("Error initializing auth:", error);
+        logger.error("Error initializing auth:", error);
         localStorage.removeItem("auth_token");
         localStorage.removeItem("auth_user");
       } finally {

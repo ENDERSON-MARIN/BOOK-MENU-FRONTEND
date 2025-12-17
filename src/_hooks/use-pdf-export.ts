@@ -4,6 +4,7 @@ import { DocumentProps } from "@react-pdf/renderer";
 import { JSXElementConstructor, ReactElement, useState } from "react";
 import { toast } from "sonner";
 
+import { logger } from "@/_lib/logger";
 import { generateAndDownloadPDF } from "@/_lib/pdf/generate-pdf";
 
 interface UsePDFExportOptions {
@@ -36,7 +37,7 @@ export function usePDFExport(options?: UsePDFExportOptions) {
       toast.success("PDF gerado com sucesso!");
       options?.onSuccess?.();
     } catch (error) {
-      console.error("Erro ao exportar PDF:", error);
+      logger.error("Erro ao exportar PDF:", error);
       const errorMessage =
         error instanceof Error
           ? error.message
